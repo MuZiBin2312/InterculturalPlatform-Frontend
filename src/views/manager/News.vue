@@ -231,6 +231,7 @@ export default {
       }).catch(() => {
       })
     },
+
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
       this.$request.get('/news/selectPage', {
