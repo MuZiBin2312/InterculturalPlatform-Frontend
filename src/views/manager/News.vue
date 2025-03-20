@@ -93,6 +93,8 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="新闻内容" prop="content">
+          <input type="file" accept=".docx" @change="handleWordUpload" />
+
           <div id="editor"></div>
         </el-form-item>
       </el-form>
@@ -116,6 +118,8 @@
 </template>
 <script>
 import E from "wangeditor"
+import mammoth from "mammoth";
+
 export default {
   title: "News",
   data() {
@@ -173,6 +177,7 @@ export default {
       this.fromVisible = true   // 打开弹窗
       this.setRichText(this.form.content)
     },
+
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
@@ -243,6 +248,7 @@ export default {
         }
       })
     },
+
     reset() {
       this.title = null
       this.load(1)
@@ -269,6 +275,25 @@ export default {
         this.editor.txt.html(html)
       })
     },
+    handleWordUpload(event) {
+      const file = event.target.files[0];
+      if (!file || file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        this.$message.error('请上传有效的 Word (.docx) 文件');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const arrayBuffer = e.target.result;
+        try {
+          const result = await mammoth.convertToHtml({ arrayBuffer });
+          this.editor.txt.html(result.value);
+          this.$message.success('Word 内容已导入');
+        } catch (error) {
+          this.$message.error('Word 解析失败');
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
   }
 }
 </script>
