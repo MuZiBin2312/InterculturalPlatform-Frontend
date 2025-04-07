@@ -4,7 +4,7 @@
     <div class="manager-header">
       <div class="manager-header-left">
         <img src="@/assets/imgs/logo.png" />
-        <div class="title">跨文化学习平台后台</div>
+        <div class="title">跨文化交流平台后台</div>
       </div>
 
       <div class="manager-header-center">
@@ -43,14 +43,14 @@
               <i class="el-icon-menu"></i><span>信息管理</span>
             </template>
             <el-menu-item index="/banner">轮播图信息</el-menu-item>
-            <el-menu-item index="/category">资源分类</el-menu-item>
-            <el-menu-item index="/news">资源内容</el-menu-item>
-            <el-menu-item index="/video">视频内容</el-menu-item>
-<!--            <el-menu-item index="/question">问题信息</el-menu-item>-->
-<!--            <el-menu-item index="/answer">答题信息</el-menu-item>-->
-<!--            <el-menu-item index="/feedback">用户反馈</el-menu-item>-->
-<!--            <el-menu-item index="/notice">公告信息</el-menu-item>-->
-<!--            <el-menu-item index="/comment">评论信息</el-menu-item>-->
+            <el-menu-item index="/category">新闻分类</el-menu-item>
+            <el-menu-item index="/news">新闻文章</el-menu-item>
+            <el-menu-item index="/video">新闻视频</el-menu-item>
+            <el-menu-item index="/question">问题信息</el-menu-item>
+            <el-menu-item index="/answer">答题信息</el-menu-item>
+            <el-menu-item index="/feedback">用户反馈</el-menu-item>
+            <el-menu-item index="/notice">公告信息</el-menu-item>
+            <el-menu-item index="/comment">评论信息</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">

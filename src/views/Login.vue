@@ -15,7 +15,7 @@
         <div style="display: flex; align-items: center">
           <div style="flex: 1">
             <span style="color: #2a60c9; cursor: pointer" @click="$router.push('/adminLogin')">切换管理员登录</span>
-            <span style="color: #049f58; cursor: pointer; margin-left: 20px" @click="$router.push('/front/home')">游客访问</span>
+<!--            <span style="color: #049f58; cursor: pointer; margin-left: 20px" @click="$router.push('/front/home')">游客访问</span>-->
           </div>
           <div style="text-align: right">
             我要<a href="/register">注册</a>
@@ -72,8 +72,7 @@ export default {
 .container {
   height: 100vh;
   overflow: hidden;
-  background-image: url("@/assets/imgs/bg.jpg");
-  background-size: 100%;
+  background-color: #EBEBEB;
   display: flex;
   align-items: center;
   justify-content: center;

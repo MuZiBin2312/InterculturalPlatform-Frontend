@@ -6,8 +6,8 @@
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
-        <img src="@/assets/imgs/logo1.png" alt="">
-        <div class="title">飞扑新闻网</div>
+        <img src="@/assets/imgs/logo_1.png" alt="">
+        <div class="title">跨文化交流平台</div>
       </div>
       <div class="front-header-center">
         <div style="display: flex">
@@ -33,9 +33,9 @@
               </div>
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
+              <!-- <el-dropdown-item>
                 <div @click="$router.push('/front/userNews')">我的新闻</div>
-              </el-dropdown-item>
+              </el-dropdown-item> -->
               <el-dropdown-item>
                 <div @click="$router.push('/front/userQuestion')">我的问题</div>
               </el-dropdown-item>
@@ -80,10 +80,11 @@ export default {
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
       menus: [
-        { text: '新闻首页', path: '/front/home' },
+        { text: '首页', path: '/front/home' },
         { text: '热门问答', path: '/front/question' },
-        { text: '周边新闻', path: '/front/localNews' },
-        { text: '新闻视频', path: '/front/video' },
+        { text: '周边热点', path: '/front/localNews' },
+        { text: '文化资源', path: '/front/resources' },
+        { text: '文化课程', path: '/front/video' },
         { text: '意见反馈', path: '/front/feedback' },
         { text: '系统公告', path: '/front/notice' },
       ],
@@ -121,7 +122,7 @@ export default {
     font-size: 16px;
   }
   .menu:hover:not(.menu-active) {
-    color: #fff;
+    color: #6BABFF;
   }
   .menu-active {
     color: #fff;

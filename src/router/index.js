@@ -33,6 +33,7 @@ const routes = [
       { path: 'comment', name: 'Comment', meta: { name: '评论信息' }, component: () => import('../views/manager/Comment') },
     ]
   },
+
   {
     path: '/front',
     name: 'Front',
@@ -52,6 +53,8 @@ const routes = [
       { path: 'userFeedback', name: 'UserFeedback', component: () => import('../views/front/UserFeedback') },
       { path: 'notice', name: 'FrontNotice', component: () => import('../views/front/Notice') },
       { path: 'search', name: 'Search', component: () => import('../views/front/Search') },
+      { path: 'resources', name: 'Resources', component: () => import('../views/front/Resources.vue') },
+      { path: 'resourceDetail', name: 'ResourceDetail', component: () => import('../views/front/ResourceDetail.vue') }
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
