@@ -144,7 +144,7 @@
           <i class="el-icon-cpu"></i>
           <span>{{ $t('menu.aiEmpowerment') }}</span>
         </template>
-        <el-menu-item index="/front/ai/agents">
+        <el-menu-item index="/front/ai">
           <i class="el-icon-service"></i>
           {{ $t('menu.aiAgent') }}
         </el-menu-item>
