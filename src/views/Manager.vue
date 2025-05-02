@@ -46,11 +46,11 @@
             <el-menu-item index="/category">新闻分类</el-menu-item>
             <el-menu-item index="/news">新闻文章</el-menu-item>
             <el-menu-item index="/video">新闻视频</el-menu-item>
-<!--            <el-menu-item index="/question">问题信息</el-menu-item>-->
-<!--            <el-menu-item index="/answer">答题信息</el-menu-item>-->
-<!--            <el-menu-item index="/feedback">用户反馈</el-menu-item>-->
-<!--            <el-menu-item index="/notice">公告信息</el-menu-item>-->
-<!--            <el-menu-item index="/comment">评论信息</el-menu-item>-->
+            <el-menu-item index="/question">问题信息</el-menu-item>
+            <el-menu-item index="/answer">答题信息</el-menu-item>
+            <el-menu-item index="/feedback">用户反馈</el-menu-item>
+            <el-menu-item index="/notice">公告信息</el-menu-item>
+            <el-menu-item index="/comment">评论信息</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">

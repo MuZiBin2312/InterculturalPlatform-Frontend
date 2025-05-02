@@ -1,18 +1,18 @@
 <template>
   <div class="container">
     <!-- 左侧导航栏 -->
-    <div class="sidebar">
-      <el-menu
-          default-active="all"
-          class="el-menu-vertical-demo"
-          @select="handleCategorySelect">
-        <el-menu-item index="all">全部</el-menu-item>
-        <el-menu-item index="传统文化">传统文化</el-menu-item>
-        <el-menu-item index="节日习俗">节日习俗</el-menu-item>
-        <el-menu-item index="热点关注">热点关注</el-menu-item>
-        <el-menu-item index="相关图志">相关图志</el-menu-item>
-      </el-menu>
-    </div>
+<!--    <div class="sidebar">-->
+<!--      <el-menu-->
+<!--          default-active="all"-->
+<!--          class="el-menu-vertical-demo"-->
+<!--          @select="handleCategorySelect">-->
+<!--        <el-menu-item index="all">全部</el-menu-item>-->
+<!--        <el-menu-item index="传统文化">传统文化</el-menu-item>-->
+<!--        <el-menu-item index="节日习俗">节日习俗</el-menu-item>-->
+<!--        <el-menu-item index="热点关注">热点关注</el-menu-item>-->
+<!--        <el-menu-item index="相关图志">相关图志</el-menu-item>-->
+<!--      </el-menu>-->
+<!--    </div>-->
 
     <!-- 右侧内容区 -->
     <div class="main-content">
@@ -112,19 +112,7 @@ export default {
 .container {
   display: flex;
 }
-.sidebar {
-  width: 200px;
-  background: #f8f8f8;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-.el-menu {
-  border-right: none;
-}
-.main-content {
-  flex: 1;
-  padding: 20px;
-}
+
 .item {
   cursor: pointer;
   margin-bottom: 20px;
@@ -133,5 +121,5 @@ export default {
   color: red;
 }
 
-@import "@/assets/css/manager.css";
+
 </style>

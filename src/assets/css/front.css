@@ -48,10 +48,17 @@
 
 /*页面具体样式自定义*/
 .main-content {
-    width: 70%;
+    width: 90%;
     margin: 10px auto;
 }
+.main-container {
+    display: flex;
+}
 .main-body {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    /*min-height: calc(100vh - 80px);*/
     min-height: calc(100vh - 200px);
 }
 /* ElementUI 样式覆盖 */

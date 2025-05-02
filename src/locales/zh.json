@@ -1,0 +1,78 @@
+{
+  "project": {
+    "projectName": "跨文化交流平台"
+  },
+  "user": {
+    "myQuestion": "我的问题",
+    "myAnswer": "我的回答",
+    "myFeedback": "我的反馈",
+    "profile": "个人信息",
+    "toggleLanguage": "中英文切换",
+    "logout": "退出登录"
+  },
+  "menu": {
+    "home": "首页",
+    "Q&A": "热门问答",
+    "hotspots": "周边热点",
+    "resources": "文化资源",
+    "videos": "文化讲堂",
+    "feedback": "意见反馈",
+    "notice": "系统公告",
+
+    "cultureForum": "文化讲堂",
+    "powerDistance": "权力距离",
+    "individualVsCollectivism": "个人主义和集体主义",
+    "icebergTheory": "冰山理论",
+    "culturalAdaptation": "文化适应",
+
+    "traditionCulture": "中外传统文化",
+    "foodCulture": "饮食文化",
+    "clothingCulture": "服饰文化",
+    "etiquetteCulture": "礼仪文化",
+
+    "festivalCustoms": "中外节日习俗",
+    "festivalOverview": "节日概述",
+    "festivalTraditions": "节日习俗",
+    "festivalInteraction": "互动体验",
+
+    "cultureNews": "国内外文化动态",
+    "domesticCulture": "国内文化动态",
+    "foreignCulture": "国外文化动态",
+    "hotTrends": "热点关注与推荐",
+
+    "interculturalExchange": "跨文化交流",
+    "classicCases": "跨文化经典案例",
+    "cultureForumAI": "智能文化讨论区",
+
+    "aiEmpowerment": "AI赋能",
+    "aiAgent": "AI智能体",
+
+    "upload": "上传",
+    "uploadNews": "发布文章",
+    "uploadVideos": "发布视频"
+  },
+  "category": {
+    "全部": "全部",
+    "相关图志": "相关图志",
+    "热点关注": "热点关注",
+    "节日习俗": "节日习俗",
+    "传统文化": "传统文化",
+    "教育": "教育",
+    "健康": "健康",
+    "军事": "军事",
+    "社会": "社会",
+    "体育": "体育",
+    "娱乐": "娱乐",
+    "科技": "科技",
+    "财经": "财经"
+  },
+  "button": {
+    "search": "搜索"
+  },
+  "title": {
+    "highlight": "精选视频"
+  },
+  "text": {
+    "searchBar": "请输入关键字搜索..."
+  }
+}

@@ -10,9 +10,9 @@
         </el-carousel>
 
         <div style="margin: 20px 0; display: flex">
-          <div @click="loadCategoryNews(null)" class="category-item" :class="{ 'category-item-active' : category === null }">全部</div>
+          <div @click="loadCategoryNews(null)" class="category-item" :class="{ 'category-item-active' : category === null }">{{ $t('category.全部') }}</div>
           <div @click="loadCategoryNews(item.name)" class="category-item" :class="{ 'category-item-active' : category === item.name }" v-for="item in categoryList"
-               :key="item.id">{{ item.name }}</div>
+               :key="item.id">{{ $t('category.' + item.name) || item.name }}</div>
         </div>
         <div>
           <div @click="$router.push('/front/newsDetail?id=' + item.id)" class="card" v-for="item in tableData" :key="item.id" style="display: flex; cursor: pointer; grid-gap: 15px; margin-bottom: 5px">
@@ -48,7 +48,7 @@
         <hot />
 
         <div style="margin: 20px 0">
-          <div style="font-size: 24px; margin-bottom: 20px">精选视频</div>
+          <div style="font-size: 24px; margin-bottom: 20px">{{ $t('title.highlight') }}</div>
           <div style="margin-bottom: 10px">
             <video controls style="width: 100%" :src="video.file"></video>
           </div>

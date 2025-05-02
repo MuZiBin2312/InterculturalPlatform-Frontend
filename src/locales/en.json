@@ -1,0 +1,79 @@
+{
+  "project": {
+    "projectName": "Inter Cultural Plat"
+  },
+  "user": {
+    "myQuestion": "我的问题",
+    "myAnswer": "我的回答",
+    "myFeedback": "我的反馈",
+    "profile": "个人信息",
+    "toggleLanguage": "中英文切换",
+    "logout": "退出登录"
+  },
+  "menu": {
+    "home": "Home",
+    "Q&A": "Q&A",
+    "hotspots": "Hotspots",
+    "resources": "Cultural Resources",
+    "videos": "Cultural Lecture",
+    "feedback": "Feedback",
+    "notice": "Notice",
+
+    "cultureForum": "Culture Forum",
+    "powerDistance": "Power Distance",
+    "individualVsCollectivism": "Individualism vs Collectivism",
+    "icebergTheory": "Iceberg Theory",
+    "culturalAdaptation": "Cultural Adaptation",
+
+    "traditionCulture": "Traditional Cultures",
+    "foodCulture": "Food Culture",
+    "clothingCulture": "Clothing Culture",
+    "etiquetteCulture": "Etiquette Culture",
+
+    "festivalCustoms": "Festivals & Customs",
+    "festivalOverview": "Festival Overview",
+    "festivalTraditions": "Festival Customs",
+    "festivalInteraction": "Interactive Experiences",
+
+    "cultureNews": "Cultural Trends",
+    "domesticCulture": "Domestic Trends",
+    "foreignCulture": "Global Trends",
+    "hotTrends": "Hot Topics",
+
+    "interculturalExchange": "Intercultural Communication",
+    "classicCases": "Classic Intercultural Cases",
+    "cultureForumAI": "Smart Culture Forum",
+
+    "aiEmpowerment": "AI Empowerment",
+    "aiAgent": "AI Agents",
+    "upload": "Upload",
+    "uploadNews": "Upload a Article",
+    "uploadVideos": "Upload a Video"
+  },
+  "category": {
+    "全部": "All",
+    "相关图志": "Illustrations",
+    "热点关注": "Hot Topic",
+    "节日习俗": "Festival Customs",
+    "传统文化": "Traditional Culture",
+    "教育": "Edu",
+    "健康": "Health",
+    "军事": "Military",
+    "社会": "Society",
+    "体育": "Sports",
+    "娱乐": "Entertainment",
+    "科技": "Technology",
+    "财经": "Finance"
+
+  },
+  "button": {
+    "search": "Go"
+  },
+  "title": {
+    "highlight": "High Light"
+
+  },
+  "text": {
+    "searchBar": "search something..."
+  }
+}

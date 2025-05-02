@@ -54,7 +54,9 @@ const routes = [
       { path: 'notice', name: 'FrontNotice', component: () => import('../views/front/Notice') },
       { path: 'search', name: 'Search', component: () => import('../views/front/Search') },
       { path: 'resources', name: 'Resources', component: () => import('../views/front/Resources.vue') },
-      { path: 'resourceDetail', name: 'ResourceDetail', component: () => import('../views/front/ResourceDetail.vue') }
+      { path: 'resourceDetail', name: 'ResourceDetail', component: () => import('../views/front/ResourceDetail.vue') },
+      { path: 'uploadNews', name: 'UploadNews', component: () => import('../views/manager/News') },
+      { path: 'uploadVideo', name: 'UploadVideo', component: () => import('../views/manager/Video') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
@@ -69,7 +71,7 @@ const router = new VueRouter({
   routes
 })
 
-// 注：不需要前台的项目，可以注释掉该路由守卫
+// 不需要前台可以注释掉该路由守卫
 // 路由守卫
 // router.beforeEach((to ,from, next) => {
 //   let user = JSON.parse(localStorage.getItem("xm-user") || '{}');

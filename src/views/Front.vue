@@ -7,17 +7,17 @@
     <div class="front-header">
       <div class="front-header-left">
         <img src="@/assets/imgs/logo_1.png" alt="">
-        <div class="title">跨文化交流平台</div>
+        <div class="title">{{ $t('project.projectName') }}</div>
       </div>
       <div class="front-header-center">
         <div style="display: flex">
           <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"
-               v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ item.text }}</div>
+               v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ $t(item.text) }}</div>
         </div>
       </div>
       <div style="width: 300px">
-        <el-input v-model="title" prefix-icon="el-icon-search" size="medium" placeholder="请输入新闻关键字搜索" style="width: 220px; margin-right: 5px"></el-input>
-        <el-button size="medium" @click="search">搜索</el-button>
+        <el-input v-model="title" prefix-icon="el-icon-search" size="medium" placeholder="请输入关键字搜索" style="width: 220px; margin-right: 5px"></el-input>
+        <el-button size="medium" @click="search">{{ $t('button.search') }}</el-button>
       </div>
       <div class="front-header-right">
         <div v-if="!user.username">
@@ -49,6 +49,9 @@
                 <div @click="$router.push('/front/person')">个人信息</div>
               </el-dropdown-item>
               <el-dropdown-item>
+                <div @click="toggleLanguage">{{ $t('user.toggleLanguage') }}</div>
+              </el-dropdown-item>
+              <el-dropdown-item>
                 <div @click="logout">退出登录</div>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -56,10 +59,16 @@
         </div>
       </div>
     </div>
+
+    <!-- 主体区域：增加左右布局 -->
+    <div class="main-container">
+      <!-- 左侧全局菜单栏 -->
+      <FrontSidebar />
     <!--主体-->
     <div class="main-body">
       <router-view ref="child" @update:user="updateUser" />
     </div>
+  </div>
 
     <Footer />
 
@@ -69,10 +78,12 @@
 
 <script>
 import Footer from "@/components/Footer";
+import FrontSidebar from "@/components/FrontSidebar.vue";
 export default {
   name: "FrontLayout",
   components: {
-    Footer
+    Footer,
+    FrontSidebar,
   },
   data () {
     return {
@@ -80,13 +91,13 @@ export default {
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
       menus: [
-        { text: '首页', path: '/front/home' },
-        { text: '热门问答', path: '/front/question' },
-        { text: '周边热点', path: '/front/localNews' },
-        { text: '文化资源', path: '/front/resources' },
-        { text: '文化课程', path: '/front/video' },
-        { text: '意见反馈', path: '/front/feedback' },
-        { text: '系统公告', path: '/front/notice' },
+        { text: 'menu.home', path: '/front/home' },
+        { text: 'menu.Q&A', path: '/front/question' },
+        { text: 'menu.hotspots', path: '/front/localNews' },
+        { text: 'menu.resources', path: '/front/resources' },
+        { text: 'menu.videos', path: '/front/video' },
+        { text: 'menu.feedback', path: '/front/feedback' },
+        { text: 'menu.notice', path: '/front/notice' },
       ],
       title: this.$route.query.title
     }
@@ -107,6 +118,13 @@ export default {
       localStorage.removeItem("xm-user");
       this.$router.push("/login");
     },
+    // 语言切换方法
+    toggleLanguage() {
+      const currentLocale = this.$i18n.locale;
+      this.$i18n.locale = currentLocale === 'zh' ? 'en' : 'zh';
+      // 可选：记住用户选择，下次打开直接用
+      localStorage.setItem('locale', this.$i18n.locale);
+    }
   }
 
 }
