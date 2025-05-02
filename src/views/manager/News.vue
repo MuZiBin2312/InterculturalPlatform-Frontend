@@ -42,7 +42,7 @@
             <el-tag type="danger" v-if="scope.row.status === '拒绝'">拒绝</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="审核" align="center" width="180">
+        <el-table-column label="审核" align="center" width="180" v-if="user.role === 'ADMIN'">
           <template v-slot="scope">
             <el-button v-if="scope.row.type === 'local'" size="mini" type="success" plain @click="changeStatus(scope.row, '通过')">通过</el-button>
             <el-button v-if="scope.row.type === 'local'" size="mini" type="danger" plain @click="changeStatus(scope.row, '拒绝')">拒绝</el-button>
@@ -232,8 +232,6 @@ export default {
       })
     },
 
-
-
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
       this.$request.get('/news/selectPage', {
@@ -244,8 +242,13 @@ export default {
         }
       }).then(res => {
         if (res.code === '200') {
-          this.tableData = res.data?.list
-          this.total = res.data?.total
+          let list = res.data?.list || []
+          // 仅 TEACHER 角色进行数据过滤
+          if (this.user.role === 'TEACHER') {
+            list = list.filter(item => item.userId === this.user.id)
+          }
+          this.tableData = list
+          this.total = list.length  // 重新设置 total
         } else {
           this.$message.error(res.msg)
         }

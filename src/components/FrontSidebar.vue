@@ -150,7 +150,7 @@
         </el-menu-item>
       </el-submenu>
 
-      <el-submenu index="7">
+      <el-submenu index="7" v-if="user.role === 'TEACHER'">
         <template slot="title">
           <i class="el-icon-connection"></i>
           <span>{{ $t('menu.upload') }}</span>
@@ -164,8 +164,6 @@
           {{ $t('menu.uploadVideos') }}
         </el-menu-item>
       </el-submenu>
-
-
     </el-menu>
   </div>
 </template>
@@ -193,4 +191,14 @@
 @import "@/assets/css/manager.css";
 </style>
 <script lang="ts">
+import Footer from "@/components/Footer.vue";
+
+export default {
+  name: "FrontLayout",
+  data() {
+    return {
+      user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+    }
+  }
+}
 </script>

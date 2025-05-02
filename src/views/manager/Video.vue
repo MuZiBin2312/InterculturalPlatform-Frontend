@@ -101,6 +101,8 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          this.$message.success(this.user.id)
+          this.form.userId = this.user.id
           this.$request({
             url: this.form.id ? '/video/update' : '/video/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -160,8 +162,17 @@ export default {
         }
       }).then(res => {
         if (res.code === '200') {
-          this.tableData = res.data?.list
-          this.total = res.data?.total
+          let list = res.data?.list || []
+
+          // 权限过滤逻辑：TEACHER 只看自己的数据
+          if (this.user.role === 'TEACHER') {
+            list = list.filter(item => item.userId === this.user.id)
+            this.total = list.length
+          } else {
+            this.total = res.data?.total
+          }
+
+          this.tableData = list
         } else {
           this.$message.error(res.msg)
         }

@@ -102,7 +102,6 @@ export default {
       title: this.$route.query.title
     }
   },
-
   mounted() {
 
   },
