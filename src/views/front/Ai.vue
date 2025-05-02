@@ -33,30 +33,30 @@ export default {
   },
   methods: {
     // 刷新 token
-    async refreshToken() {
-      try {
-        const newToken = await this.getNewToken();
-        if (newToken) {
-          return newToken;
-        } else {
-          throw new Error("无法获取新 token");
-        }
-      } catch (error) {
-        console.error('Token刷新失败:', error);
-        return null;
-      }
-    },
+    // async refreshToken() {
+    //   try {
+    //     const newToken = await this.getNewToken();
+    //     if (newToken) {
+    //       return newToken;
+    //     } else {
+    //       throw new Error("无法获取新 token");
+    //     }
+    //   } catch (error) {
+    //     console.error('Token刷新失败:', error);
+    //     return null;
+    //   }
+    // },
 
     // 获取新 token
-    async getNewToken() {
-      const refreshToken = this.user.token;  // 获取到的旧的refresh token
-      const res = await axios.post('http://localhost:9090/api/refresh-token', {
-        token: refreshToken,  // 传递 refreshToken 给后端
-        userId: this.user.id
-      });
-      console.log(res.data);
-      return res.data.token;
-    },
+    // async getNewToken() {
+    //   const refreshToken = this.user.token;  // 获取到的旧的refresh token
+    //   const res = await axios.post('http://localhost:9090/api/refresh-token', {
+    //     token: refreshToken,  // 传递 refreshToken 给后端
+    //     userId: this.user.id
+    //   });
+    //   console.log(res.data);
+    //   return res.data.token;
+    // },
 
     // 隐藏聊天窗口
     hideCoze() {
@@ -76,9 +76,9 @@ export default {
         console.log('SDK 加载完毕！');
 
         // 获取新 token
-        const newToken = await this.refreshToken(); // 使用 async 函数获取新的 token
+        // const newToken = await this.refreshToken(); // 使用 async 函数获取新的 token
 
-        if (newToken) {
+        // if (newToken) {
           // 初始化聊天组件
           this.cozeClient = new window.CozeWebSDK.WebChatClient({
             config: {
@@ -89,10 +89,17 @@ export default {
             componentProps: {
               title: '跨文化小助手',
             },
+            // auth: {
+            //   type: 'token',
+            //   token: newToken,  // 使用获取的新的 token
+            //   onRefreshToken: this.refreshToken, // 调用外部同步方法进行刷新 token
+            // },
             auth: {
               type: 'token',
-              token: newToken,  // 使用获取的新的 token
-              onRefreshToken: this.refreshToken, // 调用外部同步方法进行刷新 token
+              token: 'pat_zW03DE8JLV1BgsBCd53c1gavvE20yKHa812FS9rMkZPb7Ptj7Q1W3hdH24RC9baJ',
+              onRefreshToken: function () {
+                return 'pat_zW03DE8JLV1BgsBCd53c1gavvE20yKHa812FS9rMkZPb7Ptj7Q1W3hdH24RC9baJ'
+              }
             },
             // 用户信息
             userInfo: {
@@ -122,7 +129,7 @@ export default {
 
           // SDK 加载完成后自动显示 ChatBot
           this.showChatBot();
-        }
+        // }
       };
       document.body.appendChild(this.script);
     },
