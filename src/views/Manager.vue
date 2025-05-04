@@ -43,9 +43,9 @@
               <i class="el-icon-menu"></i><span>信息管理</span>
             </template>
             <el-menu-item index="/banner">轮播图信息</el-menu-item>
-            <el-menu-item index="/category">新闻分类</el-menu-item>
-            <el-menu-item index="/news">新闻文章</el-menu-item>
-            <el-menu-item index="/video">新闻视频</el-menu-item>
+            <el-menu-item index="/category">资源分类</el-menu-item>
+            <el-menu-item index="/news">资讯文章</el-menu-item>
+            <el-menu-item index="/video">文化视频</el-menu-item>
             <el-menu-item index="/question">问题信息</el-menu-item>
             <el-menu-item index="/answer">答题信息</el-menu-item>
             <el-menu-item index="/feedback">用户反馈</el-menu-item>

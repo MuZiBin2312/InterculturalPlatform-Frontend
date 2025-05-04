@@ -75,6 +75,15 @@
             <el-button type="primary">上传头像</el-button>
           </el-upload>
         </el-form-item>
+
+        <!-- 新增的角色选择 -->
+        <el-form-item label="角色" prop="role">
+          <el-select v-model="form.role" placeholder="请选择角色">
+            <el-option label="用户" value="USER"></el-option>
+            <el-option label="教师" value="TEACHER"></el-option>
+          </el-select>
+        </el-form-item>
+
       </el-form>
 
       <div slot="footer" class="dialog-footer">
