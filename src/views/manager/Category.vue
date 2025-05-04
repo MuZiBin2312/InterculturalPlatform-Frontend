@@ -12,9 +12,11 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" strip @selection-change="handleSelectionChange">
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
+        <el-table-column prop="father" label="父类名称"></el-table-column>
+
         <el-table-column prop="name" label="分类名称"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
@@ -39,6 +41,17 @@
 
     <el-dialog title="分类" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+
+        <el-form-item label="父类名称" prop="father">
+          <el-select v-model="form.father" placeholder="请选择父类名称" style="width: 100%">
+            <el-option
+                v-for="item in fatherOptions"
+                :key="item"
+                :label="item"
+                :value="item"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="分类名称" prop="name">
           <el-input v-model="form.name" placeholder="分类名称"></el-input>
         </el-form-item>
@@ -48,24 +61,32 @@
         <el-button type="primary" @click="save">确 定</el-button>
       </div>
     </el-dialog>
-
-
   </div>
 </template>
+
 <script>
 export default {
   name: "Category",
   data() {
     return {
-      tableData: [],  // 所有的数据
-      pageNum: 1,   // 当前的页码
-      pageSize: 10,  // 每页显示的个数
+      fatherOptions: [
+        '文化讲堂',
+        '中外传统文化',
+        '中外节日习俗',
+        '国内外文化动态',
+        '跨文化交流'
+      ],
+      tableData: [],
+      pageNum: 1,
+      pageSize: 10,
       total: 0,
       name: null,
       fromVisible: false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
+        name: [{required: true, message: '请输入分类名称', trigger: 'blur'}],
+        father: [{required: true, message: '请输入父类名称', trigger: 'blur'}]
       },
       ids: []
     }
@@ -74,15 +95,15 @@ export default {
     this.load(1)
   },
   methods: {
-    handleAdd() {   // 新增数据
-      this.form = {}  // 新增数据的时候清空数据
-      this.fromVisible = true   // 打开弹窗
+    handleAdd() {
+      this.form = {}
+      this.fromVisible = true
     },
-    handleEdit(row) {   // 编辑数据
-      this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
-      this.fromVisible = true   // 打开弹窗
+    handleEdit(row) {
+      this.form = JSON.parse(JSON.stringify(row))
+      this.fromVisible = true
     },
-    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+    save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.$request({
@@ -90,51 +111,51 @@ export default {
             method: this.form.id ? 'PUT' : 'POST',
             data: this.form
           }).then(res => {
-            if (res.code === '200') {  // 表示成功保存
+            if (res.code === '200') {
               this.$message.success('保存成功')
               this.load(1)
               this.fromVisible = false
             } else {
-              this.$message.error(res.msg)  // 弹出错误的信息
+              this.$message.error(res.msg)
             }
           })
         }
       })
     },
-    del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+    del(id) {
+      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(() => {
         this.$request.delete('/category/delete/' + id).then(res => {
-          if (res.code === '200') {   // 表示操作成功
+          if (res.code === '200') {
             this.$message.success('操作成功')
             this.load(1)
           } else {
-            this.$message.error(res.msg)  // 弹出错误的信息
+            this.$message.error(res.msg)
           }
         })
       }).catch(() => {
       })
     },
-    handleSelectionChange(rows) {   // 当前选中的所有的行数据
+    handleSelectionChange(rows) {
       this.ids = rows.map(v => v.id)
     },
-    delBatch() {   // 批量删除
+    delBatch() {
       if (!this.ids.length) {
         this.$message.warning('请选择数据')
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(() => {
         this.$request.delete('/category/delete/batch', {data: this.ids}).then(res => {
-          if (res.code === '200') {   // 表示操作成功
+          if (res.code === '200') {
             this.$message.success('操作成功')
             this.load(1)
           } else {
-            this.$message.error(res.msg)  // 弹出错误的信息
+            this.$message.error(res.msg)
           }
         })
       }).catch(() => {
       })
     },
-    load(pageNum) {  // 分页查询
+    load(pageNum) {
       if (pageNum) this.pageNum = pageNum
       this.$request.get('/category/selectPage', {
         params: {
@@ -163,5 +184,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

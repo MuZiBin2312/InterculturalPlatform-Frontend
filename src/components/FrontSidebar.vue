@@ -26,7 +26,9 @@
         </el-menu-item>
         <el-menu-item index="/front/culture/individual-vs-group">
           <i class="el-icon-user-solid"></i>
-          <span slot="title" class="scroll-title"><span>{{ $t('menu.individualVsCollectivism') }}</span></span>
+          <span slot="title" class="scroll-title">
+            <span>{{ $t('menu.individualVsCollectivism') }}</span>
+          </span>
         </el-menu-item>
         <el-menu-item index="/front/culture/iceberg">
           <i class="el-icon-ship"></i>
@@ -94,7 +96,9 @@
         </el-menu-item>
         <el-menu-item index="/front/news/trending">
           <i class="el-icon-star-on"></i>
-          <span slot="title" class="scroll-title"><span>{{ $t('menu.hotTrends') }}</span></span>
+          <span slot="title" class="scroll-title">
+            <span>{{ $t('menu.hotTrends') }}</span>
+          </span>
         </el-menu-item>
       </el-submenu>
 
@@ -106,11 +110,32 @@
         </template>
         <el-menu-item index="/front/interculture/cases">
           <i class="el-icon-document-copy"></i>
-          <span slot="title" class="scroll-title"><span>{{ $t('menu.classicCases') }}</span></span>
+          <span slot="title" class="scroll-title">
+            <span>{{ $t('menu.classicCases') }}</span>
+          </span>
         </el-menu-item>
         <el-menu-item index="/front/interculture/forum">
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.cultureForumAI') }}
+        </el-menu-item>
+      </el-submenu>
+      <!-- ✅ 新增：动态拓展菜单 -->
+      <el-submenu
+          v-for="(menu, idx) in extraMenus"
+          :key="'extra-' + idx"
+          :index="menu.index"
+      >
+        <template slot="title">
+          <i :class="menu.icon"></i>
+          <span>{{ menu.title }}</span>
+        </template>
+        <el-menu-item
+            v-for="(child, i) in menu.children"
+            :key="child.index"
+            :index="child.index"
+        >
+          <i :class="child.icon"></i>
+          {{ child.title }}
         </el-menu-item>
       </el-submenu>
 
@@ -126,6 +151,7 @@
         </el-menu-item>
       </el-submenu>
 
+      <!-- 7. 教师上传 -->
       <el-submenu index="7" v-if="user.role === 'TEACHER'">
         <template slot="title">
           <i class="el-icon-connection"></i>
@@ -133,13 +159,17 @@
         </template>
         <el-menu-item index="/front/uploadNews">
           <i class="el-icon-document-copy"></i>
-          <span slot="title" class="scroll-title"><span>{{ $t('menu.uploadNews') }}</span></span>
+          <span slot="title" class="scroll-title">
+            <span>{{ $t('menu.uploadNews') }}</span>
+          </span>
         </el-menu-item>
         <el-menu-item index="/front/uploadVideo">
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.uploadVideos') }}
         </el-menu-item>
       </el-submenu>
+
+
     </el-menu>
   </div>
 </template>
@@ -147,25 +177,22 @@
 <style scoped>
 .scroll-title {
   display: inline-block;
-  max-width: 280px; /* 根据你的菜单栏宽度调整 */
+  max-width: 280px;
   overflow: hidden;
   white-space: nowrap;
   position: relative;
 }
-
 .scroll-title span {
   display: inline-block;
   transition: transform 10s linear;
   will-change: transform;
 }
-
-/* 悬停时开始滚动 */
 .scroll-title:hover span {
-  transform: translateX(calc(-100% + 120px)); /* 120px 为容器宽度，保持尾部显示 */
+  transform: translateX(calc(-100% + 120px));
 }
-
 @import "@/assets/css/manager.css";
 </style>
+
 <script lang="ts">
 import Footer from "@/components/Footer.vue";
 
@@ -174,6 +201,42 @@ export default {
   data() {
     return {
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+      extraMenus: [
+        {
+          index: "100",
+          title: this.$t('menu.extraBlock'),
+          icon: "el-icon-menu",
+          children: [
+            {
+              index: "/front/extra/one",
+              title: this.$t('menu.extraItem1'),
+              icon: "el-icon-document",
+            },
+            {
+              index: "/front/extra/two",
+              title: this.$t('menu.extraItem2'),
+              icon: "el-icon-edit",
+            }
+          ]
+        },
+        {
+          index: "100",
+          title: this.$t('menu.extraBlock'),
+          icon: "el-icon-menu",
+          children: [
+            {
+              index: "/front/extra/one",
+              title: this.$t('menu.extraItem1'),
+              icon: "el-icon-document",
+            },
+            {
+              index: "/front/extra/two",
+              title: this.$t('menu.extraItem2'),
+              icon: "el-icon-edit",
+            }
+          ]
+        }
+      ]
     }
   }
 }
