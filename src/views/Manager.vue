@@ -3,7 +3,7 @@
     <!--  头部  -->
     <div class="manager-header">
       <div class="manager-header-left">
-        <img src="@/assets/imgs/logo.png" />
+        <img src="@/assets/imgs/logo_1.png" />
         <div class="title">跨文化交流平台后台</div>
       </div>
 

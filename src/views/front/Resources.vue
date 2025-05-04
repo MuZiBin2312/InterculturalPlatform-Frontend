@@ -29,7 +29,11 @@
               :key="item.id"
               class="item"
               @click.native="$router.push('/front/newsDetail?id=' + item.id)">
-            <img style="width: 100%; height: 240px; border-radius: 5px" :src="item.img" alt="">
+            <img
+                :src="item.img"
+                alt=""
+                style="width: 100%; height: 360px; border-radius: 5px; object-fit: cover"
+            />
             <div style="margin: 10px 0; font-size: 18px" class="line1">{{item.title }}</div>
             <div style="color: #666">
               <span style="margin-right: 20px"><i class="el-icon-eye"></i> {{ item.readCount }}</span>

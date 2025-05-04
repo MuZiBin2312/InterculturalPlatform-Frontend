@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <el-dialog title="新闻分类" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="分类" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="分类名称" prop="name">
           <el-input v-model="form.name" placeholder="分类名称"></el-input>

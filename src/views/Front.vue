@@ -15,10 +15,20 @@
                v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ $t(item.text) }}</div>
         </div>
       </div>
+
       <div style="width: 300px">
-        <el-input v-model="title" prefix-icon="el-icon-search" size="medium" placeholder="请输入关键字搜索" style="width: 220px; margin-right: 5px"></el-input>
+        <el-input v-model="title" prefix-icon="el-icon-search" size="medium" :placeholder="$t('text.searchBar')" style="width: 220px; margin-right: 5px"></el-input>
         <el-button size="medium" @click="search">{{ $t('button.search') }}</el-button>
       </div>
+      <el-select v-model="currentLocale" size="medium" @change="changeLanguage" style="width: 120px; margin-left: 10px">
+        <el-option
+            v-for="item in languageOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+        />
+      </el-select>
+
       <div class="front-header-right">
         <div v-if="!user.username">
           <el-button @click="$router.push('/login')">登录</el-button>
@@ -33,26 +43,23 @@
               </div>
             </div>
             <el-dropdown-menu slot="dropdown">
-              <!-- <el-dropdown-item>
-                <div @click="$router.push('/front/userNews')">我的新闻</div>
-              </el-dropdown-item> -->
-              <el-dropdown-item>
-                <div @click="$router.push('/front/userQuestion')">我的问题</div>
+              <el-dropdown-item v-if="user.role === 'TEACHER'">
+                <div @click="$router.push('/front/userNews')">{{ $t('user.myPublish') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
-                <div @click="$router.push('/front/userAnswer')">我的回答</div>
+                <div @click="$router.push('/front/userQuestion')">{{ $t('user.myQuestion') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
-                <div @click="$router.push('/front/userFeedback')">我的反馈</div>
+                <div @click="$router.push('/front/userAnswer')">{{ $t('user.myAnswer') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
-                <div @click="$router.push('/front/person')">个人信息</div>
+                <div @click="$router.push('/front/userFeedback')">{{ $t('user.myFeedback') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
-                <div @click="toggleLanguage">{{ $t('user.toggleLanguage') }}</div>
+                <div @click="$router.push('/front/person')">{{ $t('user.profile') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
-                <div @click="logout">退出登录</div>
+                <div @click="logout">{{ $t('user.logout') }}</div>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -99,6 +106,11 @@ export default {
         { text: 'menu.feedback', path: '/front/feedback' },
         { text: 'menu.notice', path: '/front/notice' },
       ],
+      languageOptions: [
+        { label: '中文', value: 'zh' },
+        { label: 'English', value: 'en' }
+      ],
+      currentLocale: localStorage.getItem('locale') || 'zh',
       title: this.$route.query.title
     }
   },
@@ -106,6 +118,10 @@ export default {
 
   },
   methods: {
+    changeLanguage(value) {
+      this.$i18n.locale = value
+      localStorage.setItem('locale', value)
+    },
     search() {
       location.href = '/front/search?title=' + this.title
     },
@@ -117,13 +133,13 @@ export default {
       localStorage.removeItem("xm-user");
       this.$router.push("/login");
     },
-    // 语言切换方法
-    toggleLanguage() {
-      const currentLocale = this.$i18n.locale;
-      this.$i18n.locale = currentLocale === 'zh' ? 'en' : 'zh';
-      // 可选：记住用户选择，下次打开直接用
-      localStorage.setItem('locale', this.$i18n.locale);
-    }
+    // // 语言切换方法
+    // toggleLanguage() {
+    //   const currentLocale = this.$i18n.locale;
+    //   this.$i18n.locale = currentLocale === 'zh' ? 'en' : 'zh';
+    //   // 可选：记住用户选择，下次打开直接用
+    //   localStorage.setItem('locale', this.$i18n.locale);
+    // }
   }
 
 }

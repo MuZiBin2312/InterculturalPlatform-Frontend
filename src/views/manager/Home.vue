@@ -6,7 +6,7 @@
           <img src="@/assets/imgs/新闻.png" alt="" style="width: 60px; height: 60px">
         </div>
         <div style="flex: 1; font-size: 20px">
-          <div style="margin-bottom: 5px">新闻总数</div>
+          <div style="margin-bottom: 5px">资讯总数</div>
           <div style="font-weight: bold">{{ count.newsCount }}</div>
         </div>
       </div>
@@ -75,7 +75,7 @@ const lineOption = {
 }
 const pieOption = {
   title: {
-    text: '新闻分类统计',
+    text: '资讯分类统计',
     subtext: '比例图',
     left: 'center'
   },

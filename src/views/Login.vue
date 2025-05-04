@@ -45,6 +45,7 @@ export default {
   created() {
 
   },
+
   methods: {
     login() {
       this.$refs['formRef'].validate((valid) => {
@@ -54,6 +55,16 @@ export default {
             if (res.code === '200') {
               localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
               this.$message.success('登录成功')
+
+              // 登录成功后调用清空 Coze 会话接口
+              this.$request.get('/api/call-coze')
+                  .then(() => {
+                    console.log("Coze 会话已清空")
+                  })
+                  .catch(() => {
+                    console.warn("Coze 会话清空失败（可忽略）")
+                  })
+
               setTimeout(() => {
                 location.href = '/front/home'
               }, 500)

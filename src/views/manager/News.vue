@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search">
-      <el-input placeholder="请输入新闻标题关键字查询" style="width: 200px" v-model="title"></el-input>
+      <el-input placeholder="请输入标题关键字查询" style="width: 200px" v-model="title"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
@@ -15,10 +15,10 @@
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="title" label="新闻标题" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="descr" label="新闻简介" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="category" label="新闻分类"></el-table-column>
-        <el-table-column prop="content" label="新闻内容" width="100">
+        <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="descr" label="简介" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="category" label="分类"></el-table-column>
+        <el-table-column prop="content" label="内容" width="100">
           <template v-slot="scope">
             <el-button @click="preview(scope.row.content)">查看内容</el-button>
           </template>
@@ -69,15 +69,15 @@
       </div>
     </div>
 
-    <el-dialog title="新闻信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="资讯信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="新闻标题" prop="title">
-          <el-input v-model="form.title" placeholder="新闻标题"></el-input>
+        <el-form-item label="资讯标题" prop="title">
+          <el-input v-model="form.title" placeholder="资讯标题"></el-input>
         </el-form-item>
-        <el-form-item label="新闻简介" prop="descr">
-          <el-input v-model="form.descr" placeholder="新闻简介"></el-input>
+        <el-form-item label="资讯简介" prop="descr">
+          <el-input v-model="form.descr" placeholder="资讯简介"></el-input>
         </el-form-item>
-        <el-form-item label="新闻分类" prop="category">
+        <el-form-item label="资讯分类" prop="category">
           <el-select v-model="form.category" style="width: 100%">
             <el-option v-for="item in categoryList" :key="item.id" :value="item.name"></el-option>
           </el-select>
@@ -92,7 +92,7 @@
             <el-button type="primary">上传</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="新闻内容" prop="content">
+        <el-form-item label="资讯内容" prop="content">
           <input type="file" accept=".docx" @change="handleWordUpload" />
 
           <div id="editor"></div>
@@ -104,7 +104,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="文章内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="资讯内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
       <div class="w-e-text">
         <div v-html="content"></div>
       </div>

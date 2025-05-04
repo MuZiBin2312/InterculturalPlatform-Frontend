@@ -13,30 +13,6 @@
         <i class="el-icon-house"></i>
         <span slot="title">{{ $t('menu.home') }}</span>
       </el-menu-item>
-<!--      <el-menu-item index="/front/question">-->
-<!--        <i class="el-icon-edit-outline"></i>-->
-<!--        <span slot="title">{{ $t('menu.Q&A') }}</span>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/front/localNews">-->
-<!--        <i class="el-icon-news"></i>-->
-<!--        <span slot="title">{{ $t('menu.hotspots') }}</span>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/front/resources">-->
-<!--        <i class="el-icon-folder-opened"></i>-->
-<!--        <span slot="title">{{ $t('menu.resources') }}</span>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/front/video">-->
-<!--        <i class="el-icon-video-camera"></i>-->
-<!--        <span slot="title">{{ $t('menu.videos') }}</span>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/front/feedback">-->
-<!--        <i class="el-icon-message"></i>-->
-<!--        <span slot="title">{{ $t('menu.feedback') }}</span>-->
-<!--      </el-menu-item>-->
-<!--      <el-menu-item index="/front/notice">-->
-<!--        <i class="el-icon-bell"></i>-->
-<!--        <span slot="title">{{ $t('menu.notice') }}</span>-->
-<!--      </el-menu-item>-->
 
       <!-- 1. 文化讲堂 -->
       <el-submenu index="1">

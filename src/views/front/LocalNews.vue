@@ -1,14 +1,14 @@
 <template>
   <div class="main-content">
     <div style="margin-bottom: 20px">
-      <el-input size="medium" placeholder="请输入新闻标题关键字查询" style="width: 300px" v-model="title"></el-input>
+      <el-input size="medium" placeholder="请输入标题关键字查询" style="width: 300px" v-model="title"></el-input>
       <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button size="medium" type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
     <div class="card" v-if="total > 0">
       <el-row :gutter="10">
         <el-col :span="8" v-for="item in tableData" :key="item.id" class="item" @click.native="$router.push('/front/newsDetail?id=' + item.id)">
-          <img style="width: 100%; height: 240px; border-radius: 5px" :src="item.img" alt="">
+          <img style="width: 100%; height: 360px; border-radius: 5px; object-fit: cover" :src="item.img" alt="">
           <div style="margin: 10px 0; font-size: 18px" class="line1">{{item.title }}</div>
           <div style="color: #666">
             <span style="margin-right: 20px"><i class="el-icon-eye"></i> {{ item.readCount }}</span>

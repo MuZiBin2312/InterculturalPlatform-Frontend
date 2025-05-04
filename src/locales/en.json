@@ -3,12 +3,11 @@
     "projectName": "Inter Cultural Plat"
   },
   "user": {
-    "myQuestion": "我的问题",
-    "myAnswer": "我的回答",
-    "myFeedback": "我的反馈",
-    "profile": "个人信息",
-    "toggleLanguage": "中英文切换",
-    "logout": "退出登录"
+    "myQuestion": "Questions",
+    "myAnswer": "Answers",
+    "myFeedback": "Feedback",
+    "profile": "Profile",
+    "logout": "Log out"
   },
   "menu": {
     "home": "Home",
@@ -74,6 +73,6 @@
 
   },
   "text": {
-    "searchBar": "search something..."
+    "searchBar": "want something?"
   }
 }

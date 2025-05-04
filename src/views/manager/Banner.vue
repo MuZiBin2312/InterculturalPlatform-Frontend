@@ -15,8 +15,8 @@
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="title" label="新闻标题"></el-table-column>
-        <el-table-column prop="img" label="图片">
+        <el-table-column prop="title" label="标题" ></el-table-column>
+        <el-table-column prop="img" label="图片" >
           <template v-slot="scope">
             <el-image v-if="scope.row.img" style="width: 100px" :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
           </template>
@@ -44,7 +44,7 @@
 
     <el-dialog title="轮播信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="新闻" prop="newsId">
+        <el-form-item label="资讯" prop="newsId">
           <el-select style="width: 100%" v-model="form.newsId">
             <el-option v-for="item in newsList" :key="item.id" :value="item.id" :label="item.title"></el-option>
           </el-select>

@@ -3,11 +3,11 @@
     "projectName": "跨文化交流平台"
   },
   "user": {
+    "myPublish": "我的发布",
     "myQuestion": "我的问题",
     "myAnswer": "我的回答",
     "myFeedback": "我的反馈",
     "profile": "个人信息",
-    "toggleLanguage": "中英文切换",
     "logout": "退出登录"
   },
   "menu": {
@@ -48,7 +48,7 @@
     "aiAgent": "AI智能体",
 
     "upload": "上传",
-    "uploadNews": "发布文章",
+    "uploadNews": "发布资讯",
     "uploadVideos": "发布视频"
   },
   "category": {

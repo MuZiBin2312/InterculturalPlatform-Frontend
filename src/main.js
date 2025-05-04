@@ -28,7 +28,7 @@ const i18n = new VueI18n({
     locale: 'zh',  // 默认语言
     messages: {
         zh,
-        en
+        en,
     }
 })
 
