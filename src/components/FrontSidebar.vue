@@ -126,7 +126,7 @@
           :index="menu.index"
       >
         <template slot="title">
-          <i :class="menu.icon"></i>
+            <i :class="menu.icon" ></i>
           <span>{{ menu.title }}</span>
         </template>
         <el-menu-item
@@ -134,13 +134,13 @@
             :key="child.index"
             :index="child.index"
         >
-          <i :class="child.icon"></i>
+          <i :class="child.icon" ></i>
           {{ child.title }}
         </el-menu-item>
       </el-submenu>
 
       <!-- 6. AI赋能 -->
-      <el-submenu index="6">
+      <el-submenu index="9999999999999999">
         <template slot="title">
           <i class="el-icon-cpu"></i>
           <span>{{ $t('menu.aiEmpowerment') }}</span>
@@ -152,7 +152,7 @@
       </el-submenu>
 
       <!-- 7. 教师上传 -->
-      <el-submenu index="7" v-if="user.role === 'TEACHER'">
+      <el-submenu index="99999999999999999" v-if="user.role === 'TEACHER'">
         <template slot="title">
           <i class="el-icon-connection"></i>
           <span>{{ $t('menu.upload') }}</span>
@@ -283,22 +283,27 @@ export default {
         } else {
           this.$message.error(res.msg)
         }
+
+        this.first = this.first.sort((a, b) => a.id - b.id)
+        this.second = this.second.sort((a, b) => a.id - b.id)
+
         this.extraMenus = this.first.map(parent => {
           return {
             index: String(parent.id),
-            title: parent.name, // 或 this.$t(`menu.${parent.name}`) 如果你使用 i18n
-            icon: "el-icon-menu",
+            title: parent.name,
+            icon: parent.icon,
             children: this.second
                 .filter(child => String(child.father) === String(parent.id))
                 .map(child => ({
                   index: `/front/extra/${child.id}`,
                   title: child.name,
-                  icon: "el-icon-document"
+                  icon: child.icon
                 }))
           }
         })
       })
-
+      console.log('111')
+      console.log(this.extraMenus.icon)
     }, reset() {
       this.name = null
       this.load(1)

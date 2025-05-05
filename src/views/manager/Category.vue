@@ -17,8 +17,12 @@
           <el-table :data="categoryData" stripe @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-
-            <el-table-column prop="name" label="二级分类"></el-table-column>
+            <el-table-column label="图标" align="center" width="170">
+              <template v-slot="scope">
+                <i :class="scope.row.icon" style="font-size: 20px;"></i>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="一级菜单"></el-table-column>
             <el-table-column label="操作" align="center" width="180">
               <template v-slot="scope">
                 <el-button size="mini" type="primary" plain @click="handleEdit(scope.row, 'category')">编辑</el-button>
@@ -49,10 +53,10 @@
               v-model="name"
           ></el-input>
 
-          <!-- 新增：一级分类筛选 -->
+          <!-- 新增：一级菜单筛选 -->
           <el-select
               v-model="filterFatherId"
-              placeholder="请选择一级分类"
+              placeholder="请选择一级菜单"
               clearable
               style="width: 200px; margin-left: 10px"
               @change="load(1)"
@@ -87,14 +91,20 @@
 
         <div class="table">
           <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
+
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-            <el-table-column label="一级分类">
+            <el-table-column label="图标" align="center" width="170">
+              <template v-slot="scope">
+                <i :class="scope.row.icon" style="font-size: 20px;"></i>
+              </template>
+            </el-table-column>
+            <el-table-column label="一级菜单">
               <template v-slot="scope">
                 {{ getFatherName(scope.row.father) }}
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="二级分类"></el-table-column>
+            <el-table-column prop="name" label="二级菜单"></el-table-column>
             <el-table-column label="操作" align="center" width="180">
               <template v-slot="scope">
                 <el-button size="mini" type="primary" plain @click="handleEdit(scope.row, 'other')">编辑</el-button>
@@ -118,10 +128,13 @@
       </el-tab-pane>    </el-tabs>
 
     <!-- 弹窗对话框 -->
-    <el-dialog title="分类" :visible.sync="formVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="菜单" :visible.sync="formVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item v-if="currentTab === 'other'" label="一级分类" prop="father">
-          <el-select v-model="form.father" placeholder="请选择一级分类" style="width: 100%">
+        <el-form-item label="图标" prop="icon">
+          <el-input v-model="form.icon" placeholder="请输入图标类名，如 el-icon-s-home 或 fa fa-user"></el-input>
+        </el-form-item>
+        <el-form-item v-if="currentTab === 'other'" label="一级菜单" prop="father">
+          <el-select v-model="form.father" placeholder="请选择一级菜单" style="width: 100%">
             <el-option
                 v-for="item in fatherOptions"
                 :key="item.id"
@@ -130,8 +143,8 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="分类名称" prop="name">
-          <el-input v-model="form.name" placeholder="分类名称"></el-input>
+        <el-form-item label="菜单名称" prop="name">
+          <el-input v-model="form.name" placeholder="菜单名称"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -161,8 +174,8 @@ export default {
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
-        name: [{ required: true, message: '请输入二级分类', trigger: 'blur' }],
-        father: [{ required: true, message: '请输入一级分类', trigger: 'blur' }]
+        name: [{ required: true, message: '请输入二级菜单', trigger: 'blur' }],
+        father: [{ required: true, message: '请输入一级菜单', trigger: 'blur' }]
       },
       ids: []
     }
@@ -242,7 +255,7 @@ export default {
     load(pageNum) {
       if (pageNum) this.pageNum = pageNum
 
-      // 不传 name 参数给后端，完全获取所有分类数据
+      // 不传 name 参数给后端，完全获取所有菜单数据
       this.$request.get('/category/selectPage', {
         params: {
           pageNum: 1, // 固定为 1，只用于取全量数据
@@ -254,7 +267,7 @@ export default {
           this.allData = all
 
           if (this.activeTab === 'category') {
-            // 一级分类：father 为 null，支持 name 模糊匹配
+            // 一级菜单：father 为 null，支持 name 模糊匹配
             let filtered = all.filter(item => item.father === null)
             if (this.name) {
               filtered = filtered.filter(item =>
@@ -269,7 +282,7 @@ export default {
             const end = this.pageNum * this.pageSize
             this.categoryData = filtered.slice(start, end)
           } else {
-            // 二级分类：father 不为 null，支持 name 和 filterFatherId 筛选
+            // 二级菜单：father 不为 null，支持 name 和 filterFatherId 筛选
             let filtered = all.filter(item => item.father !== null)
             if (this.name) {
               filtered = filtered.filter(item =>
@@ -290,7 +303,7 @@ export default {
             const end = this.pageNum * this.pageSize
             this.tableData = filtered.slice(start, end)
 
-            // 一级分类选项
+            // 一级菜单选项
             this.fatherOptions = all.filter(item => item.father === null)
           }
 
