@@ -9,11 +9,46 @@
           </el-carousel-item>
         </el-carousel>
 
-        <div style="margin: 20px 0; display: flex">
-          <div @click="loadCategoryNews(null)" class="category-item" :class="{ 'category-item-active' : category === null }">{{ $t('category.全部') }}</div>
-          <div @click="loadCategoryNews(item.name)" class="category-item" :class="{ 'category-item-active' : category === item.name }" v-for="item in categoryList"
-               :key="item.id">{{ $t('category.' + item.name) || item.name }}</div>
+        <div style="margin: 20px 0; display: flex; align-items: center;">
+          <!-- 左箭头按钮 -->
+          <el-button
+              icon="el-icon-arrow-left"
+              size="mini"
+              @click="prevCategory"
+              :disabled="categoryStartIndex === 0"
+              style="margin-right: 8px; height: 28px; width: 28px; padding: 0;"
+          />
+
+          <!-- 全部按钮 -->
+          <div
+              @click="loadCategoryNews(null)"
+              class="category-item"
+              :class="{ 'category-item-active': category === null }"
+          >
+            {{ $t('category.全部') }}
+          </div>
+
+          <!-- 滑动窗口显示分类 -->
+          <div
+              v-for="(item, index) in categoryList.slice(categoryStartIndex, categoryStartIndex + categoryDisplayCount)"
+              :key="item.id"
+              @click="loadCategoryNews(item.name)"
+              class="category-item"
+              :class="{ 'category-item-active': category === item.name }"
+          >
+            {{ $t('category.' + item.name) || item.name }}
+          </div>
+
+          <!-- 右箭头按钮 -->
+          <el-button
+              icon="el-icon-arrow-right"
+              size="mini"
+              @click="nextCategory"
+              :disabled="categoryStartIndex + categoryDisplayCount >= categoryList.length"
+              style="margin-left: 8px; height: 28px; width: 28px; padding: 0;"
+          />
         </div>
+
         <div>
           <div @click="$router.push('/front/newsDetail?id=' + item.id)" class="card" v-for="item in tableData" :key="item.id" style="display: flex; cursor: pointer; grid-gap: 15px; margin-bottom: 5px">
             <img :src="item.img" alt="" style="width: 150px; height: 100px; border-radius: 5px; display: block">
@@ -82,7 +117,7 @@ export default {
       videoList: [],
 
       categoryStartIndex: 0,     // 新增：当前显示的分类起始索引
-      categoryDisplayCount: 8,   // 新增：每页显示几个分类
+      categoryDisplayCount: 10,   // 新增：每页显示几个分类
     }
   },
   mounted() {
@@ -107,7 +142,16 @@ export default {
         }
       })
     },
-
+    prevCategory() {
+      if (this.categoryStartIndex > 0) {
+        this.categoryStartIndex -= this.categoryDisplayCount;
+      }
+    },
+    nextCategory() {
+      if (this.categoryStartIndex + this.categoryDisplayCount < this.categoryList.length) {
+        this.categoryStartIndex += this.categoryDisplayCount;
+      }
+    },
     loadBanner() {
       this.$request.get('/banner/selectAll').then(res => [
           this.bannerList = res.data || []
@@ -172,5 +216,13 @@ export default {
 }
 .video-item-active {
   color: #409EFF;
+}
+.arrow-button {
+  height: 32px !important;     /* 加高按钮 */
+  width: 26px !important;      /* 收窄宽度 */
+  padding: 0 !important;       /* 去掉内边距 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
