@@ -16,9 +16,19 @@
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column prop="name" label="名称"></el-table-column>
+        <el-table-column label="一级菜单">
+          <template v-slot="scope">
+            {{ getFatherName(scope.row.category) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="category" label="二级菜单">
+          <template v-slot="scope">
+            {{ getSecName(scope.row.category) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="file" label="视频">
           <template v-slot="scope">
-            <video :src="scope.row.file" controls style="width: 300px"></video>
+            <video :src="scope.row.file" controls style="width: 200px"></video>
           </template>
         </el-table-column>
         <el-table-column prop="time" label="发布时间"></el-table-column>
@@ -131,6 +141,22 @@ export default {
     }
   },
   methods: {
+    getFatherName(category) {
+
+      const sec = this.second.find(item => String(item.id) === String(category));
+      console.log(sec)
+      const fir = this.first.find(item => String(item.id) === String(sec.father));
+
+      // 4. 返回一级菜单的 name
+      return fir.name;
+    },
+    getSecName(category) {
+
+      const sec = this.second.find(item => String(item.id) === String(category));
+      console.log(sec)
+      if (!sec) return category;  // 保险处理：找不到一级就返回原始
+      return sec.name;
+    },
     async loadDynamicMenus() {
       try {
         const res = await this.$request.get('/category/selectPage', {

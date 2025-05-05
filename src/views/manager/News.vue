@@ -17,7 +17,17 @@
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
         <el-table-column prop="descr" label="简介" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="category" label="分类"></el-table-column>
+<!--        <el-table-column prop="category" label="分类"></el-table-column>-->
+        <el-table-column label="一级菜单">
+          <template v-slot="scope">
+                        {{ getFatherName(scope.row.category) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="category" label="二级菜单">
+          <template v-slot="scope">
+            {{ getSecName(scope.row.category) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="content" label="内容" width="100">
           <template v-slot="scope">
             <el-button @click="preview(scope.row.content)">查看内容</el-button>
@@ -34,6 +44,7 @@
         <el-table-column prop="time" label="发布时间"></el-table-column>
         <el-table-column prop="readCount" label="阅读量"></el-table-column>
         <el-table-column prop="type" label="类型"></el-table-column>
+
         <el-table-column prop="userId" label="发布人ID"></el-table-column>
         <el-table-column prop="status" label="发布状态">
           <template v-slot="scope">
@@ -230,6 +241,21 @@ export default {
 
   },
   methods: {
+    getFatherName(category) {
+
+      const sec = this.second.find(item => String(item.id) === String(category));
+      const fir = this.first.find(item => String(item.id) === String(sec.father));
+
+      // 4. 返回一级菜单的 name
+      return fir.name;
+    },
+    getSecName(category) {
+
+      const sec = this.second.find(item => String(item.id) === String(category));
+      console.log(sec)
+      if (!sec) return category;  // 保险处理：找不到一级就返回原始
+      return sec.name;
+    },
     // 一级分类改变时的处理函数
     handleFirstChange() {
       // 清空二级分类的选择
