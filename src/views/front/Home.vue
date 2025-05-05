@@ -79,7 +79,10 @@ export default {
       pageSize: 10,  // 每页显示的个数
       total: 0,
       video: {},
-      videoList: []
+      videoList: [],
+
+      categoryStartIndex: 0,     // 新增：当前显示的分类起始索引
+      categoryDisplayCount: 8,   // 新增：每页显示几个分类
     }
   },
   mounted() {

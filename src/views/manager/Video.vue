@@ -112,7 +112,7 @@ export default {
 
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
-      pageSize: 10,  // 每页显示的个数
+      pageSize: 8,  // 每页显示的个数
       total: 0,
       name: null,
       fromVisible: false,
@@ -125,10 +125,9 @@ export default {
       ids: []
     }
   },
-  created() {
+  async created() {
+    await this.loadDynamicMenus() // 加这句！
     this.load(1)
-    this.loadDynamicMenus() // 加这句！
-
   },
   watch: {
     'form.first'(newVal) {

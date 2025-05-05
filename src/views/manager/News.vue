@@ -195,7 +195,7 @@ export default {
       category:null,
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
-      pageSize: 10,  // 每页显示的个数
+      pageSize: 12,  // 每页显示的个数
       total: 0,
       title: null,
       fromVisible: false,
@@ -213,7 +213,8 @@ export default {
       categoryList: [],
       first:[],
       second:[],
-      nsc:null
+      nsc:null,
+      allTableData: [],
 
     }
   },
@@ -412,8 +413,9 @@ export default {
       })
     },
 
-    load(pageNum) {  // 分页查询
+    load(pageNum) {
       if (pageNum) this.pageNum = pageNum
+
       this.$request.get('/news/selectPage', {
         params: {
           pageNum: this.pageNum,
@@ -423,17 +425,22 @@ export default {
       }).then(res => {
         if (res.code === '200') {
           let list = res.data?.list || []
-          // 仅 TEACHER 角色进行数据过滤
+
+          // 如果是教师，前端只保留自己发布的数据
           if (this.user.role === 'TEACHER') {
             list = list.filter(item => item.userId === this.user.id)
+            this.total = list.length // 教师的 total 是过滤后的数量
+          } else {
+            this.total = res.data.total // 其他角色使用接口返回的 total
           }
+
           this.tableData = list
-          this.total = list.length  // 重新设置 total
         } else {
           this.$message.error(res.msg)
         }
       })
-    },
+    }
+    ,
 
     reset() {
       this.title = null
