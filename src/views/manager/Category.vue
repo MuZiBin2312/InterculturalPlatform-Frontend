@@ -133,7 +133,9 @@
         <el-form-item label="图标" prop="icon">
           <el-input v-model="form.icon" placeholder="请输入图标类名，如 el-icon-s-home 或 fa fa-user"></el-input>
         </el-form-item>
+
         <el-form-item v-if="currentTab === 'other'" label="一级菜单" prop="father">
+
           <el-select v-model="form.father" placeholder="请选择一级菜单" style="width: 100%">
             <el-option
                 v-for="item in fatherOptions"
@@ -201,7 +203,10 @@ export default {
       this.formVisible = true
     },
     handleEdit(row, tab) {
-      this.form = { ...row }
+      this.form = {
+        ...row,
+        father: row.father ? Number(row.father) : null
+      }
       this.currentTab = tab
       this.formVisible = true
     },

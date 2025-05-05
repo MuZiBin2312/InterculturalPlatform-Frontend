@@ -244,8 +244,6 @@ export default {
   },
   methods: {
     async loadDynamicMenus() {
-
-
       // 不传 name 参数给后端，完全获取所有分类数据
       this.$request.get('/category/selectPage', {
         params: {
@@ -302,8 +300,6 @@ export default {
           }
         })
       })
-      console.log('111')
-      console.log(this.extraMenus.icon)
     }, reset() {
       this.name = null
       this.load(1)
