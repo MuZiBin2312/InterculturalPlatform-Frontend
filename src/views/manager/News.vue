@@ -69,19 +69,40 @@
       </div>
     </div>
 
-    <el-dialog title="资讯信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="文章信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="资讯标题" prop="title">
-          <el-input v-model="form.title" placeholder="资讯标题"></el-input>
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title" placeholder="标题"></el-input>
         </el-form-item>
-        <el-form-item label="资讯简介" prop="descr">
+        <el-form-item label="简介" prop="descr">
           <el-input v-model="form.descr" placeholder="资讯简介"></el-input>
         </el-form-item>
-        <el-form-item label="资讯分类" prop="category">
-          <el-select v-model="form.category" style="width: 100%">
-            <el-option v-for="item in categoryList" :key="item.id" :value="item.name"></el-option>
+        <el-form-item label="一级分类" prop="category">
+          <el-select v-model="form.first" @change="" style="width: 100%">
+            <el-option
+                v-for="item in first"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />          </el-select>
+        </el-form-item>
+
+        <el-form-item label="二级分类">
+          <el-select
+              v-model="form.category"
+              :disabled="!form.first"
+              placeholder="请选择二级分类"
+              style="width: 100%"
+          >
+            <el-option
+                v-for="item in category"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />
           </el-select>
         </el-form-item>
+
         <el-form-item label="配图" prop="img">
           <el-upload
               :action="$baseUrl + '/files/upload'"
@@ -124,13 +145,53 @@ export default {
   title: "News",
   data() {
     return {
+      extraMenus: [
+        {
+          index: "100",
+          title: this.$t('menu.extraBlock'),
+          icon: "el-icon-menu",
+          children: [
+            {
+              index: "/front/extra/one",
+              title: this.$t('menu.extraItem1'),
+              icon: "el-icon-document",
+            },
+            {
+              index: "/front/extra/two",
+              title: this.$t('menu.extraItem2'),
+              icon: "el-icon-edit",
+            }
+          ]
+        },
+        {
+          index: "100",
+          title: this.$t('menu.extraBlock'),
+          icon: "el-icon-menu",
+          children: [
+            {
+              index: "/front/extra/one",
+              title: this.$t('menu.extraItem1'),
+              icon: "el-icon-document",
+            },
+            {
+              index: "/front/extra/two",
+              title: this.$t('menu.extraItem2'),
+              icon: "el-icon-edit",
+            }
+          ]
+        }
+      ],
+      category:null,
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
       title: null,
       fromVisible: false,
-      form: {},
+      form: {
+        first: null,
+        category: null  // ❗️注意是 null，而不是 '' 字符串
+      },
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
       },
@@ -138,8 +199,26 @@ export default {
       editor: null,
       content: '',
       fromVisible1: false,
-      categoryList: []
+      categoryList: [],
+      first:[],
+      second:[],
+      nsc:null
+
     }
+  },
+  // 当一级分类变化时触发此方法
+  watch: {
+    'form.first'(newVal) {
+
+      console.log(this.form)
+      if (newVal) {
+        this.category = this.second.filter(item => String(item.father) === String(newVal));
+      } else {
+        this.category = []
+      }
+      this.$set(this.form, 'category', null);    },
+  },
+  mounted() {
   },
   created() {
     this.load(1)
@@ -147,8 +226,83 @@ export default {
     this.$request.get('/category/selectAll').then(res => {
       this.categoryList = res.data || []
     })
+    this.loadDynamicMenus() // 加这句！
+
   },
   methods: {
+    // 一级分类改变时的处理函数
+    handleFirstChange() {
+      // 清空二级分类的选择
+      this.form.category = '' // ✅ 直接清空成字符串
+
+      // this.form.category = null;
+      // 重新加载二级分类
+      this.loadSecondCategory();
+    },
+
+    // 加载二级分类
+    loadSecondCategory() {
+
+      if (this.form.first) {
+        // 根据一级分类的 index 筛选二级分类
+        this.category = this.second.filter(item => String(item.father) === String(this.form.first));
+
+      } else {
+        // 清空二级分类
+        this.category = [];
+      }
+    },
+    async loadDynamicMenus() {
+      try {
+        const res = await this.$request.get('/category/selectPage', {
+          params: { pageNum: 1, pageSize: 9999 }
+        })
+
+        if (res.code === '200') {
+          const all = res.data?.list || []
+          this.allData = all
+
+          let first = all.filter(item => item.father === null)
+          let second = all.filter(item => item.father !== null)
+
+          if (this.name) {
+            first = first.filter(item => item.name?.includes(this.name))
+            second = second.filter(item => item.name?.includes(this.name))
+          }
+
+          if (this.filterFatherId != null) {
+            second = second.filter(item => String(item.father) === String(this.filterFatherId))
+          }
+
+          this.first = first.sort((a, b) => a.id - b.id)
+          this.second = second.sort((a, b) => a.id - b.id)
+
+          this.extraMenus = this.first.map(parent => {
+            return {
+              index: String(parent.id),
+              title: parent.name,
+              icon: parent.icon,
+              children: this.second
+                  .filter(child => String(child.father) === String(parent.id))
+                  .map(child => ({
+                    index: `/front/extra/${child.id}`,
+                    title: child.name,
+                    icon: child.icon
+                  }))
+            }
+          })
+          console.log('news.vue')
+          console.log(this.extraMenus)
+        } else {
+          this.$message.error(res.msg)
+        }
+      } catch (err) {
+        console.error('加载分类失败', err)
+        this.$message.error('加载分类失败')
+      }
+    },
+
+
     changeStatus(row, status) {
       this.form = JSON.parse(JSON.stringify(row))
       this.form.status = status
@@ -258,6 +412,9 @@ export default {
     reset() {
       this.title = null
       this.load(1)
+      this.name = null
+      this.filterFatherId = null
+      this.loadDynamicMenus()
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)

@@ -162,6 +162,7 @@ export default {
   name: "Category",
   data() {
     return {
+      filterFatherId:null,
       currentTab: 'category', // 用于控制弹窗显示
       activeTab: 'category',
       fatherOptions: [],

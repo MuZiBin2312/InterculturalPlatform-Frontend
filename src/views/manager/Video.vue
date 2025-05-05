@@ -49,6 +49,31 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" placeholder="名称"></el-input>
         </el-form-item>
+        <el-form-item label="一级分类" prop="category">
+          <el-select v-model="form.first" @change="" style="width: 100%">
+            <el-option
+                v-for="item in first"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />          </el-select>
+        </el-form-item>
+
+        <el-form-item label="二级分类">
+          <el-select
+              v-model="form.category"
+              :disabled="!form.first"
+              placeholder="请选择二级分类"
+              style="width: 100%"
+          >
+            <el-option
+                v-for="item in category"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="视频" prop="file">
           <el-upload
               :action="$baseUrl + '/files/upload'"
@@ -73,13 +98,17 @@ export default {
   name: "Video",
   data() {
     return {
+      category:null,
+
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
       name: null,
       fromVisible: false,
-      form: {},
+      form: {
+        category: null
+      },
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
       },
@@ -88,36 +117,141 @@ export default {
   },
   created() {
     this.load(1)
+    this.loadDynamicMenus() // 加这句！
+
+  },
+  watch: {
+    'form.first'(newVal) {
+      if (newVal) {
+        this.category = this.second.filter(item => String(item.father) === String(newVal));
+      } else {
+        this.category = [];
+      }
+      this.$set(this.form, 'category', null);  // 每次切换一级分类时清空二级分类
+    }
   },
   methods: {
+    async loadDynamicMenus() {
+      try {
+        const res = await this.$request.get('/category/selectPage', {
+          params: { pageNum: 1, pageSize: 9999 }
+        })
+
+        if (res.code === '200') {
+          const all = res.data?.list || []
+          this.allData = all
+
+          let first = all.filter(item => item.father === null)
+          let second = all.filter(item => item.father !== null)
+
+          if (this.name) {
+            first = first.filter(item => item.name?.includes(this.name))
+            second = second.filter(item => item.name?.includes(this.name))
+          }
+
+          if (this.filterFatherId != null) {
+            second = second.filter(item => String(item.father) === String(this.filterFatherId))
+          }
+
+          this.first = first.sort((a, b) => a.id - b.id)
+          this.second = second.sort((a, b) => a.id - b.id)
+
+          this.extraMenus = this.first.map(parent => {
+            return {
+              index: String(parent.id),
+              title: parent.name,
+              icon: parent.icon,
+              children: this.second
+                  .filter(child => String(child.father) === String(parent.id))
+                  .map(child => ({
+                    index: `/front/extra/${child.id}`,
+                    title: child.name,
+                    icon: child.icon
+                  }))
+            }
+          })
+          console.log('news.vue')
+
+        } else {
+          this.$message.error(res.msg)
+        }
+      } catch (err) {
+        console.error('加载分类失败', err)
+        this.$message.error('加载分类失败')
+      }
+    },
+
+
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
     },
-    handleEdit(row) {   // 编辑数据
-      this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
-      this.fromVisible = true   // 打开弹窗
+    handleEdit(row) {
+      // 拷贝 row，防止直接修改原始数据
+      this.form = JSON.parse(JSON.stringify(row));
+
+      // 根据二级分类的 id 找到分类对象
+      const categoryItem = this.second.find(item => String(item.id) === String(row.category));
+
+      if (categoryItem) {
+        const firstId = categoryItem.father;
+
+        // 1. 根据 father ID 找一级分类对象
+        const firstItem = this.first.find(item => String(item.id) === String(firstId));
+
+        // 2. 设置二级分类下拉选项
+        this.category = this.second.filter(item => String(item.father) === String(firstId));
+
+        // 3. 设置表单中的分类名称
+        this.$set(this.form, 'first', firstItem ? firstItem.name : null); // 设置一级分类为 name
+        this.$nextTick(() => {
+          this.$set(this.form, 'category', categoryItem.name); // 设置二级分类为 name
+        });
+      } else {
+        // 如果没找到，清空相关字段
+        this.$set(this.form, 'first', null);
+        this.category = [];
+        this.$set(this.form, 'category', null);
+      }
+
+      this.fromVisible = true;
     },
-    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+    save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.$message.success(this.user.id)
           this.form.userId = this.user.id
+
+          // 把 first（name）转成 id
+          const firstItem = this.first.find(item => item.name === this.form.first);
+          const firstId = firstItem ? firstItem.id : this.form.first;
+
+          // 把 category（name）转成 id
+          const categoryItem = this.second.find(item => item.name === this.form.category);
+          const categoryId = categoryItem ? categoryItem.id : this.form.category;
+
+          // 复制一份 form 并替换 first、category 字段
+          const submitForm = {
+            ...this.form,
+            first: firstId,
+            category: categoryId
+          };
+
           this.$request({
             url: this.form.id ? '/video/update' : '/video/add',
             method: this.form.id ? 'PUT' : 'POST',
-            data: this.form
+            data: submitForm
           }).then(res => {
-            if (res.code === '200') {  // 表示成功保存
-              this.$message.success('保存成功')
-              this.load(1)
-              this.fromVisible = false
+            if (res.code === '200') {
+              this.$message.success('保存成功');
+              this.load(1);
+              this.fromVisible = false;
             } else {
-              this.$message.error(res.msg)  // 弹出错误的信息
+              this.$message.error(res.msg);
             }
-          })
+          });
         }
-      })
+      });
     },
     del(id) {   // 单个删除
       this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {

@@ -102,23 +102,7 @@
 <!--        </el-menu-item>-->
 <!--      </el-submenu>-->
 
-      <!-- 5. 跨文化交流 -->
-<!--      <el-submenu index="5">-->
-<!--        <template slot="title">-->
-<!--          <i class="el-icon-connection"></i>-->
-<!--          <span>{{ $t('menu.interculturalExchange') }}</span>-->
-<!--        </template>-->
-<!--        <el-menu-item index="/front/interculture/cases">-->
-<!--          <i class="el-icon-document-copy"></i>-->
-<!--          <span slot="title" class="scroll-title">-->
-<!--            <span>{{ $t('menu.classicCases') }}</span>-->
-<!--          </span>-->
-<!--        </el-menu-item>-->
-<!--        <el-menu-item index="/front/interculture/forum">-->
-<!--          <i class="el-icon-chat-line-round"></i>-->
-<!--          {{ $t('menu.cultureForumAI') }}-->
-<!--        </el-menu-item>-->
-<!--      </el-submenu>-->
+
       <!-- ✅ 新增：动态拓展菜单 -->
       <el-submenu
           v-for="(menu, idx) in extraMenus"
@@ -139,6 +123,23 @@
         </el-menu-item>
       </el-submenu>
 
+      <!-- 5. 跨文化交流 -->
+      <el-submenu index="9999999999999998">
+        <template slot="title">
+          <i class="el-icon-connection"></i>
+          <span>{{ $t('menu.interculturalExchange') }}</span>
+        </template>
+        <el-menu-item index="/front/interculture/cases">
+          <i class="el-icon-document-copy"></i>
+          <span slot="title" class="scroll-title">
+            <span>{{ $t('menu.classicCases') }}</span>
+          </span>
+        </el-menu-item>
+        <el-menu-item index="/front/interculture/forum">
+          <i class="el-icon-chat-line-round"></i>
+          {{ $t('menu.cultureForumAI') }}
+        </el-menu-item>
+      </el-submenu>
       <!-- 6. AI赋能 -->
       <el-submenu index="9999999999999999">
         <template slot="title">
@@ -168,6 +169,21 @@
           {{ $t('menu.uploadVideos') }}
         </el-menu-item>
       </el-submenu>
+<!--      公告与反馈-->
+            <el-submenu index="3">
+              <template slot="title">
+                <i class="el-icon-warning-outline"></i>
+                <span>公告与反馈</span>
+              </template>
+              <el-menu-item index="/front/Notice">
+                <i class="el-icon-bell"></i>
+                平台公告
+              </el-menu-item>
+              <el-menu-item index="/front/Feedback">
+                <i class="el-icon-chat-dot-square"></i>
+                建议反馈
+              </el-menu-item>
+            </el-submenu>
 
 
     </el-menu>
@@ -263,7 +279,7 @@ export default {
               )
             }
             this.first = first
-          console.log(this.first)
+          // console.log(this.first)
             // 二级分类：father 不为 null
             let second = all.filter(item => item.father !== null)
             if (this.name) {
@@ -277,7 +293,7 @@ export default {
               )
             }
             this.second = second
-          console.log(this.second)
+          // console.log(this.second)
         } else {
           this.$message.error(res.msg)
         }
@@ -293,7 +309,7 @@ export default {
             children: this.second
                 .filter(child => String(child.father) === String(parent.id))
                 .map(child => ({
-                  index: `/front/extra/${child.id}`,
+                  index: `${child.id}`,
                   title: child.name,
                   icon: child.icon
                 }))
