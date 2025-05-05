@@ -126,6 +126,7 @@ export default {
       ids: []
     }
   },
+
   async created() {
     await this.loadDynamicMenus() // 加这句！
     this.load(1)
