@@ -17,6 +17,13 @@
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
         <el-table-column prop="content" label="内容" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="category" label="分类" width="120" align="center">
+          <template v-slot="scope">
+    <span>
+      {{ getCategoryLabel(scope.row.category) }}
+    </span>
+          </template>
+        </el-table-column>
         <el-table-column prop="time" label="创建时间"></el-table-column>
         <el-table-column prop="user" label="创建人"></el-table-column>
 
@@ -43,13 +50,28 @@
 
 
     <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
+        <el-form-item prop="category" label="分类">
+          <el-select v-model="form.category" placeholder="请选择分类" style="width: 100%">
+            <el-option label="平台公告" :value="1" />
+            <el-option label="普通问卷" :value="2" />
+            <el-option label="自我评估问卷" :value="3" />
+          </el-select>
+        </el-form-item>
         <el-form-item prop="title" label="标题">
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="content" label="内容">
           <el-input type="textarea" :rows="5" v-model="form.content" autocomplete="off"></el-input>
         </el-form-item>
+        <el-table-column prop="category" label="分类" width="120" align="center">
+          <template v-slot="scope">
+    <span>
+      {{ getCategoryLabel(scope.row.category) }}
+    </span>
+          </template>
+        </el-table-column>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="fromVisible = false">取 消</el-button>
@@ -75,6 +97,9 @@ export default {
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
+        category: [
+          { required: true, message: '请选择分类', trigger: 'change' }
+        ],
         title: [
           {required: true, message: '请输入标题', trigger: 'blur'},
         ],
@@ -89,6 +114,14 @@ export default {
     this.load(1)
   },
   methods: {
+    getCategoryLabel(val) {
+      switch (val) {
+        case 1: return '平台公告'
+        case 2: return '普通问卷'
+        case 3: return '自我评估问卷'
+        default: return '未知'
+      }
+    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗

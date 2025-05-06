@@ -53,6 +53,9 @@
                 <div @click="$router.push('/front/userAnswer')">{{ $t('user.myAnswer') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
+                <div @click="goToSelfEvaluation">自我评估</div>
+              </el-dropdown-item>
+              <el-dropdown-item>
                 <div @click="$router.push('/front/userFeedback')">{{ $t('user.myFeedback') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
@@ -116,6 +119,24 @@ export default {
 
   },
   methods: {
+    goToSelfEvaluation() {
+      this.$request.get('/notice/selectPage').then(res => {
+        const list = res.data.list || []
+        // 过滤出 category 为 3 的问卷并按时间排序（假设有 time 字段）
+        const selfEvalList = list.filter(item => item.category === 3)
+        if (selfEvalList.length > 0) {
+          // 取最新一条（假设列表已经按时间倒序排好，或者你手动排一下）
+          const latest = selfEvalList[0]
+          if (latest.content) {
+            window.open(latest.content, '_blank')
+          } else {
+            this.$message.warning("自我评估问卷缺少链接")
+          }
+        } else {
+          this.$message.warning("暂无自我评估问卷")
+        }
+      })
+    },
     changeLanguage(value) {
       this.$i18n.locale = value
       localStorage.setItem('locale', value)
