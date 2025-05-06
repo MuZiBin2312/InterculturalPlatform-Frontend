@@ -8,6 +8,7 @@
                         :timestamp="item.time"
                         placement="top"
                         class="no-marker"      >
+
         <el-card>
           <template v-if="item.category === 1">
             <h3 style="margin-bottom: 10px; font-weight: bold">{{ item.title }}</h3>
