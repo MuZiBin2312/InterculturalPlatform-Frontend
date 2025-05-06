@@ -43,10 +43,16 @@
         </el-table-column>
         <el-table-column prop="time" label="发布时间"></el-table-column>
         <el-table-column prop="readCount" label="阅读量"></el-table-column>
-        <el-table-column prop="type" label="类型"></el-table-column>
-
-        <el-table-column prop="userId" label="发布人ID"></el-table-column>
-        <el-table-column prop="status" label="发布状态">
+        <el-table-column
+            prop="type"
+            label="展示位置"
+            :formatter="typeFormatter">
+        </el-table-column>
+        <el-table-column
+            prop="userId"
+            label="发布人"
+            :formatter="formatUser">
+        </el-table-column>        <el-table-column prop="status" label="发布状态">
           <template v-slot="scope">
             <el-tag type="info" v-if="scope.row.status === '待审核'">待审核</el-tag>
             <el-tag type="success" v-if="scope.row.status === '通过'">通过</el-tag>
@@ -242,6 +248,17 @@ export default {
 
   },
   methods: {
+    formatUser(row) {
+      return row.userId ? row.userId : '管理员';
+    },
+    typeFormatter(row) {
+      // 假设 type 为 1 就显示 '一'，其他照样返回
+      const map = {
+        'common': '首页',
+        'local': '栏目',// 可继续添加
+      }
+      return map[row.type] || row.type;
+    },
     getFatherName(category) {
 
       const sec = this.second.find(item => String(item.id) === String(category));
