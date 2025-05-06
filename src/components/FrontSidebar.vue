@@ -135,7 +135,7 @@
             <span>{{ $t('menu.classicCases') }}</span>
           </span>
         </el-menu-item>
-        <el-menu-item index="/front/interculture/forum">
+        <el-menu-item index="/front/question">
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.cultureForumAI') }}
         </el-menu-item>
