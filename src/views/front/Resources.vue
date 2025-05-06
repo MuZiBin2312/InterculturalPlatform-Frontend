@@ -72,12 +72,6 @@
 <script>
 export default {
   name: "ResourcePage",
-  props: {
-    category: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       title: null,
@@ -86,18 +80,25 @@ export default {
       total: 0,
       pageNum: 1,
       pageSize: 9,
-      rawData: [] // 接口返回的原始数据，用于前端过滤
+      rawData: [],
+      categoryId: null, // ✅ 新增：用于存储 query 中的 category id
     };
   },
   watch: {
-    category() {
-      this.load(1); // 目录分类变动时重新加载
+    // 监听路由参数变化
+    '$route.query.id'(newId) {
+      if (newId) {
+        this.categoryId = newId;
+        this.load(1); // 路由参数变化时，重新加载数据
+      }
     },
     type() {
       this.load(1); // 资源类型变动时重新加载
     }
   },
   created() {
+    // ✅ 改动点：读取 query 参数 name，作为分类 ID 使用
+    this.categoryId = this.$route.query.id;
     this.load(1);
   },
   methods: {
@@ -105,7 +106,8 @@ export default {
       this.pageNum = pageNum;
 
       const params = {
-        title: this.title
+        title: this.title,
+        categoryId: this.categoryId,
       };
 
       let api = this.type === 'video' ? '/video/selectPage' : '/news/selectLocalPage';
@@ -117,14 +119,19 @@ export default {
 
       this.$request.get(api, { params }).then(res => {
         if (res.code === '200') {
-          this.rawData = res.data.list; // 拿到全部数据
+          let allData = res.data.list;
 
-          this.total = this.rawData.length; // 设置总条数
+          // ✅ 改动点：按分类过滤数据（假设每项都有 category 字段）
+          if (this.categoryId) {
+            allData = allData.filter(item => item.category === this.categoryId);
+          }
 
-          // 执行前端分页
+          this.rawData = allData;
+          this.total = allData.length;
+
           const start = (this.pageNum - 1) * this.pageSize;
           const end = start + this.pageSize;
-          this.tableData = this.rawData.slice(start, end);
+          this.tableData = allData.slice(start, end);
         } else {
           this.$message.error(res.msg);
         }

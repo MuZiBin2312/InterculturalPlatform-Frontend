@@ -309,7 +309,7 @@ export default {
             children: this.second
                 .filter(child => String(child.father) === String(parent.id))
                 .map(child => ({
-                  index: `${child.id}`,
+                  index: `/front/resources?id=${child.id}`,  // ✅ 路由跳转加 id
                   title: child.name,
                   icon: child.icon
                 }))
