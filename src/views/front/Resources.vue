@@ -110,7 +110,7 @@ export default {
         categoryId: this.categoryId,
       };
 
-      let api = this.type === 'video' ? '/video/selectPage' : '/news/selectLocalPage';
+      let api = this.type === 'video' ? '/video/selectPage' : '/news/selectAllPage';
 
       if (this.type === 'video') {
         params.name = this.title;
