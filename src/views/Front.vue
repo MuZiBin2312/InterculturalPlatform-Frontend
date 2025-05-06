@@ -101,8 +101,6 @@ export default {
         { text: 'menu.home', path: '/front/home' },
         { text: 'menu.Q&A', path: '/front/question' },
         { text: 'menu.hotspots', path: '/front/localNews' },
-        { text: 'menu.resources', path: '/front/resources' },
-        { text: 'menu.videos', path: '/front/video' },
         { text: 'menu.feedback', path: '/front/feedback' },
         { text: 'menu.notice', path: '/front/notice' },
       ],

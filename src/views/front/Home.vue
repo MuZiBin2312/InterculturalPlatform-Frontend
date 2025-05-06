@@ -14,38 +14,39 @@
           <el-button
               icon="el-icon-arrow-left"
               size="mini"
+              class="arrow-button"
               @click="prevCategory"
               :disabled="categoryStartIndex === 0"
-              style="margin-right: 8px; height: 28px; width: 28px; padding: 0;"
           />
 
           <!-- 全部按钮 -->
           <div
               @click="loadCategoryNews(null)"
               class="category-item"
-              :class="{ 'category-item-active': category === null }"
+              :class="{ 'category-item-active': category === null }" style ="margin-left : 10px"
           >
-            {{ $t('category.全部') }}
+            {{ $t('menu.全部') }}
           </div>
 
           <!-- 滑动窗口显示分类 -->
           <div
-              v-for="(item, index) in categoryList.slice(categoryStartIndex, categoryStartIndex + categoryDisplayCount)"
+              v-for="(item, index) in filteredCategoryList.slice(categoryStartIndex, categoryStartIndex + categoryDisplayCount)"
+              v-if="item?.father"
               :key="item.id"
               @click="loadCategoryNews(item.name)"
               class="category-item"
-              :class="{ 'category-item-active': category === item.name }"
+              :class="{ 'category-item-active': category === item.name}"
           >
-            {{ $t('category.' + item.name) || item.name }}
+            {{ $t('menu.' + item.name) || item.name }}
           </div>
 
           <!-- 右箭头按钮 -->
           <el-button
               icon="el-icon-arrow-right"
               size="mini"
+              class="arrow-button"
               @click="nextCategory"
               :disabled="categoryStartIndex + categoryDisplayCount >= categoryList.length"
-              style="margin-left: 8px; height: 28px; width: 28px; padding: 0;"
           />
         </div>
 
@@ -111,13 +112,19 @@ export default {
       category: null,
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
-      pageSize: 10,  // 每页显示的个数
+      pageSize: 4,  // 每页显示的个数
       total: 0,
       video: {},
       videoList: [],
 
       categoryStartIndex: 0,     // 新增：当前显示的分类起始索引
-      categoryDisplayCount: 10,   // 新增：每页显示几个分类
+      categoryDisplayCount: 9,   // 新增：每页显示几个分类
+    }
+  },
+  computed: {
+    filteredCategoryList() {
+      // 只返回父分类不为空的项
+      return this.categoryList.filter(item => item.father)
     }
   },
   mounted() {
@@ -192,12 +199,21 @@ export default {
 
 <style scoped>
 .category-item {
+  max-width: 160px;          /* 设置最大宽度 */
+  height: 42px;              /* 固定高度，适中视觉 */
+  white-space: nowrap;       /* 防止换行 */
+  overflow: hidden;          /* 超出隐藏 */
+  text-overflow: ellipsis;   /* 超出显示省略号 */
+  display: flex;             /* 用 flex 垂直/水平居中 */
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
   border: 1px solid #2a60c9;
   color: #2a60c9;
-  padding: 5px 10px;
   border-radius: 5px;
   margin-right: 10px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .category-item-active {
   background-color: #2a60c9;
@@ -218,11 +234,12 @@ export default {
   color: #409EFF;
 }
 .arrow-button {
-  height: 32px !important;     /* 加高按钮 */
-  width: 26px !important;      /* 收窄宽度 */
-  padding: 0 !important;       /* 去掉内边距 */
+  width: 26px;
+  height: 32px;
+  padding: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  font-size: 16px;
 }
 </style>

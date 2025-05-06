@@ -23,7 +23,7 @@
       >
         <template slot="title">
             <i :class="menu.icon" ></i>
-          <span>{{ menu.title }}</span>
+          <span>{{ $t(menu.title) }}</span>
         </template>
         <el-menu-item
             v-for="(child, i) in menu.children"
@@ -31,7 +31,7 @@
             :index="child.index"
         >
           <i :class="child.icon" ></i>
-          {{ child.title }}
+          {{ $t(child.title) }}
         </el-menu-item>
       </el-submenu>
 
@@ -85,15 +85,15 @@
             <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-warning-outline"></i>
-                <span>公告与反馈</span>
+                <span>{{ $t('menu.announcementAndFeedback') }}</span>
               </template>
               <el-menu-item index="/front/Notice">
                 <i class="el-icon-bell"></i>
-                平台公告
+                {{ $t('menu.announcements') }}
               </el-menu-item>
               <el-menu-item index="/front/Feedback">
                 <i class="el-icon-chat-dot-square"></i>
-                建议反馈
+                {{ $t('menu.feedback') }}
               </el-menu-item>
             </el-submenu>
 
@@ -216,13 +216,13 @@ export default {
         this.extraMenus = this.first.map(parent => {
           return {
             index: String(parent.id),
-            title: parent.name,
+            title: `menu.${parent.name}`,
             icon: parent.icon,
             children: this.second
                 .filter(child => String(child.father) === String(parent.id))
                 .map(child => ({
                   index: `/front/resources?id=${child.id}`,  // ✅ 路由跳转加 id
-                  title: child.name,
+                  title: `menu.${child.name}`,
                   icon: child.icon
                 }))
           }

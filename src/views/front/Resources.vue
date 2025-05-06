@@ -24,7 +24,7 @@
               class="item"
               @click.native="$router.push('/front/newsDetail?id=' + item.id)"
           >
-            <img :src="item.img" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;" />
+            <img :src="item.img" alt="" style="width: 100%; height: 360px; object-fit: cover; border-radius: 5px;" />
             <div class="line1" style="margin: 10px 0; font-size: 18px;">{{ item.title }}</div>
             <div style="color: #666;">
               <span style="margin-right: 20px;"><i class="el-icon-eye"></i> {{ item.readCount }}</span>
@@ -79,7 +79,7 @@ export default {
       tableData: [],
       total: 0,
       pageNum: 1,
-      pageSize: 9,
+      pageSize: 6,
       rawData: [],
       categoryId: null, // ✅ 新增：用于存储 query 中的 category id
     };
