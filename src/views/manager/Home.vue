@@ -232,15 +232,24 @@ export default {
       const times = data.hours || [];  // 获取时间数据
       const clickCounts = data.newsClickData.map(item => item.value);  // 获取新闻点击量
 
+      // 格式化时间为 "几日几时" 形式
+      const formattedTimes = times.map(time => {
+        const [date, hour] = time.split(' '); // 分离日期和小时
+        const day = date.split('-')[2]; // 获取日期中的日
+        return `${day}日 ${hour}时`; // 返回格式化后的字符串
+      });
+
       // 更新散点图的数据
-      pointOption.xAxis.data = times;  // 横轴是时间
-      pointOption.series[0].data = clickCounts.map((count, index) => [times[index], count]);  // 散点图的数据，时间和点击量配对
+      pointOption.xAxis.data = formattedTimes;  // 横轴是时间
+      pointOption.series[0].data = clickCounts.map((count, index) => [formattedTimes[index], count]);  // 散点图的数据，时间和点击量配对
 
       // 初始化并渲染散点图
       const pointDom = document.getElementById('point');
       const pointChart = echarts.init(pointDom);
       pointChart.setOption(pointOption);
-    });    let bar1Dom = document.getElementById('bar1');
+    });
+
+    let bar1Dom = document.getElementById('bar1');
     let barOne = echarts.init(bar1Dom);
     this.$request.get('/selectTopReads').then(res => {
       const data = res.data || {};
@@ -386,6 +395,8 @@ export default {
 
       trendChart.setOption(trendOption)
     })
+    window.addEventListener('resize', chart.resize)
+
   },
   created() {
     this.$request.get('/count').then(res => {
