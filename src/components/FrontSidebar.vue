@@ -41,13 +41,13 @@
           <i class="el-icon-connection"></i>
           <span>{{ $t('menu.interculturalExchange') }}</span>
         </template>
-        <el-menu-item index="/front/interculture/cases">
+        <el-menu-item index="/front/question?category=1">
           <i class="el-icon-document-copy"></i>
           <span slot="title" class="scroll-title">
             <span>{{ $t('menu.classicCases') }}</span>
           </span>
         </el-menu-item>
-        <el-menu-item index="/front/question">
+        <el-menu-item index="/front/question?category=2">
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.cultureForumAI') }}
         </el-menu-item>

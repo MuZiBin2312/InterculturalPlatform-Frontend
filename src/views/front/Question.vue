@@ -57,16 +57,29 @@ export default {
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
-      noAnswerList: []
+      noAnswerList: [],
+      category: null
     }
   },
   created() {
     this.load(1)
     this.loadNoAnswer()
   },
+  watch: {
+    '$route.query.category': {
+      immediate: true,
+      handler(newCategory) {
+        console.log('切换 ID:', newCategory)
+        this.category = newCategory  // 根据新的 id 加载数据
+        this.load(1)
+      }
+    }
+  },
   methods: {
     loadNoAnswer() {
-      this.$request.get('/question/selectNoAnswer').then(res => {
+      this.$request.get('/question/selectNoAnswer', {
+        params: { category: this.category }
+      }).then(res => {
         this.noAnswerList = res.data || []
       })
     },
@@ -76,6 +89,7 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          category: this.category  // ✅ 添加分类参数
         }
       }).then(res => {
         if (res.code === '200') {

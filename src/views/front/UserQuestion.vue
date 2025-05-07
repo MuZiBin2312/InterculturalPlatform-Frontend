@@ -53,6 +53,19 @@
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" placeholder="标题"></el-input>
         </el-form-item>
+        <el-form-item label="问题类型" prop="category">
+          <el-select v-model="form.category" placeholder="请选择问题类型">
+            <el-option
+                label="提问讨论"
+                :value="2">
+            </el-option>
+            <el-option
+                label="案例讨论"
+                :value="1"
+                v-if="user.role === 'TEACHER'">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="描述" prop="descr">
           <el-input type="textarea" v-model="form.descr" placeholder="描述"></el-input>
         </el-form-item>
@@ -113,7 +126,9 @@ export default {
       }).catch(e => {})
     },
     handleAdd() {   // 新增数据
-      this.form = {}  // 新增数据的时候清空数据
+      this.form = {
+        category: 2
+      }  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
     },
     handleEdit(row) {   // 编辑数据

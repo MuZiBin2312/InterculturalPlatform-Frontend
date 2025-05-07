@@ -13,7 +13,7 @@
     </div>
 
     <div class="card">
-      <div style="font-size: 24px; margin-bottom: 20px">回答列表 {{ total }}</div>
+      <div style="font-size: 24px; margin-bottom: 20px">讨论列表 {{ total }}</div>
       <div>
         <div v-for="item in answerList" :key="item.id" style="display: flex; grid-gap: 10px; padding-bottom: 20px; border-bottom: 1px solid #ddd; margin-bottom: 20px">
           <div style="color: #666; padding-top: 20px; width: 60px; cursor: pointer">
