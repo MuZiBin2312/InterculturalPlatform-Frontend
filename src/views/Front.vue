@@ -1,24 +1,26 @@
 <template>
   <div style="background-color: #f8f8f8">
-    <div>
-      <iframe scrolling="no" src="https://widget.tianqiapi.com/?style=tg&skin=pitaya" frameborder="0" width="470" height="40" allowtransparency="true"></iframe>
-    </div>
+
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
         <img src="@/assets/imgs/logo_1.png" alt="">
         <div class="title">{{ $t('project.projectName') }}</div>
       </div>
-      <div class="front-header-center">
-        <div style="display: flex">
-          <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"
-               v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ $t(item.text) }}</div>
+      <div class="front-header-center" style="margin-top: 0.6vw">
+<!--        <div style="display: flex">-->
+
+<!--          <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"-->
+<!--               v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ $t(item.text) }}</div>-->
+<!--        </div>-->
+        <div>
+          <iframe scrolling="no" src="https://widget.tianqiapi.com/?style=tg&skin=pitaya" frameborder="0" width="470" height="40" allowtransparency="true"></iframe>
         </div>
       </div>
 
       <div style="width: 300px">
         <el-input v-model="title" prefix-icon="el-icon-search" size="medium" :placeholder="$t('text.searchBar')" style="width: 220px; margin-right: 5px"></el-input>
-        <el-button size="medium" @click="search">{{ $t('button.search') }}</el-button>
+        <el-button size="medium" @click="search" >{{ $t('button.search') }}</el-button>
       </div>
       <el-select v-model="currentLocale" size="medium" @change="changeLanguage" style="width: 120px; margin-left: 10px">
         <el-option
@@ -101,13 +103,13 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
-      menus: [
-        { text: 'menu.home', path: '/front/home' },
-        { text: 'menu.Q&A', path: '/front/question' },
-        { text: 'menu.hotspots', path: '/front/localNews' },
-        { text: 'menu.feedback', path: '/front/feedback' },
-        { text: 'menu.notice', path: '/front/notice' },
-      ],
+      // menus: [
+      //   { text: 'menu.home', path: '/front/home' },
+      //   { text: 'menu.Q&A', path: '/front/question' },
+      //   { text: 'menu.hotspots', path: '/front/localNews' },
+      //   { text: 'menu.feedback', path: '/front/feedback' },
+      //   { text: 'menu.notice', path: '/front/notice' },
+      // ],
       languageOptions: [
         { label: '中文', value: 'zh' },
         { label: 'English', value: 'en' }
