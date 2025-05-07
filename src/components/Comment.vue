@@ -119,6 +119,7 @@ export default {
         console.log(res.data.list);
         this.commentList = res.data?.list || []
         this.total = res.data?.total || 0
+        console.log(this.commentList)
       })
 
       this.$request.get('/comment/selectCount/' + this.fid + '/' + this.module).then(res => {
