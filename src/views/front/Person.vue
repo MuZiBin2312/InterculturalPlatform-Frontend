@@ -1,6 +1,7 @@
 <template>
   <div class="main-content">
     <el-card style="width: 50%; margin: 30px auto">
+      <span v-if="user.role === 'TEACHER'" style="margin-left: 8px; margin-right: 10px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
       <div style="text-align: right; margin-bottom: 20px">
         <el-button type="primary" @click="updatePassword">修改密码</el-button>
       </div>
@@ -16,6 +17,11 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
+
+<!--        <div style="margin-bottom: 10px; color: #666">-->
+<!--          <span v-if="user.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>-->
+<!--        </div>-->
+
         <el-form-item label="用户名" prop="username">
           <el-input v-model="user.username" placeholder="用户名" disabled></el-input>
         </el-form-item>

@@ -3,9 +3,11 @@
     "projectName": "Inter Cultural Plat"
   },
   "user": {
+    "myPublish": "My Article",
     "myQuestion": "Questions",
     "myAnswer": "Answers",
     "myFeedback": "Feedback",
+    "self-assessment": "Self-assessment",
     "profile": "Profile",
     "logout": "Log out"
   },
@@ -46,9 +48,11 @@
     "aiEmpowerment": "AI Empowerment",
     "aiAgent": "Inter-cultural Assistant",
 
-    "upload": "Upload",
-    "uploadNews": "Upload a Article",
+    "upload": "Upload & Post",
+    "uploadNews": "Upload an Article",
     "uploadVideos": "Upload a Video",
+
+    "uploadNotice": "Post an Announcement",
 
     "announcementAndFeedback": "Announcement & Feedback",
     "announcements": "Announcements",

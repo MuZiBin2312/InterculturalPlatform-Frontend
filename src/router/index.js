@@ -57,6 +57,7 @@ const routes = [
       { path: 'resourceDetail', name: 'ResourceDetail', component: () => import('../views/front/ResourceDetail.vue') },
       { path: 'uploadNews', name: 'UploadNews', component: () => import('../views/manager/News') },
       { path: 'uploadVideo', name: 'UploadVideo', component: () => import('../views/manager/Video') },
+      { path: 'uploadNotice', name: 'UploadNotice', component: () => import('../views/manager/Notice') },
       { path: 'ai', name: 'Ai', component: () => import('../views/front/Ai') },
     ]
   },

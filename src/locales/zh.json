@@ -7,6 +7,7 @@
     "myQuestion": "我的问题",
     "myAnswer": "我的回答",
     "myFeedback": "我的反馈",
+    "self-assessment": "自我评估",
     "profile": "个人信息",
     "logout": "退出登录"
   },
@@ -49,6 +50,8 @@
     "upload": "上传",
     "uploadNews": "发布资讯",
     "uploadVideos": "发布视频",
+
+    "uploadNotice": "问卷与公告",
 
     "announcementAndFeedback": "公告与反馈",
     "announcements": "平台公告",

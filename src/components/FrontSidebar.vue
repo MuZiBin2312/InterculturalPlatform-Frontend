@@ -80,6 +80,10 @@
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.uploadVideos') }}
         </el-menu-item>
+        <el-menu-item index="/front/uploadNotice">
+          <i class="el-icon-chat-line-round"></i>
+          {{ $t('menu.uploadNotice') }}
+        </el-menu-item>
       </el-submenu>
 <!--      公告与反馈-->
             <el-submenu index="3">

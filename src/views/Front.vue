@@ -57,7 +57,7 @@
                 <div @click="$router.push('/front/userFeedback')">{{ $t('user.myFeedback') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
-                <div @click="goToSelfEvaluation">自我评估</div>
+                <div @click="goToSelfEvaluation">{{ $t('user.self-assessment') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
                 <div @click="$router.push('/front/person')">{{ $t('user.profile') }}</div>

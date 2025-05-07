@@ -118,7 +118,7 @@ export default {
       videoList: [],
 
       categoryStartIndex: 0,     // 新增：当前显示的分类起始索引
-      categoryDisplayCount: 9,   // 新增：每页显示几个分类
+      categoryDisplayCount: 10,   // 新增：每页显示几个分类
     }
   },
   computed: {

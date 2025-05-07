@@ -12,7 +12,10 @@
         <div style="display: flex; margin-bottom: 20px">
           <img :src="item.avatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
           <div style="padding-left: 15px; flex: 1">
-            <div style="margin-bottom: 10px; color: #666">{{ item.userName }}</div>
+            <div style="margin-bottom: 10px; color: #666">
+              {{ item.userName }}
+              <span v-if="item.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
+            </div>
             <div style="margin-bottom: 5px">{{ item.content }}</div>
             <div style="color: #666; font-size: 13px; margin-bottom: 5px">
               <span>{{ item.time }}</span>
@@ -31,7 +34,11 @@
           <div v-for="sub in item.children" style="display: flex; margin-bottom: 20px">
             <img :src="sub.avatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
             <div style="padding-left: 15px; flex: 1">
-              <div style="margin-bottom: 10px; color: #666">{{ sub.userName }} <span v-if="sub.parentUserName !== item.userName">回复：{{ sub.parentUserName }}</span></div>
+              <div style="margin-bottom: 10px; color: #666">
+                {{ sub.userName }}
+                <span v-if="sub.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: #f56c6c; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
+                <span v-if="sub.parentUserName !== item.userName">回复：{{ sub.parentUserName }}</span>
+              </div>
               <div style="margin-bottom: 5px">{{ sub.content }}</div>
               <div style="color: #666; font-size: 13px; margin-bottom: 5px">
                 <span>{{ sub.time }}</span>
@@ -109,6 +116,7 @@ export default {
           pageSize: this.pageSize,
         }
       }).then(res => {
+        console.log(res.data.list);
         this.commentList = res.data?.list || []
         this.total = res.data?.total || 0
       })
