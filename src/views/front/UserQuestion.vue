@@ -56,7 +56,7 @@
         <el-form-item label="问题类型" prop="category">
           <el-select v-model="form.category" placeholder="请选择问题类型">
             <el-option
-                label="提问讨论"
+                label="文化讨论"
                 :value="2">
             </el-option>
             <el-option

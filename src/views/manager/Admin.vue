@@ -27,7 +27,12 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column label="角色">
+          <template v-slot="scope">
+            <span v-if="scope.row.role === 'ADMIN'">管理员</span>
+            <span v-else>{{ scope.row.role }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
             <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>

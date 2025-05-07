@@ -45,10 +45,7 @@
               </div>
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="user.role === 'TEACHER'">
-                <div @click="$router.push('/front/userNews')">{{ $t('user.myPublish') }}</div>
-              </el-dropdown-item>
-              <el-dropdown-item>
+              <el-dropdown-item v-if="user.role != 'TEACHER'">
                 <div @click="$router.push('/front/userQuestion')">{{ $t('user.myQuestion') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>

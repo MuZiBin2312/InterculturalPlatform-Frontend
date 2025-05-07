@@ -33,6 +33,9 @@
         <div style="display: flex; margin-bottom: 10px">
           <img src="@/assets/imgs/问.png" alt="" style="width: 20px; height: 20px; margin-top: 5px; margin-right: 5px">
           <span style="font-size: 20px">等你回答</span>
+          <el-button @click="handleAdd" type="primary"
+                     plain size="mini" icon="el-icon-edit"
+          style="margin-left : 84px">发起提问</el-button>
         </div>
         <div>
           <div class="card" v-for="item in noAnswerList" :key="item.id" style="margin-bottom: 10px">
@@ -45,6 +48,43 @@
         </div>
       </div>
     </div>
+    <el-dialog title="问题信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+      <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title" placeholder="标题"></el-input>
+        </el-form-item>
+        <el-form-item label="问题类型" prop="category">
+          <el-select v-model="form.category" placeholder="请选择问题类型">
+            <el-option
+                label="文化讨论"
+                :value="2">
+            </el-option>
+            <el-option
+                label="案例讨论"
+                :value="1"
+                v-if="user.role === 'TEACHER'">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="描述" prop="descr">
+          <el-input type="textarea" v-model="form.descr" placeholder="描述"></el-input>
+        </el-form-item>
+        <el-form-item label="配图" prop="img">
+          <el-upload
+              :action="$baseUrl + '/files/upload'"
+              :headers="{ token: user.token }"
+              list-type="picture"
+              :on-success="handleImgSuccess"
+          >
+            <el-button type="primary">上传</el-button>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fromVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -58,7 +98,10 @@ export default {
       pageSize: 10,  // 每页显示的个数
       total: 0,
       noAnswerList: [],
-      category: null
+      category: null,
+      form:{},
+      fromVisible: false,
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
     }
   },
   created() {
@@ -102,6 +145,34 @@ export default {
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)
+    },
+    handleAdd() {   // 新增数据
+      this.form = {
+        category: 2
+      }  // 新增数据的时候清空数据
+      this.fromVisible = true   // 打开弹窗
+    },
+    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+      this.$refs.formRef.validate((valid) => {
+        if (valid) {
+          this.$request({
+            url: this.form.id ? '/question/update' : '/question/add',
+            method: this.form.id ? 'PUT' : 'POST',
+            data: this.form
+          }).then(res => {
+            if (res.code === '200') {  // 表示成功保存
+              this.$message.success('保存成功')
+              this.load(1)
+              this.fromVisible = false
+            } else {
+              this.$message.error(res.msg)  // 弹出错误的信息
+            }
+          })
+        }
+      })
+    },
+    handleImgSuccess(response, file, fileList) {
+      this.form.img = response.data
     },
   }
 }

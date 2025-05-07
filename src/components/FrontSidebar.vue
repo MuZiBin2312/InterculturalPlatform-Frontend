@@ -80,6 +80,10 @@
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.uploadVideos') }}
         </el-menu-item>
+        <el-menu-item index="/front/userQuestion">
+          <i class="el-icon-chat-line-round"></i>
+          {{ $t('menu.myQuestion') }}
+        </el-menu-item>
         <el-menu-item index="/front/uploadNotice">
           <i class="el-icon-chat-line-round"></i>
           {{ $t('menu.uploadNotice') }}
