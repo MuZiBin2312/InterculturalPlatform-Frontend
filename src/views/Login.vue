@@ -81,6 +81,8 @@ export default {
 
 <style scoped>
 .container {
+  background-image: url('/public/login.svg'); /* 你的背景图路径 */
+
   height: 100vh;
   overflow: hidden;
   background-color: #EBEBEB;
