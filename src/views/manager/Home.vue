@@ -218,6 +218,8 @@ export default {
   name: 'Home',
   data() {
     return {
+      newsBarData: [],
+      videoBarData: [],
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       count: {}
 
@@ -379,6 +381,7 @@ export default {
     })
 
     this.$request.get('/selectPie').then(res => {
+      console.log(res.data)
       pieOption.series[0].data = res.data || []
       pieChart.setOption(pieOption)
     })
@@ -395,7 +398,7 @@ export default {
 
       trendChart.setOption(trendOption)
     })
-    window.addEventListener('resize', chart.resize)
+    // window.addEventListener('resize', chart.resize)
 
   },
   created() {

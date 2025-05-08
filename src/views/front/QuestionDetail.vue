@@ -24,7 +24,7 @@
              <img :src="item.userAvatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
              <div style="color: #888;">
                <div style="margin-bottom: 10px">{{ item.userName }}
-                 <span  v-if="item.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
+                 <span  v-if="item.userRole === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
                </div>
 
                <div>{{ item.time }}</div>
@@ -137,6 +137,7 @@ export default {
       }).then(res => {
         this.answerList = res.data?.list || []
         this.total = res.data?.total || 0
+        console.log(this.answerList)
       })
     },
     load() {
