@@ -64,7 +64,7 @@ export default {
 .container {
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(to top, #00416a, #e4e5e6);
+  background-image: url('/public/admin.svg'); /* 你的背景图路径 */
   display: flex;
   align-items: center;
   justify-content: center;
