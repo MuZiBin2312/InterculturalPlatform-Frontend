@@ -61,13 +61,24 @@
 
   },
   "button": {
-    "search": "Go"
+    "search": "Go",
+    "query": "Query",
+    "reset": "Reset",
+    "article": "Article",
+    "video": "Video",
+    "initiateQuestion": "Initiate a Question",
+    "answerQuestion": "Answer It",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "title": {
     "highlight": "High Light"
-
   },
   "text": {
-    "searchBar": "want something?"
+    "searchBar": "want something?",
+    "waitingYouToAnswer": "Waiting You",
+    "commentSection": "Comment Section",
+    "discussionList": "Discussion List"
   }
 }

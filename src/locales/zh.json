@@ -60,12 +60,23 @@
 
   },
   "button": {
-    "search": "搜索"
+    "search": "搜索",
+    "query": "查询",
+    "reset": "重置",
+    "article": "资讯文章",
+    "video": "视频",
+    "answerQuestion": "写回答",
+    "add": "新增",
+    "edit": "编辑",
+    "delete": "删除"
   },
   "title": {
     "highlight": "精选视频"
   },
   "text": {
-    "searchBar": "请输入关键字搜索..."
+    "searchBar": "请输入关键字搜索...",
+    "waitingYourAnswer": "等你回答",
+    "commentSection": "评论区",
+    "discussionList": "讨论列表"
   }
 }
