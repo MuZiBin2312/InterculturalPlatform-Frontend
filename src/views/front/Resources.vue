@@ -9,8 +9,8 @@
           <el-option label="视频" value="video" />
         </el-select>
 
-        <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
-        <el-button size="medium" type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+        <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">{{ $t('button.query') }}</el-button>
+        <el-button size="medium" type="warning" plain style="margin-left: 10px" @click="reset">{{ $t('button.reset') }}</el-button>
       </div>
 
       <div v-if="tableData.length > 0">

@@ -183,60 +183,76 @@ export default {
       // 不传 name 参数给后端，完全获取所有分类数据
       this.$request.get('/category/selectPage', {
         params: {
-          pageNum: 1, // 固定为 1，只用于取全量数据
-          pageSize: 9999, // 设置一个足够大的数
+          pageNum: 1,
+          pageSize: 9999
         }
       }).then(res => {
         if (res.code === '200') {
           const all = res.data?.list || []
           this.allData = all
-          console.log(all)
-            // 一级分类：father 为 null
-            let first = all.filter(item => item.father === null)
-            if (this.name) {
-              first = first.filter(item =>
-                  item.name && item.name.includes(this.name)
-              )
+
+          // 一级分类：father 为 null
+          let first = all.filter(item => item.father === null)
+          if (this.name) {
+            first = first.filter(item =>
+                item.name && item.name.includes(this.name)
+            )
+          }
+          this.first = first
+
+          // 二级分类：father 不为 null
+          let second = all.filter(item => item.father !== null)
+          if (this.name) {
+            second = second.filter(item =>
+                item.name && item.name.includes(this.name)
+            )
+          }
+          if (this.filterFatherId) {
+            second = second.filter(item =>
+                item.father == this.filterFatherId
+            )
+          }
+          this.second = second
+
+          this.first = this.first.sort((a, b) => a.id - b.id)
+          this.second = this.second.sort((a, b) => a.id - b.id)
+
+
+          this.extraMenus = this.first.map(parent => {
+            const children = []
+            this.second
+                .filter(child => String(child.father) === String(parent.id))
+                .forEach(child => {
+                  children.push({
+                    index: `/front/resources?id=${child.id}`,
+                    title: `menu.${child.name}`,
+                    icon: child.icon
+                  })
+
+
+                  if (child.name === '节日习俗') {
+                    children.push({
+                      index: "/front/question?category=3",
+                      title: "menu.互动体验",
+                      icon: "el-icon-magic-stick"
+                    })
+                  }
+                })
+
+            return {
+              index: String(parent.id),
+              title: `menu.${parent.name}`,
+              icon: parent.icon,
+              children: children
             }
-            this.first = first
-          // console.log(this.first)
-            // 二级分类：father 不为 null
-            let second = all.filter(item => item.father !== null)
-            if (this.name) {
-              second = second.filter(item =>
-                  item.name && item.name.includes(this.name)
-              )
-            }
-            if (this.filterFatherId) {
-              second = second.filter(item =>
-                  item.father == this.filterFatherId
-              )
-            }
-            this.second = second
-          // console.log(this.second)
+          })
         } else {
           this.$message.error(res.msg)
         }
-
-        this.first = this.first.sort((a, b) => a.id - b.id)
-        this.second = this.second.sort((a, b) => a.id - b.id)
-
-        this.extraMenus = this.first.map(parent => {
-          return {
-            index: String(parent.id),
-            title: `menu.${parent.name}`,
-            icon: parent.icon,
-            children: this.second
-                .filter(child => String(child.father) === String(parent.id))
-                .map(child => ({
-                  index: `/front/resources?id=${child.id}`,  // ✅ 路由跳转加 id
-                  title: `menu.${child.name}`,
-                  icon: child.icon
-                }))
-          }
-        })
       })
-    }, reset() {
+    }
+    ,
+    reset() {
       this.name = null
       this.load(1)
     },

@@ -66,19 +66,24 @@
     "reset": "Reset",
     "article": "Article",
     "video": "Video",
-    "initiateQuestion": "Initiate a Question",
-    "answerQuestion": "Answer It",
+    "initiateQuestion": "Any Question?",
+    "answerIt": "Answer It",
     "add": "Add",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "send": "Send",
+    "reply": "Reply"
   },
   "title": {
     "highlight": "High Light"
   },
   "text": {
     "searchBar": "want something?",
-    "waitingYouToAnswer": "Waiting You",
+    "waitingYourAnswer": "Waiting You",
     "commentSection": "Comment Section",
-    "discussionList": "Discussion List"
+    "discussionList": "Discussion List",
+    "teacher": "Teacher",
+    "releaseDate": "Release Date",
+    "clickVolume": "Click Volume"
   }
 }

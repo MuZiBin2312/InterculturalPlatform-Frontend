@@ -65,10 +65,13 @@
     "reset": "重置",
     "article": "资讯文章",
     "video": "视频",
-    "answerQuestion": "写回答",
+    "initiateQuestion": "发起提问",
+    "answerIt": "回答问题",
     "add": "新增",
     "edit": "编辑",
-    "delete": "删除"
+    "delete": "删除",
+    "send": "评论",
+    "reply": "回复"
   },
   "title": {
     "highlight": "精选视频"
@@ -77,6 +80,10 @@
     "searchBar": "请输入关键字搜索...",
     "waitingYourAnswer": "等你回答",
     "commentSection": "评论区",
-    "discussionList": "讨论列表"
+    "discussionList": "讨论列表",
+    "teacher": "教师",
+    "releaseDate": "发布日期",
+    "clickVolume": "浏览量"
+
   }
 }

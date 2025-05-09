@@ -56,6 +56,10 @@
         <el-form-item label="问题类型" prop="category">
           <el-select v-model="form.category" placeholder="请选择问题类型">
             <el-option
+                label="互动体验"
+                :value="3">
+            </el-option>
+            <el-option
                 label="文化讨论"
                 :value="2">
             </el-option>

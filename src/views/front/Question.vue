@@ -32,17 +32,18 @@
       <div style="width: 300px">
         <div style="display: flex; margin-bottom: 10px">
           <img src="@/assets/imgs/问.png" alt="" style="width: 20px; height: 20px; margin-top: 5px; margin-right: 5px">
-          <span style="font-size: 20px">等你回答</span>
-          <el-button @click="handleAdd" type="primary"
+          <span style="font-size: 20px">{{ $t('text.waitingYourAnswer') }}</span>
+          <el-button v-if="!(category === '1' && user.role === 'USER')"
+                     @click="handleAdd" type="primary"
                      plain size="mini" icon="el-icon-edit"
-          style="margin-left : 84px">发起提问</el-button>
+                     style="margin-left : 84px">{{ $t('button.initiateQuestion') }}</el-button>
         </div>
         <div>
           <div class="card" v-for="item in noAnswerList" :key="item.id" style="margin-bottom: 10px">
             <div style="margin-bottom: 10px; font-size: 16px">{{ item.title }}</div>
             <div style="color: #888; display: flex">
               <div style="flex: 1">{{ item.date }}</div>
-              <el-button @click="$router.push('/front/questionDetail?id=' + item.id)" type="primary" size="mini" icon="el-icon-edit">写回答</el-button>
+              <el-button @click="$router.push('/front/questionDetail?id=' + item.id)" type="primary" size="mini" icon="el-icon-edit">{{ $t('button.answerIt') }}</el-button>
             </div>
           </div>
         </div>
@@ -54,17 +55,7 @@
           <el-input v-model="form.title" placeholder="标题"></el-input>
         </el-form-item>
         <el-form-item label="问题类型" prop="category">
-          <el-select v-model="form.category" placeholder="请选择问题类型">
-            <el-option
-                label="文化讨论"
-                :value="2">
-            </el-option>
-            <el-option
-                label="案例讨论"
-                :value="1"
-                v-if="user.role === 'TEACHER'">
-            </el-option>
-          </el-select>
+          <el-input v-model="form.categoryLabel" disabled></el-input>
         </el-form-item>
         <el-form-item label="描述" prop="descr">
           <el-input type="textarea" v-model="form.descr" placeholder="描述"></el-input>
@@ -148,9 +139,18 @@ export default {
     },
     handleAdd() {   // 新增数据
       this.form = {
-        category: 2
+        category: parseInt(this.category),
+        categoryLabel: this.getCategoryLabel(parseInt(this.category))
       }  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
+    },
+    getCategoryLabel(category) {
+      switch (category) {
+        case 1: return '案例讨论'
+        case 2: return '文化讨论'
+        case 3: return '互动体验'
+        default: return ''
+      }
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {

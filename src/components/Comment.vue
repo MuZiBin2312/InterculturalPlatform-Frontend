@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div style="margin-bottom: 20px; font-size: 22px; font-weight: bold">评论 {{ commentCount }}</div>
+    <div style="margin-bottom: 20px; font-size: 22px; font-weight: bold">{{ $t('text.commentSection') }} {{ commentCount }}</div>
     <div style="margin-bottom: 20px">
       <el-input type="textarea" placeholder="请输入评论" v-model="content"></el-input>
-      <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(null)">评论</el-button></div>
+      <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(null)">{{ $t('button.send') }}</el-button></div>
     </div>
 
     <div>
@@ -14,14 +14,14 @@
           <div style="padding-left: 15px; flex: 1">
             <div style="margin-bottom: 10px; color: #666">
               {{ item.userName }}
-              <span v-if="item.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
+              <span v-if="item.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">{{ $t('text.teacher') }}</span>
             </div>
             <div style="margin-bottom: 5px">{{ item.content }}</div>
             <div style="color: #666; font-size: 13px; margin-bottom: 5px">
               <span>{{ item.time }}</span>
               <span @click="handleShowReply(item)" style="margin: 0 20px; cursor: pointer"
-                    :class="{'comment-active' : item.showReply}"><i class="el-icon-s-comment"></i>回复</span>
-              <span @click="delComment(item.id)" v-if="item.userId === user.id" style="cursor: pointer"><i class="el-icon-delete"></i>删除</span>
+                    :class="{'comment-active' : item.showReply}"><i class="el-icon-s-comment"></i>{{ $t('button.reply') }}</span>
+              <span @click="delComment(item.id)" v-if="item.userId === user.id" style="cursor: pointer"><i class="el-icon-delete"></i>{{ $t('button.delete') }}</span>
             </div>
             <div v-if="item.showReply">
               <el-input type="textarea" placeholder="请输入回复" v-model="item.replyContent"></el-input>
