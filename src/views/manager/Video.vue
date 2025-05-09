@@ -12,34 +12,105 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" strip @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="name" label="名称"></el-table-column>
-        <el-table-column label="一级菜单">
-          <template v-slot="scope">
-            {{ getFatherName(scope.row.category) }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="category" label="二级菜单">
-          <template v-slot="scope">
-            {{ getSecName(scope.row.category) }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="file" label="视频">
-          <template v-slot="scope">
-            <video :src="scope.row.file" controls style="width: 200px"></video>
-          </template>
-        </el-table-column>
-        <el-table-column prop="time" label="发布时间"></el-table-column>
-        <el-table-column prop="readCount" label="播放次数"></el-table-column>
-        <el-table-column label="操作" align="center" width="180">
-          <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+
+        <el-table
+            :data="tableData"
+            stripe
+            @selection-change="handleSelectionChange"
+            style="width: 100%"
+        >
+          <el-table-column
+              type="selection"
+              align="center"
+              min-width="50"
+          ></el-table-column>
+
+          <el-table-column
+              prop="id"
+              label="序号"
+              align="center"
+              sortable
+              min-width="70"
+          ></el-table-column>
+
+          <el-table-column
+              prop="name"
+              label="名称"
+              min-width="120"
+          ></el-table-column>
+
+          <el-table-column
+              label="一级菜单"
+              min-width="120"
+          >
+            <template v-slot="scope">
+              {{ getFatherName(scope.row.category) }}
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              prop="category"
+              label="二级菜单"
+              min-width="120"
+          >
+            <template v-slot="scope">
+              {{ getSecName(scope.row.category) }}
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              prop="file"
+              label="视频"
+              width="220"
+          >
+            <template v-slot="scope">
+              <video
+                  :src="scope.row.file"
+                  controls
+                  width="200"
+                  height="112"
+                  style="border-radius: 4px; object-fit: cover"
+              ></video>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              prop="time"
+              label="发布时间"
+              min-width="160"
+          ></el-table-column>
+
+          <el-table-column
+              prop="readCount"
+              label="播放次数"
+              min-width="100"
+          ></el-table-column>
+
+          <el-table-column
+              label="操作"
+              align="center"
+              min-width="180"
+          >
+            <template v-slot="scope">
+              <el-button
+                  size="mini"
+                  type="primary"
+                  plain
+                  @click="handleEdit(scope.row)"
+              >
+                编辑
+              </el-button>
+              <el-button
+                  size="mini"
+                  type="danger"
+                  plain
+                  @click="del(scope.row.id)"
+              >
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
 
       <div class="pagination">
