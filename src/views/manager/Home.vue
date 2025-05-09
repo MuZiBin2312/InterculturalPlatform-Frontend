@@ -291,9 +291,6 @@ export default {
       const names = sortedData.map(item => item.name);
       const clickCounts = sortedData.map(item => item.clickCount);
       const types = sortedData.map(item => item.type);
-
-
-
       // 设置图表的 option
       const option = {
         title: {
@@ -317,13 +314,20 @@ export default {
         },
         xAxis: {
           type: 'value'
+
         },
         yAxis: {
           type: 'category',
-          data: names, // 确保y轴显示所有标题
+          data: sortedData.map(item => item.name.length > 10 ? item.name.slice(0, 10) + '…' : item.name),
           axisLabel: {
-            interval: 0, // 确保标签不重叠
-            rotate: 0  // 可选：防止标签重叠
+            show: true,
+            formatter: val => val
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: function (params) {
+            return `${sortedData[params.dataIndex].name}<br/>点击量: ${params.value}`;
           }
         },
         dataZoom: [
