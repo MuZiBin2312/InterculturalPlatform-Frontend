@@ -2,7 +2,7 @@
   <div>
     <div style="margin-bottom: 20px; font-size: 22px; font-weight: bold">{{ $t('text.commentSection') }} {{ commentCount }}</div>
     <div style="margin-bottom: 20px">
-      <el-input type="textarea" placeholder="请输入评论" v-model="content"></el-input>
+      <el-input type="textarea" :placeholder="$t('text.enterComment')" v-model="content"></el-input>
       <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(null)">{{ $t('button.send') }}</el-button></div>
     </div>
 

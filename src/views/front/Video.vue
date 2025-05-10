@@ -1,7 +1,7 @@
 <template>
   <div class="main-content">
     <div style="margin-bottom: 20px">
-      <el-input size="medium" placeholder="请输入关键字查询" style="width: 300px" v-model="name"></el-input>
+      <el-input size="medium" :placeholder="请输入关键字查询" style="width: 300px" v-model="name"></el-input>
       <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button size="medium" type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>

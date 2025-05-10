@@ -54,15 +54,15 @@
         </el-pagination>
       </div>
 
-      <el-dialog title="回答内容" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+      <el-dialog :title="$t('text.answerContent')" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
         <el-form :model="form" label-width="100px" style="padding-right: 50px" ref="formRef">
-          <el-form-item label="内容" prop="content">
+          <el-form-item :label="$t('text.content')" prop="content">
             <div id="editor"></div>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="fromVisible = false">取 消</el-button>
-          <el-button type="primary" @click="save">确 定</el-button>
+          <el-button @click="fromVisible = false">{{ $t('button.cancel') }}</el-button>
+          <el-button type="primary" @click="save">{{ $t('button.confirm') }}</el-button>
         </div>
       </el-dialog>
 

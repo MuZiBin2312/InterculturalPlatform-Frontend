@@ -2,11 +2,11 @@
   <div class="container">
     <div class="main-content">
       <div style="margin-bottom: 20px">
-        <el-input size="medium" placeholder="请输入标题关键字查询" style="width: 300px" v-model="title" />
+        <el-input size="medium" :placeholder="$t('text.titleSearchBar')" style="width: 300px" v-model="title" />
 
         <el-select v-model="type" placeholder="请选择类型" style="margin-left: 10px; width: 150px">
-          <el-option label="资讯文章" value="article" />
-          <el-option label="视频" value="video" />
+          <el-option :label="$t('button.article')" value="article" />
+          <el-option :label="$t('button.video')" value="video" />
         </el-select>
 
         <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">{{ $t('button.query') }}</el-button>
@@ -24,7 +24,7 @@
               class="item"
               @click.native="$router.push('/front/newsDetail?id=' + item.id)"
           >
-            <img :src="item.img" alt="" style="width: 100%; height: 360px; object-fit: cover; border-radius: 5px;" />
+            <img :src="item.img" alt="" style="width: 100%; height: 15vw; object-fit: cover; border-radius: 5px;" />
             <div class="line1" style="margin: 10px 0; font-size: 18px;">{{ item.title }}</div>
             <div style="color: #666;">
               <span style="margin-right: 20px;"><i class="el-icon-eye"></i> {{ item.readCount }}</span>
@@ -44,8 +44,8 @@
             <video :src="item.file" controls @click="play(item)" style="width: 100%; height: 200px; border-radius: 5px;" />
             <div style="margin: 10px 0; font-size: 16px;">{{ item.name }}</div>
             <div style="color: #666;">
-              <span style="margin-right: 20px;">发布时间：{{ item.time }}</span>
-              <span>播放量：{{ item.readCount }}</span>
+              <span style="margin-right: 20px;">{{ $t('text.releaseDate') }}：{{ item.time }}</span>
+              <span>{{ $t('text.clickVolume') }}：{{ item.readCount }}</span>
             </div>
           </el-col>
         </el-row>

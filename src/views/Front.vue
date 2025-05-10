@@ -100,13 +100,6 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
-      // menus: [
-      //   { text: 'menu.home', path: '/front/home' },
-      //   { text: 'menu.Q&A', path: '/front/question' },
-      //   { text: 'menu.hotspots', path: '/front/localNews' },
-      //   { text: 'menu.feedback', path: '/front/feedback' },
-      //   { text: 'menu.notice', path: '/front/notice' },
-      // ],
       languageOptions: [
         { label: '中文', value: 'zh' },
         { label: 'English', value: 'en' }
@@ -179,5 +172,9 @@ export default {
   .menu-active {
     color: #fff;
     background-color: #2a60c9;
+  }
+
+  .main-container {
+
   }
 </style>

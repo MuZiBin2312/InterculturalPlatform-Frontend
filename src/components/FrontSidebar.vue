@@ -261,3 +261,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.front-sidebar{
+  //position: fixed;             /* 让它固定在页面左侧 */
+  //height: 100%;
+  //overflow-y: auto;            /* 当内容超出时显示垂直滚动条 */
+  z-index: 1000;              /* 保证在其他元素之上 */
+}
+
+</style>

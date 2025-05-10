@@ -72,18 +72,24 @@
     "edit": "Edit",
     "delete": "Delete",
     "send": "Send",
-    "reply": "Reply"
+    "reply": "Reply",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "title": {
     "highlight": "High Light"
   },
   "text": {
     "searchBar": "want something?",
+    "titleSearchBar": "Entering the title keywords...",
     "waitingYourAnswer": "Waiting You",
     "commentSection": "Comment Section",
     "discussionList": "Discussion List",
     "teacher": "Teacher",
     "releaseDate": "Release Date",
-    "clickVolume": "Click Volume"
+    "clickVolume": "Click Volume",
+    "enterComment" : "Please enter a comment...",
+    "answerContent": "Answer Content",
+    "content": "Content"
   }
 }
