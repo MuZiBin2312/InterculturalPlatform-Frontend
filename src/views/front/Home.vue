@@ -204,10 +204,10 @@ export default {
   gap: 0.52vw;
 }
 .left-section {
-  flex: 2;
+  width: 55.9vw;
 }
 .right-section {
-  flex: 1;
+  width: 30.1vw;
 }
 .category-item {
   max-width: 7.6vw;
