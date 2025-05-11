@@ -44,6 +44,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+.w-e-text img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
 
 </style>
