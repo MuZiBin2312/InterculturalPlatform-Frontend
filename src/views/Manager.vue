@@ -21,7 +21,7 @@
             <div>{{ user.name ||  '管理员' }}</div>
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
+<!--            <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>-->
             <el-dropdown-item @click.native="$router.push('/password')">修改密码</el-dropdown-item>
             <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
