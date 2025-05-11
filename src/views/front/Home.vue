@@ -249,14 +249,14 @@ export default {
   flex: 1;
 }
 .line1 {
-  font-size: 1vw;
+  font-size: 0.9vw;
   margin-bottom: 0.26vw;
 }
 .line2 {
   color: #666;
   height: 1.4vw;
   margin-bottom: 0.13vw;
-  font-size: 0.9vw;
+  font-size: 0.7vw;
 }
 .line1:hover {
   color: #409EFF !important;
@@ -267,7 +267,7 @@ export default {
 }
 .video-item {
   margin-bottom: 0.28vw;
-  font-size: 0.9vw;
+  font-size: 0.7vw;
   cursor: pointer;
 }
 .video-item img {
