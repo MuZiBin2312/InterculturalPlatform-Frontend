@@ -33,9 +33,9 @@
               v-for="(item, index) in filteredCategoryList.slice(categoryStartIndex, categoryStartIndex + categoryDisplayCount)"
               v-if="item?.father"
               :key="item.id"
-              @click="loadCategoryNews(item.name)"
+              @click="loadCategoryNews(item.id)"
               class="category-item"
-              :class="{ 'category-item-active': category === item.name }"
+              :class="{ 'category-item-active': category === item.id }"
           >
             {{ $t('menu.' + item.name) || item.name }}
           </div>

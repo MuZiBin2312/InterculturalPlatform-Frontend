@@ -174,7 +174,7 @@ export default {
     background-color: #2a60c9;
   }
 
-  .main-container {
-
+  .main-body {
+  margin-left: 10vw;
   }
 </style>
