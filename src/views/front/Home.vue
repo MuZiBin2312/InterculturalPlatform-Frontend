@@ -56,7 +56,7 @@
               <div class="line2">{{ item.descr }}</div>
               <div class="meta">
                 <span><i class="el-icon-time"></i> {{ item.time }}</span>
-                <span><i class="el-icon-s-comment"></i> {{ item.commentCount }}</span>
+                <span><i class="el-icon-s-comment" style="margin-left: 0.5vw;"></i> {{ item.commentCount }}</span>
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@
       <div class="right-section">
         <hot />
 
-        <div style="margin: 0.42vw 0">
+        <div style="margin: 0vw 0">
           <div style="font-size: 1vw; margin-bottom: 0.52vw">{{ $t('title.highlight') }}</div>
           <div style="margin-bottom: 0.36vw">
             <video controls style="width: 95%" :src="video.file"></video>
@@ -227,7 +227,7 @@ export default {
   margin-right: 0.32vw;
   cursor: pointer;
   box-sizing: border-box;
-  font-size: 0.54vw;
+  font-size: 0.64vw;
 }
 .category-item-active {
   background-color: #2a60c9;
@@ -249,24 +249,25 @@ export default {
   flex: 1;
 }
 .line1 {
-  font-size: 0.78vw;
+  font-size: 1vw;
   margin-bottom: 0.26vw;
 }
 .line2 {
   color: #666;
   height: 1.4vw;
   margin-bottom: 0.13vw;
+  font-size: 0.9vw;
 }
 .line1:hover {
   color: #409EFF !important;
 }
 .meta {
   color: #666;
-  font-size: 0.48vw;
+  font-size: 0.68vw;
 }
 .video-item {
   margin-bottom: 0.28vw;
-  font-size: 0.64vw;
+  font-size: 0.9vw;
   cursor: pointer;
 }
 .video-item img {

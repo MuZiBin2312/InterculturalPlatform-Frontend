@@ -9,7 +9,7 @@
       </div>
       <div>
         <div  @click="$router.push('/front/newsDetail?id=' + item.id)" v-for="(item, index) in hotNewsList" :key="item.id"
-              style="font-size: 0.6vw; margin-bottom: 10px; cursor: pointer; color: #666" class="line1">
+              style="font-size: 0.7vw; margin-bottom: 10px; cursor: pointer; color: #666" class="line1">
           <strong style="color: red; margin-right: 10px" v-if="index < 3">{{ index + 1 }}</strong>
           <strong style="color: #333; margin-right: 10px" v-else>{{ index + 1 }}</strong>
           <span>{{ item.title }}</span>
