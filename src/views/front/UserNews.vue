@@ -1,12 +1,12 @@
 <template>
   <div class="main-content">
-    <div style="margin: 10px 0">
-      <el-input placeholder="请输入标题关键字查询" style="width: 300px" v-model="title"></el-input>
+    <div class="search">
+      <el-input placeholder="请输入标题关键字查询" style="width: 200px" v-model="title"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
 
-    <div style="margin: 10px 0">
+    <div class="operation" style="margin-top: 10px;margin-bottom: 10px;">
       <el-button type="primary" plain @click="handleAdd">新增</el-button>
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
     </div>
