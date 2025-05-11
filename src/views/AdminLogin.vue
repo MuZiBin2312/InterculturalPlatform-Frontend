@@ -65,6 +65,9 @@ export default {
   height: 100vh;
   overflow: hidden;
   background-image: url('/public/admin.svg'); /* 你的背景图路径 */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;

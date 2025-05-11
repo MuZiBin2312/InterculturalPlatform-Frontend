@@ -38,8 +38,8 @@
                      plain size="mini" icon="el-icon-edit"
                      style="margin-left : 84px">{{ $t('button.initiateQuestion') }}</el-button>
         </div>
-        <div>
-          <div class="card" v-for="item in noAnswerList" :key="item.id" style="margin-bottom: 10px">
+        <div v-for="item in noAnswerList" :key="item.id">
+          <div class="card" v-if="category === String(item.category)"  style="margin-bottom: 10px">
             <div style="margin-bottom: 10px; font-size: 16px">{{ item.title }}</div>
             <div style="color: #888; display: flex">
               <div style="flex: 1">{{ item.date }}</div>
@@ -115,6 +115,7 @@ export default {
         params: { category: this.category }
       }).then(res => {
         this.noAnswerList = res.data || []
+        console.log("noAnswerList", res.data)
       })
     },
     load(pageNum) {  // 分页查询
