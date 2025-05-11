@@ -89,6 +89,7 @@
     "releaseDate": "Release Date",
     "clickVolume": "Click Volume",
     "enterComment" : "Please enter a comment...",
+    "enterTheAnswer" : "Please enter the answer...",
     "answerContent": "Answer Content",
     "content": "Content"
   }

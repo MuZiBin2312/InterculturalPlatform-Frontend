@@ -24,8 +24,8 @@
               <span @click="delComment(item.id)" v-if="item.userId === user.id" style="cursor: pointer"><i class="el-icon-delete"></i>{{ $t('button.delete') }}</span>
             </div>
             <div v-if="item.showReply">
-              <el-input type="textarea" placeholder="请输入回复" v-model="item.replyContent"></el-input>
-              <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(item)">回复</el-button></div>
+              <el-input type="textarea" :placeholder="$t('text.enterTheAnswer')" v-model="item.replyContent"></el-input>
+              <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(item)">{{ $t('button.reply') }}</el-button></div>
             </div>
           </div>
         </div>
@@ -36,19 +36,19 @@
             <div style="padding-left: 15px; flex: 1">
               <div style="margin-bottom: 10px; color: #666">
                 {{ sub.userName }}
-                <span v-if="sub.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
-                <span v-if="sub.parentUserName !== item.userName">回复：{{ sub.parentUserName }}</span>
+                <span v-if="sub.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">{{ $t('text.teacher') }}</span>
+                <span v-if="sub.parentUserName !== item.userName">{{ $t('button.reply') }}：{{ sub.parentUserName }}</span>
               </div>
               <div style="margin-bottom: 5px">{{ sub.content }}</div>
               <div style="color: #666; font-size: 13px; margin-bottom: 5px">
                 <span>{{ sub.time }}</span>
                 <span @click="handleShowReply(sub)" style="margin: 0 20px; cursor: pointer"
-                      :class="{'comment-active' : sub.showReply}"><i class="el-icon-s-comment"></i>回复</span>
-                <span @click="delComment(sub.id)" v-if="sub.userId === user.id" style="cursor: pointer"><i class="el-icon-delete"></i>删除</span>
+                      :class="{'comment-active' : sub.showReply}"><i class="el-icon-s-comment"></i>{{ $t('button.reply') }}</span>
+                <span @click="delComment(sub.id)" v-if="sub.userId === user.id" style="cursor: pointer"><i class="el-icon-delete"></i>{{ $t('button.delete') }}</span>
               </div>
               <div v-if="sub.showReply">
-                <el-input type="textarea" placeholder="请输入回复" v-model="sub.replyContent"></el-input>
-                <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(sub)">回复</el-button></div>
+                <el-input type="textarea" :placeholder="$t('text.enterTheAnswer')" v-model="sub.replyContent"></el-input>
+                <div style="text-align: right; margin-top: 5px"><el-button type="primary" @click="addComment(sub)">{{ $t('button.reply') }}</el-button></div>
               </div>
             </div>
           </div>
