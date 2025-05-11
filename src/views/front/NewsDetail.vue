@@ -44,6 +44,7 @@ export default {
 }
 </script>
 
+
 <style >
 .w-e-text img {
   width: 100%;
