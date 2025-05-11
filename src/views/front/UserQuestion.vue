@@ -61,7 +61,9 @@
             </el-option>
             <el-option
                 label="文化讨论"
-                :value="2">
+                :value="2"
+                v-if="user.role === 'TEACHER'"
+            >
             </el-option>
             <el-option
                 label="案例讨论"
@@ -131,7 +133,7 @@ export default {
     },
     handleAdd() {   // 新增数据
       this.form = {
-        category: 2
+
       }  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
     },

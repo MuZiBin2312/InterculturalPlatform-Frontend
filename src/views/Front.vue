@@ -81,11 +81,8 @@
       <router-view ref="child" @update:user="updateUser" />
     </div>
   </div>
-
     <Footer />
-
   </div>
-
 </template>
 
 <script>
@@ -190,6 +187,6 @@ export default {
   }
 
   .main-body {
-  margin-left: 10vw;
+  margin-left: 260px;
   }
 </style>

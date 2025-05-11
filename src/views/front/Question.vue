@@ -33,7 +33,7 @@
         <div style="display: flex; margin-bottom: 10px">
           <img src="@/assets/imgs/问.png" alt="" style="width: 20px; height: 20px; margin-top: 5px; margin-right: 5px">
           <span style="font-size: 20px">{{ $t('text.waitingYourAnswer') }}</span>
-          <el-button v-if="!(category === '1' && user.role === 'USER')"
+          <el-button v-if="!(category === '1' && user.role === 'USER') && !(category === '2' && user.role === 'USER')"
                      @click="handleAdd" type="primary"
                      plain size="mini" icon="el-icon-edit"
                      style="margin-left : 84px">{{ $t('button.initiateQuestion') }}</el-button>
