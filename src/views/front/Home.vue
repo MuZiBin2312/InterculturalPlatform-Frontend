@@ -11,43 +11,42 @@
           </el-carousel-item>
         </el-carousel>
 
-        <div style="margin: 0.56vw 0; display: flex; align-items: center;">
-          <el-button
-              icon="el-icon-arrow-left"
-              size="mini"
-              class="arrow-button"
-              @click="prevCategory"
-              :disabled="categoryStartIndex === 0"
-          />
+        <div class="category-scroll-wrapper" :style="{ width: categoryWidth }">
+          <!-- 左侧遮罩提示 -->
+          <div class="scroll-gradient left" v-show="showLeftHint"></div>
 
+          <!-- 可滚动分类按钮区域 -->
           <div
-              @click="loadCategoryNews(null)"
-              class="category-item"
-              :class="{ 'category-item-active': category === null }"
-              style="margin-left: 0.26vw"
+              ref="categoryScroll"
+              class="category-scroll-outer"
+              @scroll="handleScroll"
           >
-            {{ $t('menu.全部') }}
+            <div class="category-scroll-inner">
+              <!-- 所有分类按钮 -->
+              <div
+                  @click="loadCategoryNews(null)"
+                  class="category-item"
+                  :class="{ 'category-item-active': category === null }"
+              >
+                {{ $t('menu.全部') }}
+              </div>
+              <div
+                  v-for="item in filteredCategoryList"
+                  v-if="item?.father"
+                  :key="item.id"
+                  @click="loadCategoryNews(item.id)"
+                  class="category-item"
+                  :class="{ 'category-item-active': category === item.id }"
+              >
+                {{ $t('menu.' + item.name) || item.name }}
+              </div>
+            </div>
           </div>
 
-          <div
-              v-for="(item, index) in filteredCategoryList.slice(categoryStartIndex, categoryStartIndex + categoryDisplayCount)"
-              v-if="item?.father"
-              :key="item.id"
-              @click="loadCategoryNews(item.id)"
-              class="category-item"
-              :class="{ 'category-item-active': category === item.id }"
-          >
-            {{ $t('menu.' + item.name) || item.name }}
-          </div>
-
-          <el-button
-              icon="el-icon-arrow-right"
-              size="mini"
-              class="arrow-button"
-              @click="nextCategory"
-              :disabled="categoryStartIndex + categoryDisplayCount >= categoryList.length"
-          />
+          <!-- 右侧遮罩提示 -->
+          <div class="scroll-gradient right" v-show="showRightHint"></div>
         </div>
+
 
         <div>
           <div @click="$router.push('/front/newsDetail?id=' + item.id)" class="card" v-for="item in tableData" :key="item.id">
@@ -81,7 +80,7 @@
         <hot />
 
         <div style="margin: 0.42vw 0">
-          <div style="font-size: 0.63vw; margin-bottom: 0.52vw">{{ $t('title.highlight') }}</div>
+          <div style="font-size: 1vw; margin-bottom: 0.52vw">{{ $t('title.highlight') }}</div>
           <div style="margin-bottom: 0.36vw">
             <video controls style="width: 95%" :src="video.file"></video>
           </div>
@@ -111,9 +110,9 @@ export default {
       total: 0,
       video: {},
       videoList: [],
-
-      categoryStartIndex: 0,     // 新增：当前显示的分类起始索引
-      categoryDisplayCount: 10,   // 新增：每页显示几个分类
+      categoryWidth: '54vw', // 你可以自定义调整这个宽度
+      showLeftHint: true,
+      showRightHint: true,
     }
   },
   computed: {
@@ -128,9 +127,22 @@ export default {
     this.loadCategory()
     this.load(1)
     this.loadVideo(null)
+    this.$nextTick(() => {
+      this.updateScrollHints()
+    })
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
+    handleScroll() {
+      this.updateScrollHints()
+    },
+    updateScrollHints() {
+      const scroll = this.$refs.categoryScroll
+      if (!scroll) return
+
+      this.showLeftHint = scroll.scrollLeft > 10
+      this.showRightHint = scroll.scrollLeft + scroll.clientWidth < scroll.scrollWidth - 10
+    },
     loadVideo(item) {
       this.$request.get('/video/selectPage', {
         params: {
@@ -144,16 +156,6 @@ export default {
           this.video = this.videoList.length ? this.videoList[0] : {}
         }
       })
-    },
-    prevCategory() {
-      if (this.categoryStartIndex > 0) {
-        this.categoryStartIndex -= this.categoryDisplayCount;
-      }
-    },
-    nextCategory() {
-      if (this.categoryStartIndex + this.categoryDisplayCount < this.categoryList.length) {
-        this.categoryStartIndex += this.categoryDisplayCount;
-      }
     },
     loadBanner() {
       this.$request.get('/banner/selectAll').then(res => [
@@ -197,17 +199,17 @@ export default {
 <style scoped>
 .main-content {
   width: 86vw;
-  margin: 0 auto;
 }
 .main-layout {
   display: flex;
   gap: 0.52vw;
 }
 .left-section {
-  width: 55.9vw;
+  width: 57.9vw;
 }
 .right-section {
-  width: 30.1vw;
+  margin-left: 1vw;
+  width: 26.1vw;
 }
 .category-item {
   max-width: 7.6vw;
@@ -230,15 +232,6 @@ export default {
 .category-item-active {
   background-color: #2a60c9;
   color: #fff;
-}
-.arrow-button {
-  width: 0.8vw;
-  height: 1.2vw;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.52vw;
 }
 .card {
   display: flex;
@@ -283,5 +276,45 @@ export default {
 .video-item:hover,
 .video-item-active {
   color: #409EFF;
+}
+.category-scroll-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden; /* 避免遮罩被裁剪 */
+  margin-top:0.7vw;
+  margin-bottom: 0.7vw;
+}
+
+.category-scroll-outer {
+  flex: 1;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.category-scroll-outer::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+.category-scroll-inner {
+  display: inline-flex;
+}
+
+.scroll-gradient {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2.5vw;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.scroll-gradient.left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+}
+.scroll-gradient.right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #f8f8f8">
+  <div style="background-color: #fff">
 
     <!--头部-->
     <div class="front-header">
@@ -7,14 +7,16 @@
         <img src="@/assets/imgs/logo_1.png" alt="">
         <div class="title">{{ $t('project.projectName') }}</div>
       </div>
-      <div class="front-header-center" style="margin-top: 0.6vw">
-<!--        <div style="display: flex">-->
-
-<!--          <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"-->
-<!--               v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ $t(item.text) }}</div>-->
-<!--        </div>-->
-        <div>
-          <iframe scrolling="no" src="https://widget.tianqiapi.com/?style=tg&skin=pitaya" frameborder="0" width="470" height="40" allowtransparency="true"></iframe>
+      <div class="front-header-center">
+        <div class="weather-wrapper">
+          <iframe
+              scrolling="no"
+              src="https://widget.tianqiapi.com/?style=tg&skin=pitaya"
+              frameborder="0"
+              width="470"
+              height="40"
+              allowtransparency="true"
+          ></iframe>
         </div>
       </div>
 
@@ -172,6 +174,19 @@ export default {
   .menu-active {
     color: #fff;
     background-color: #2a60c9;
+  }
+
+  .front-header-center {
+    display: flex;
+    align-items: center; /* ✅ 垂直居中 */
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .weather-wrapper {
+    display: flex;
+    align-items: center; /* ✅ 让 iframe 在容器内部居中 */
+    height: 100%;
   }
 
   .main-body {

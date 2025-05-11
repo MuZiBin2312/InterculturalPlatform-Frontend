@@ -33,7 +33,7 @@
     color: #003c9d;
     cursor: pointer;
     margin-left: 0.4vw;             /* 10px */
-    font-size: 0.84vw;               /* 20px */
+    font-size: 0.88vw;               /* 20px */
     font-weight: bold;
 }
 .front-header-center {
@@ -57,7 +57,7 @@
 
 /*页面具体样式自定义*/
 .main-content {
-    width: 90%;
+    width: 100%;
     margin: 0.26vw auto;             /* 10px */
 }
 .main-container {

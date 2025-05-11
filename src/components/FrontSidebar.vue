@@ -266,7 +266,7 @@ export default {
 .front-sidebar{
   margin-top: 2.4vw;
   position: fixed;             /* 让它固定在页面左侧 */
-  height: 51vw;
+  height: 80vw;
   overflow-y: auto;            /* 当内容超出时显示垂直滚动条 */
   z-index: 1000;              /* 保证在其他元素之上 */
 }
