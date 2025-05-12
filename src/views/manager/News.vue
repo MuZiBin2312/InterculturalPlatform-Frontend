@@ -437,20 +437,13 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.role === 'TEACHER'? this.user.id : -1,
           title: this.title,
         }
       }).then(res => {
         if (res.code === '200') {
           let list = res.data?.list || []
-
-          // 如果是教师，前端只保留自己发布的数据
-          if (this.user.role === 'TEACHER') {
-            list = list.filter(item => item.userId === this.user.id)
-            this.total = list.length // 教师的 total 是过滤后的数量
-          } else {
-            this.total = res.data.total // 其他角色使用接口返回的 total
-          }
-
+          this.total = res.data.total // 其他角色使用接口返回的 total
           this.tableData = list
         } else {
           this.$message.error(res.msg)
