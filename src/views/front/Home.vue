@@ -49,7 +49,8 @@
 
 
         <div>
-          <div @click="$router.push('/front/newsDetail?id=' + item.id)" class="card" v-for="item in tableData" :key="item.id">
+          <div @click="$router.push('/front/newsDetail?id=' + item.id)" class="card" v-for="item in tableData"
+               :key="item.id">
             <img :src="item.img" alt="">
             <div class="card-content">
               <div class="line1">{{ item.title }}</div>
@@ -62,7 +63,7 @@
           </div>
         </div>
 
-        <div style="margin: 1.8vw 0" v-if="total > pageSize">
+        <div style="margin: 3vw 0" v-if="total > pageSize">
           <el-pagination
               background
               @current-change="handleCurrentChange"
@@ -80,7 +81,7 @@
       <!-- 右侧部分开始 -->
       <div class="right-section" style="padding-right: 0.5vw
 ">
-        <hot />
+        <hot/>
 
         <div class="right-section-top">
           <div class="video-title">{{ $t('title.highlight') }}</div>
@@ -107,6 +108,7 @@
 <script>
 
 import Hot from "@/components/Hot";
+
 export default {
   components: {Hot},
   data() {
@@ -171,7 +173,7 @@ export default {
     },
     loadBanner() {
       this.$request.get('/banner/selectAll').then(res => [
-          this.bannerList = res.data || []
+        this.bannerList = res.data || []
       ])
     },
     loadCategory() {
@@ -260,11 +262,12 @@ body {
   flex: 1;
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
 }
+
 .category-scroll-outer::-webkit-scrollbar {
-  display: none;                /* Chrome/Safari */
+  display: none; /* Chrome/Safari */
 }
 
 .category-scroll-inner {
@@ -298,13 +301,15 @@ body {
 
 /* 卡片样式 */
 .card {
+
+  padding-bottom: 1.5vw;
   display: flex;
   cursor: pointer;
   gap: 0.49vw;
-  overflow: hidden;           /* 确保超出的内容不显示 */
+  overflow: hidden; /* 确保超出的内容不显示 */
   max-width: 83%;
   margin-bottom: 0.13vw;
-  transform: scale(1.2);      /* 放大1.2倍 */
+  transform: scale(1.2); /* 放大1.2倍 */
   transform-origin: top left; /* 保证从左上角开始放大 */
 }
 
@@ -318,9 +323,9 @@ body {
 .card-content {
   flex: 1 1 0%;
   min-width: 0;
-  max-width: 80%;  /* 控制最大宽度，避免被压缩 */
+  max-width: 80%; /* 控制最大宽度，避免被压缩 */
   overflow: hidden;
-  position: relative;  /* 新增：为定位参考点 */
+  position: relative; /* 新增：为定位参考点 */
 
 }
 
@@ -337,17 +342,17 @@ body {
   color: #666;
   font-size: 0.84vw;
   margin-bottom: 0.16vw;
-  overflow: hidden;  /* 强制隐藏超出部分 */
+  overflow: hidden; /* 强制隐藏超出部分 */
   text-overflow: ellipsis;
-  max-width: 100%;   /* 确保宽度限制，省略号生效 */
+  max-width: 100%; /* 确保宽度限制，省略号生效 */
 }
 
 
 .meta {
   color: #666;
   font-size: 0.82vw;
-  position: absolute;    /* 新增：进行绝对定位 */
-  bottom: 0;             /* 贴底 */
+  position: absolute; /* 新增：进行绝对定位 */
+  bottom: 0; /* 贴底 */
 }
 
 /* 视频区域样式 */
@@ -401,8 +406,9 @@ body {
 
 .scroll-gradient.left {
   left: 0;
-  background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.8), transparent);
 }
+
 /* 左箭头 */
 .scroll-gradient.left::before {
   content: '';
@@ -431,10 +437,9 @@ body {
 }
 
 
-
 .scroll-gradient.right {
   right: 0;
-  background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
 }
 
 .scroll-gradient::before {
@@ -447,11 +452,11 @@ body {
   transform: rotate(15deg);
   opacity: 0.6;
 }
+
 /* 分类选项的 hover 效果 */
 .category-item:hover {
   background-color: #b3d4ff; /* 浅蓝色背景 */
 }
-
 
 
 </style>
