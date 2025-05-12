@@ -20,18 +20,46 @@
         </div>
       </div>
 
-      <div style="width: 300px">
-        <el-input v-model="title" prefix-icon="el-icon-search" size="medium" :placeholder="$t('text.searchBar')" style="width: 220px; margin-right: 5px"></el-input>
-        <el-button size="medium" @click="search" >{{ $t('button.search') }}</el-button>
+      <div style="display: flex; align-items: center">
+        <div style="width: 300px">
+          <el-input
+              v-model="title"
+              prefix-icon="el-icon-search"
+              size="medium"
+              :placeholder="$t('text.searchBar')"
+              style="width: 220px; margin-right: 5px"
+          ></el-input>
+          <el-button size="medium" @click="search">{{ $t('button.search') }}</el-button>
+        </div>
+
+        <!-- 地球图标 + 语言选择器 -->
+        <div style="display: flex; align-items: center; margin-left: 10px">
+<!--          <img src="@/assets/imgs/语言.png" alt="语言图标" style="width: 20px; height: 20px; margin-right: 5px;" />-->
+
+          <el-select
+              v-model="currentLocale"
+              size="medium"
+              @change="changeLanguage"
+              style="width: 120px"
+          >
+            <template #prefix>
+              <img
+                  src="@/assets/imgs/语言.png"
+                  alt="语言"
+                  style="width: 1.3vw; height: 1.3vw; margin-left: 0px;vertical-align: middle;"
+              />
+            </template>
+
+            <el-option
+                v-for="item in languageOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            />
+          </el-select>
+        </div>
       </div>
-      <el-select v-model="currentLocale" size="medium" @change="changeLanguage" style="width: 120px; margin-left: 10px">
-        <el-option
-            v-for="item in languageOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-        />
-      </el-select>
+
 
       <div class="front-header-right">
         <div v-if="!user.username">
