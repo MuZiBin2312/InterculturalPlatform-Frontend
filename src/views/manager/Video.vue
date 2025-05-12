@@ -389,20 +389,13 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.role === 'TEACHER'? this.user.id : -1,
           name: this.name,
         }
       }).then(res => {
         if (res.code === '200') {
           let list = res.data?.list || []
-
-          // 权限过滤逻辑：TEACHER 只看自己的数据
-          if (this.user.role === 'TEACHER') {
-            list = list.filter(item => item.userId === this.user.id)
-            this.total = list.length
-          } else {
             this.total = res.data?.total
-          }
-
           this.tableData = list
         } else {
           this.$message.error(res.msg)
