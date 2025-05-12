@@ -389,6 +389,8 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.role === 'TEACHER'? this.user.id : -1,
+
           name: this.name,
         }
       }).then(res => {
