@@ -62,7 +62,7 @@
           </div>
         </div>
 
-        <div style="margin: 0.39vw 0" v-if="total > pageSize">
+        <div style="margin: 1.8vw 0" v-if="total > pageSize">
           <el-pagination
               background
               @current-change="handleCurrentChange"
@@ -217,114 +217,175 @@ html, body {
 body {
   overflow-x: hidden;
 }
+
+/* 主体布局 */
 .main-layout {
   box-sizing: border-box;
+  display: flex;
+  gap: 0.52vw;
 }
 
 .main-content {
   width: 81vw;
 }
-.main-layout {
-  display: flex;
-  gap: 0.52vw;
-}
+
 .left-section {
   width: 54vw;
 }
+
 .right-section {
-  margin-left: 1vw;
-  width: 25vw;
+  position: fixed;
+  top: 2.4vw;
+  right: 0;
+  width: 27vw;
+  height: 98vh;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  padding: 1vw;
+  overflow-y: auto;
+  margin-bottom: 2.4vw;
 }
-.category-item {
-  max-width: 7.6vw;
-  height: 1.6vw;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0.26vw;
-  border: 0.03vw solid #2a60c9;
-  color: #2a60c9;
-  border-radius: 0.13vw;
-  margin-right: 0.32vw;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-size: 0.64vw;
-}
-.category-item-active {
-  background-color: #2a60c9;
-  color: #fff;
-}
-.card {
-  display: flex;
-  cursor: pointer;
-  gap: 0.49vw;
-  margin-bottom: 0.13vw;
-}
-.card img {
-  width: 5.91vw;
-  height: 4.6vw;
-  border-radius: 0.13vw;
-  display: block;
-}
-.card-content {
-  flex: 1;
-}
-.line1 {
-  font-size: 0.9vw;
-  margin-bottom: 0.26vw;
-}
-.line2 {
-  color: #666;
-  height: 1.4vw;
-  margin-bottom: 0.13vw;
-  font-size: 0.7vw;
-}
-.line1:hover {
-  color: #409EFF !important;
-}
-.meta {
-  color: #666;
-  font-size: 0.68vw;
-}
-.video-item {
-  margin-bottom: 0.28vw;
-  font-size: 0.7vw;
-  cursor: pointer;
-}
-.video-item img {
-  width: 0.39vw;
-  margin-right: 0.26vw;
-}
-.video-item:hover,
-.video-item-active {
-  color: #409EFF;
-}
+
+/* 分类滚动区域 */
 .category-scroll-wrapper {
   position: relative;
   display: flex;
   align-items: center;
-  overflow: hidden; /* 避免遮罩被裁剪 */
-  margin-top:0.7vw;
-  margin-bottom: 0.7vw;
+  overflow: hidden;
+  margin: 0.7vw 0;
 }
 
 .category-scroll-outer {
   flex: 1;
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
 }
 .category-scroll-outer::-webkit-scrollbar {
-  display: none; /* Chrome */
+  display: none;                /* Chrome/Safari */
 }
+
 .category-scroll-inner {
   display: inline-flex;
 }
 
+/* 分类项样式 */
+.category-item {
+  max-width: 11.02vw;
+  height: 2.32vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.377vw;
+  border: 0.0435vw solid #2a60c9;
+  color: #2a60c9;
+  border-radius: 0.1885vw;
+  margin-right: 0.464vw;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 0.928vw;
+}
+
+.category-item-active {
+  background-color: #2a60c9;
+  color: #fff;
+}
+
+/* 卡片样式 */
+.card {
+  display: flex;
+  cursor: pointer;
+  gap: 0.49vw;
+  overflow: hidden;           /* 确保超出的内容不显示 */
+  max-width: 83%;
+  margin-bottom: 0.13vw;
+  transform: scale(1.2);      /* 放大1.2倍 */
+  transform-origin: top left; /* 保证从左上角开始放大 */
+}
+
+.card img {
+  width: 7.09vw; /* 放大图片 */
+  height: 5.52vw; /* 放大图片 */
+  border-radius: 0.15vw;
+  display: block;
+}
+
+.card-content {
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 80%;  /* 控制最大宽度，避免被压缩 */
+  overflow: hidden;
+  position: relative;  /* 新增：为定位参考点 */
+
+}
+
+.line1 {
+  font-size: 1.08vw;
+  margin-bottom: 0.31vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.line2 {
+  color: #666;
+  font-size: 0.84vw;
+  margin-bottom: 0.16vw;
+  overflow: hidden;  /* 强制隐藏超出部分 */
+  text-overflow: ellipsis;
+  max-width: 100%;   /* 确保宽度限制，省略号生效 */
+}
+
+
+.meta {
+  color: #666;
+  font-size: 0.82vw;
+  position: absolute;    /* 新增：进行绝对定位 */
+  bottom: 0;             /* 贴底 */
+}
+
+/* 视频区域样式 */
+.right-section-top {
+  width: 100%;
+  padding: 1vw 0;
+}
+
+.video-title {
+  font-size: 1.2vw;
+  margin-bottom: 0.52vw;
+}
+
+.video-box {
+  margin-bottom: 0.36vw;
+}
+
+.video-item {
+  font-size: 1vw;
+  margin-bottom: 1vw;
+  margin-left: 1vw;
+  cursor: pointer;
+}
+
+
+.video-item img {
+  width: 1vw;
+  margin-right: 0.26vw;
+}
+
+.video-item:hover,
+.video-item-active {
+  font-size: 1vw;
+
+  color: #409EFF;
+}
+
+/* 渐变箭头遮罩样式 */
 .scroll-gradient {
   position: absolute;
   top: 0;
@@ -333,65 +394,64 @@ body {
   z-index: 5;
   pointer-events: none;
   transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .scroll-gradient.left {
   left: 0;
   background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
 }
+/* 左箭头 */
+.scroll-gradient.left::before {
+  content: '';
+  display: block;
+  width: 0.6vw;
+  height: 0.6vw;
+  border: solid #000b17; /* 左箭头颜色，改为红色 */
+  border-width: 0.12vw 0.12vw 0 0;
+  transform: rotate(-135deg); /* 右箭头旋转方向 */
+  transform-origin: center; /* 设置旋转原点为中心 */
+  opacity: 0.7; /* 左箭头透明度 */
+}
+
+/* 右箭头 */
+.scroll-gradient.right::before {
+  content: '';
+  display: block;
+  width: 0.6vw;
+  height: 0.6vw;
+  border: solid #000b17; /* 右箭头颜色，改为蓝色 */
+  border-width: 0.12vw 0.12vw 0 0;
+  transform: rotate(45deg); /* 左箭头旋转方向 */
+
+  transform-origin: center; /* 设置旋转原点为中心 */
+  opacity: 0.9; /* 右箭头透明度 */
+}
+
+
+
 .scroll-gradient.right {
   right: 0;
   background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
 }
-.right-section-top {
-  width: 100%;
-  height: 200px; /* 自适应高度 */
-  padding: 0.5vw 0;
+
+.scroll-gradient::before {
+  content: '';
+  display: block;
+  width: 0.6vw;
+  height: 0.6vw;
+  border: solid #999;
+  border-width: 0.12vw 0.12vw 0 0;
+  transform: rotate(15deg);
+  opacity: 0.6;
+}
+/* 分类选项的 hover 效果 */
+.category-item:hover {
+  background-color: #b3d4ff; /* 浅蓝色背景 */
 }
 
-.video-title {
-  font-size: 1vw;
-  margin-bottom: 0.52vw;
-}
 
-.video-box {
-  margin-bottom: 0.36vw;
-}
-.right-section {
-  top: 2.4vw;
-margin-bottom: 2.4vw
-;
-  position: fixed; /* 固定位置 */
-   right: 0;
-   width: 27vw; /* 右侧区域宽度 */
-   height: 98vh; /* 高度为视窗高度 */
-   background-color: white; /* 可根据需要调整背景 */
-   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
-   z-index: 999; /* 确保它在其他内容之上 */
-   padding: 1vw;
-   overflow-y: auto; /* 如果内容超过屏幕高度，允许滚动 */
- }
-
-.right-section-top {
-  width: 100%;
-  padding: 1vw 0;
-}
-
-.video-title {
-  font-size: 1vw;
-  margin-bottom: 0.52vw;
-}
-
-.video-box {
-  margin-bottom: 0.36vw;
-}
-
-.video-item {
-  cursor: pointer;
-  margin-bottom: 1vw;
-}
-
-.video-item-active {
-  color: #007aff; /* 选中状态的颜色 */
-}
 
 </style>

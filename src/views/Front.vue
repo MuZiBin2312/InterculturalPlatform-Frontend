@@ -21,7 +21,7 @@
       </div>
 
       <div style="display: flex; align-items: center">
-        <div style="width: 300px">
+        <div style="width: 300px;">
           <el-input
               v-model="title"
               prefix-icon="el-icon-search"
@@ -33,7 +33,8 @@
         </div>
 
         <!-- 地球图标 + 语言选择器 -->
-        <div style="display: flex; align-items: center; margin-left: 10px">
+        <div style="display: flex; align-items: center; margin-left: 10px;
+">
 <!--          <img src="@/assets/imgs/语言.png" alt="语言图标" style="width: 20px; height: 20px; margin-right: 5px;" />-->
 
           <el-select
@@ -46,7 +47,7 @@
               <img
                   src="@/assets/imgs/语言.png"
                   alt="语言"
-                  style="width: 0.9vw; height: 0.9vw; margin-left: 0px;vertical-align: middle;"
+                  style="width: 20px; height: 20px; margin-left: 0px;vertical-align: middle;"
               />
             </template>
 
