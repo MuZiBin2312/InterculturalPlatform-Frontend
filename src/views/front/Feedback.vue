@@ -49,7 +49,7 @@ export default {
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
               this.$message.success('提交成功')
-              // this.form = {}
+              this.form = {}
             } else {
               this.$message.error(res.msg)  // 弹出错误的信息
             }

@@ -16,6 +16,7 @@
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
         <el-table-column prop="descr" label="描述" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="category" label="分类" show-overflow-tooltip :formatter="formatCategory"></el-table-column>
         <el-table-column prop="img" label="配图">
           <template v-slot="scope">
             <el-image v-if="scope.row.img" style="width: 50px" :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
@@ -113,6 +114,14 @@ export default {
     this.load(1)
   },
   methods: {
+    formatCategory(row) {
+      const map = {
+        '1': '经典案例',
+        '2': '文化讨论',
+        '3': '互动体验'
+      }
+      return map[row.category] || '未知分类'
+    },
     changeStatus(row, status) {
       this.form = JSON.parse(JSON.stringify(row))
       this.form.status = status
