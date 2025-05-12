@@ -112,20 +112,26 @@
 
 <style scoped>
 .scroll-title {
-  display: inline-block;
-  max-width: 280px;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
+  display: block;
+  white-space: normal; /* 允许换行 */
+  word-break: break-word; /* 防止长单词溢出 */
+  overflow-wrap: break-word; /* 自动换行 */
+  max-width: 200px; /* 限制最大宽度 */
+  line-height: 1.4;
+  overflow: hidden; /* 如果文本超出，隐藏溢出部分 */
+  text-overflow: ellipsis; /* 处理超出部分的显示 */
 }
+
 .scroll-title span {
   display: inline-block;
   transition: transform 10s linear;
   will-change: transform;
+  word-wrap: break-word; /* 确保长单词自动换行 */
 }
 .scroll-title:hover span {
-  transform: translateX(calc(-100% + 120px));
+  transform: translateX(calc(-10%));
 }
+
 @import "@/assets/css/manager.css";
 </style>
 
@@ -263,12 +269,23 @@ export default {
 </script>
 
 <style scoped>
-.front-sidebar{
-  margin-top: 2.4vw;
-  position: fixed;             /* 让它固定在页面左侧 */
-  height: 80vw;
-  overflow-y: auto;            /* 当内容超出时显示垂直滚动条 */
-  z-index: 1000;              /* 保证在其他元素之上 */
+.front-sidebar {
+  position: fixed;
+  left: -0.5vw;
+  min-width: 200px;        /* ✅ 原180px，改为200px */
+  max-width: 300px;
+  width: auto;
+  height: calc(100vh - 2.4vw);
+  top: 2.4vw;
+  overflow-y: auto;
+  background-color: #011223;
+  z-index: 1000;
 }
+.el-menu-item span, .el-submenu__title span {
+  display: inline-block;
+  padding: 4px 0;
+  font-size: 14px;
+}
+
 
 </style>
