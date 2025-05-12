@@ -4,7 +4,9 @@
 }
 
 .manager-header {
+    position: fixed;
     display: flex;
+    width: 100%;
     background-color: #0066bc;
 }
 
@@ -13,7 +15,7 @@
     height: 60px;
     padding-left: 10px;
     display: flex;
-    align-items: center
+    align-items: center;
 }
 
 .manager-header-left img {

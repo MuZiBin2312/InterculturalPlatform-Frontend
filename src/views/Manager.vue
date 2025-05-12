@@ -32,7 +32,18 @@
     <!--  主体  -->
     <div class="manager-main">
       <!--  侧边栏  -->
-      <div class="manager-main-left">
+      <div class="manager-main-left" style="position: fixed;
+    left: -0.5vw;
+    min-width: 200px;        /* 调整为200px，避免白边问题 */
+    max-width: 300px;
+    width: auto;
+    height: calc(100vh - 2.4vw);
+    top: 60px;
+    overflow-y: auto;
+    background-color: #011223;
+    z-index: 1000;
+    box-shadow: inset -1px 0 0 #1c1c1c; /* 视觉分割，避免误判为白边 */
+    padding-right: 0; /* 确保右侧没有额外的空白 */">
         <el-menu :default-openeds="['info', 'user']" router style="border: none" :default-active="$route.path">
           <el-menu-item index="/home">
             <i class="el-icon-s-home"></i>
@@ -64,7 +75,7 @@
       </div>
 
       <!--  数据表格  -->
-      <div class="manager-main-right">
+      <div class="manager-main-right" style="margin-left: 256px;margin-top:60px;">
         <router-view @update:user="updateUser" />
       </div>
     </div>
