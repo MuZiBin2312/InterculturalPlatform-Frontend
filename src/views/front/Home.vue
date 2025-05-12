@@ -76,20 +76,30 @@
       </div>
 
       <!-- 右侧部分开始 -->
-      <div class="right-section">
+      <!-- 右侧部分开始 -->
+      <!-- 右侧部分开始 -->
+      <div class="right-section" style="padding-right: 0.5vw
+">
         <hot />
 
-        <div style="margin: 0vw 0">
-          <div style="font-size: 1vw; margin-bottom: 0.52vw">{{ $t('title.highlight') }}</div>
-          <div style="margin-bottom: 0.36vw">
+        <div class="right-section-top">
+          <div class="video-title">{{ $t('title.highlight') }}</div>
+          <div class="video-box">
             <video controls style="width: 95%" :src="video.file"></video>
           </div>
-          <div @click="loadVideo(item)" v-for="item in videoList" :key="item.id" class="video-item" :class="{'video-item-active': video.id === item.id}">
+          <div
+              @click="loadVideo(item)"
+              v-for="item in videoList"
+              :key="item.id"
+              class="video-item"
+              :class="{ 'video-item-active': video.id === item.id }"
+          >
             <img src="@/assets/imgs/play.gif" alt="" v-if="video.id === item.id">
             <span>{{ item.name }}</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -146,7 +156,9 @@ export default {
     loadVideo(item) {
       this.$request.get('/video/selectPage', {
         params: {
-          pageNum: 1
+          pageNum: 1,
+          pageSize: 7  // 控制只取 5 条视频
+
         }
       }).then(res => {
         this.videoList = res.data?.list || []
@@ -197,6 +209,18 @@ export default {
 </script>
 
 <style scoped>
+/* 全局样式 */
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+.main-layout {
+  box-sizing: border-box;
+}
+
 .main-content {
   width: 81vw;
 }
@@ -205,11 +229,11 @@ export default {
   gap: 0.52vw;
 }
 .left-section {
-  width: 57.9vw;
+  width: 54vw;
 }
 .right-section {
   margin-left: 1vw;
-  width: 26.1vw;
+  width: 25vw;
 }
 .category-item {
   max-width: 7.6vw;
@@ -318,4 +342,56 @@ export default {
   right: 0;
   background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
 }
+.right-section-top {
+  width: 100%;
+  height: 200px; /* 自适应高度 */
+  padding: 0.5vw 0;
+}
+
+.video-title {
+  font-size: 1vw;
+  margin-bottom: 0.52vw;
+}
+
+.video-box {
+  margin-bottom: 0.36vw;
+}
+.right-section {
+  top: 2.4vw;
+margin-bottom: 2.4vw
+;
+  position: fixed; /* 固定位置 */
+   right: 0;
+   width: 27vw; /* 右侧区域宽度 */
+   height: 98vh; /* 高度为视窗高度 */
+   background-color: white; /* 可根据需要调整背景 */
+   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+   z-index: 999; /* 确保它在其他内容之上 */
+   padding: 1vw;
+   overflow-y: auto; /* 如果内容超过屏幕高度，允许滚动 */
+ }
+
+.right-section-top {
+  width: 100%;
+  padding: 1vw 0;
+}
+
+.video-title {
+  font-size: 1vw;
+  margin-bottom: 0.52vw;
+}
+
+.video-box {
+  margin-bottom: 0.36vw;
+}
+
+.video-item {
+  cursor: pointer;
+  margin-bottom: 1vw;
+}
+
+.video-item-active {
+  color: #007aff; /* 选中状态的颜色 */
+}
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="min-height: 350px;width:90%;">
+    <div style="width:90%;">
       <div style="display: flex; align-items: center; margin-bottom: 20px">
         <img src="@/assets/imgs/hot.png" alt="" style="width: 70px">
         <div style="flex: 1; text-align: right; ">
