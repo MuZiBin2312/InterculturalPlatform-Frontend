@@ -74,7 +74,8 @@
     "send": "Send",
     "reply": "Reply",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "refresh": "Refresh"
   },
   "title": {
     "highlight": "High Light"

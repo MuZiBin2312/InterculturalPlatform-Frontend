@@ -73,7 +73,8 @@
     "send": "评论",
     "reply": "回复",
     "confirm": "确 定",
-    "cancel": "取 消"
+    "cancel": "取 消",
+    "refresh": "换一换"
   },
   "title": {
     "highlight": "精选视频"

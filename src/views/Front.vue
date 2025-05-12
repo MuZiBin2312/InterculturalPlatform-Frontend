@@ -46,7 +46,7 @@
               <img
                   src="@/assets/imgs/语言.png"
                   alt="语言"
-                  style="width: 1.3vw; height: 1.3vw; margin-left: 0px;vertical-align: middle;"
+                  style="width: 0.9vw; height: 0.9vw; margin-left: 0px;vertical-align: middle;"
               />
             </template>
 
