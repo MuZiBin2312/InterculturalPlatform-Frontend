@@ -199,108 +199,76 @@ export default {
 <style scoped>
 .main-content {
   width: 86vw;
+  margin: 0 auto;
 }
+
 .main-layout {
   display: flex;
-  gap: 0.52vw;
+  gap: 1vw;
 }
+
 .left-section {
-  width: 57.9vw;
+  flex: 1;
 }
+
 .right-section {
-  margin-left: 1vw;
-  width: 26.1vw;
+  width: 26vw;
 }
+
+/* 分类按钮样式统一、紧凑化 */
 .category-item {
-  max-width: 7.6vw;
-  height: 1.6vw;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 8vw;
+  height: 2vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.26vw;
-  border: 0.03vw solid #2a60c9;
+  padding: 0 0.5vw;
+  margin-right: 0.5vw;
+  border: 1px solid #2a60c9;
+  border-radius: 0.2vw;
   color: #2a60c9;
-  border-radius: 0.13vw;
-  margin-right: 0.32vw;
+  font-size: 0.8vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
-  box-sizing: border-box;
-  font-size: 0.64vw;
+  transition: all 0.2s ease;
 }
+
+.category-item:hover {
+  background-color: rgba(42, 96, 201, 0.1);
+}
+
 .category-item-active {
   background-color: #2a60c9;
   color: #fff;
 }
-.card {
-  display: flex;
-  cursor: pointer;
-  gap: 0.49vw;
-  margin-bottom: 0.13vw;
-}
-.card img {
-  width: 5.91vw;
-  height: 4.6vw;
-  border-radius: 0.13vw;
-  display: block;
-}
-.card-content {
-  flex: 1;
-}
-.line1 {
-  font-size: 0.9vw;
-  margin-bottom: 0.26vw;
-}
-.line2 {
-  color: #666;
-  height: 1.4vw;
-  margin-bottom: 0.13vw;
-  font-size: 0.7vw;
-}
-.line1:hover {
-  color: #409EFF !important;
-}
-.meta {
-  color: #666;
-  font-size: 0.68vw;
-}
-.video-item {
-  margin-bottom: 0.28vw;
-  font-size: 0.7vw;
-  cursor: pointer;
-}
-.video-item img {
-  width: 0.39vw;
-  margin-right: 0.26vw;
-}
-.video-item:hover,
-.video-item-active {
-  color: #409EFF;
-}
+
+/* 滚动区域封装优化 */
 .category-scroll-wrapper {
   position: relative;
   display: flex;
   align-items: center;
-  overflow: hidden; /* 避免遮罩被裁剪 */
-  margin-top:0.7vw;
-  margin-bottom: 0.7vw;
+  overflow: hidden;
+  margin: 1vw 0;
 }
 
 .category-scroll-outer {
   flex: 1;
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .category-scroll-outer::-webkit-scrollbar {
-  display: none; /* Chrome */
+  display: none;
 }
+
 .category-scroll-inner {
   display: inline-flex;
 }
 
+/* 左右渐隐遮罩样式 */
 .scroll-gradient {
   position: absolute;
   top: 0;
@@ -312,10 +280,79 @@ export default {
 }
 .scroll-gradient.left {
   left: 0;
-  background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), transparent);
 }
 .scroll-gradient.right {
   right: 0;
-  background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.9), transparent);
+}
+
+/* 卡片样式重构 */
+.card {
+  display: flex;
+  gap: 1vw;
+  margin-bottom: 1vw;
+  cursor: pointer;
+  padding: 0.5vw 0;
+  border-bottom: 1px solid #eee;
+}
+
+.card img {
+  width: 6vw;
+  height: 4.5vw;
+  border-radius: 0.3vw;
+  object-fit: cover;
+}
+
+.card-content {
+  flex: 1;
+}
+
+.line1 {
+  font-size: 1vw;
+  font-weight: bold;
+  margin-bottom: 0.5vw;
+  color: #333;
+  transition: color 0.2s;
+}
+.line1:hover {
+  color: #409EFF;
+}
+
+.line2 {
+  font-size: 0.8vw;
+  color: #666;
+  margin-bottom: 0.3vw;
+  line-height: 1.2;
+  max-height: 2.4vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: 0.7vw;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+/* 视频列表样式统一 */
+.video-item {
+  font-size: 0.75vw;
+  color: #333;
+  margin-bottom: 0.5vw;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+.video-item img {
+  width: 1vw;
+  margin-right: 0.5vw;
+}
+.video-item:hover,
+.video-item-active {
+  color: #409EFF;
 }
 </style>
