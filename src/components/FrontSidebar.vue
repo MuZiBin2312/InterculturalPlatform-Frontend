@@ -22,7 +22,7 @@
           :index="menu.index"
       >
         <template slot="title">
-            <i :class="menu.icon" ></i>
+          <i :class="menu.icon" ></i>
           <span>{{ $t(menu.title) }}</span>
         </template>
         <el-menu-item
@@ -89,51 +89,27 @@
           {{ $t('menu.uploadNotice') }}
         </el-menu-item>
       </el-submenu>
-<!--      公告与反馈-->
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-warning-outline"></i>
-                <span>{{ $t('menu.announcementAndFeedback') }}</span>
-              </template>
-              <el-menu-item index="/front/Notice">
-                <i class="el-icon-bell"></i>
-                {{ $t('menu.announcements') }}
-              </el-menu-item>
-              <el-menu-item index="/front/Feedback">
-                <i class="el-icon-chat-dot-square"></i>
-                {{ $t('menu.feedback') }}
-              </el-menu-item>
-            </el-submenu>
+      <!--      公告与反馈-->
+      <el-submenu index="3">
+        <template slot="title">
+          <i class="el-icon-warning-outline"></i>
+          <span>{{ $t('menu.announcementAndFeedback') }}</span>
+        </template>
+        <el-menu-item index="/front/Notice">
+          <i class="el-icon-bell"></i>
+          {{ $t('menu.announcements') }}
+        </el-menu-item>
+        <el-menu-item index="/front/Feedback">
+          <i class="el-icon-chat-dot-square"></i>
+          {{ $t('menu.feedback') }}
+        </el-menu-item>
+      </el-submenu>
 
 
     </el-menu>
   </div>
 </template>
 
-<style scoped>
-.scroll-title {
-  display: block;
-  white-space: normal; /* 允许换行 */
-  word-break: break-word; /* 防止长单词溢出 */
-  overflow-wrap: break-word; /* 自动换行 */
-  max-width: 200px; /* 限制最大宽度 */
-  line-height: 1.4;
-  overflow: hidden; /* 如果文本超出，隐藏溢出部分 */
-  text-overflow: ellipsis; /* 处理超出部分的显示 */
-}
-
-.scroll-title span {
-  display: inline-block;
-  transition: transform 10s linear;
-  will-change: transform;
-  word-wrap: break-word; /* 确保长单词自动换行 */
-}
-.scroll-title:hover span {
-  transform: translateX(calc(-10%));
-}
-
-@import "@/assets/css/manager.css";
-</style>
 
 <script lang="ts">
 import Footer from "@/components/Footer.vue";
@@ -272,7 +248,7 @@ export default {
 .front-sidebar {
   position: fixed;
   left: -0.5vw;
-  min-width: 200px;        /* ✅ 原180px，改为200px */
+  min-width: 200px;        /* 调整为200px，避免白边问题 */
   max-width: 300px;
   width: auto;
   height: calc(100vh - 2.4vw);
@@ -280,12 +256,67 @@ export default {
   overflow-y: auto;
   background-color: #011223;
   z-index: 1000;
+  box-shadow: inset -1px 0 0 #1c1c1c; /* 视觉分割，避免误判为白边 */
+  padding-right: 0; /* 确保右侧没有额外的空白 */
 }
-.el-menu-item span, .el-submenu__title span {
+
+.el-menu {
+  border-right: none !important; /* 去掉el-menu自带的边框 */
+  background-color: #011223 !important; /* 确保背景色一致 */
+}
+
+.el-menu-item span,
+.el-submenu__title span {
   display: inline-block;
   padding: 4px 0;
   font-size: 14px;
 }
 
+.scroll-title {
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 192px; /* 原来是200px，预留8px冗余 */
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px; /* 冗余空间，防止边界抖动或露出 */
+  box-sizing: border-box; /* 确保 padding 不撑大容器 */
+}
 
+.scroll-title span {
+  display: inline-block;
+  transition: transform 10s linear;
+  will-change: transform;
+  word-wrap: break-word; /* 确保长单词自动换行 */
+}
+
+.scroll-title:hover span {
+  transform: translateX(calc(-10%));
+}
+
+.front-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.front-sidebar::-webkit-scrollbar-track {
+  background: #011223;
+}
+
+.front-sidebar::-webkit-scrollbar-thumb {
+  background-color: #2a3f54;
+  border-radius: 3px;
+}
+/* 控制所有子菜单的缩进（缩小左侧 padding） */
+.el-menu--inline .el-menu-item {
+  padding-left: 38px !important; /* 默认是 48px，可以改成 28px 或 32px */
+}
+
+/* 控制子菜单标题（el-submenu__title）的缩进 */
+.el-menu--inline .el-submenu__title {
+  padding-left: 28px !important; /* 默认是 20px + 缩进增量 */
+}
+
+@import "@/assets/css/manager.css";
 </style>
