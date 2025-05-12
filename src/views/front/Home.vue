@@ -198,7 +198,7 @@ export default {
 
 <style scoped>
 .main-content {
-  width: 86vw;
+  width: 81vw;
 }
 .main-layout {
   display: flex;
