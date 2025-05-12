@@ -139,9 +139,8 @@ export default {
     this.loadCategory()
     this.load(1)
     this.loadVideo(null)
-    this.$nextTick(() => {
-      this.updateScrollHints()
-    })
+
+
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
@@ -272,6 +271,7 @@ body {
 
 .category-scroll-inner {
   display: inline-flex;
+  min-width: max-content; /* ✅ 关键属性：强制内容撑宽 */
 }
 
 /* 分类项样式 */

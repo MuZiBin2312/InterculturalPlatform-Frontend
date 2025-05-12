@@ -74,7 +74,8 @@
     "reply": "回复",
     "confirm": "确 定",
     "cancel": "取 消",
-    "refresh": "换一换"
+    "refresh": "换一换",
+    "submitFeedback": "提交反馈"
   },
   "title": {
     "highlight": "精选视频"
@@ -91,7 +92,14 @@
     "enterComment" : "请输入评论...",
     "enterTheAnswer" : "请输入回复...",
     "answerContent": "回答内容",
-    "content": "内容"
+    "content": "内容",
 
+    "lookingForwardToYourVoice": "期待您的声音",
+    "title": "标题",
+    "question": "问题",
+    "idea": "想法",
+    "enterTheQuestion": "请输入问题...",
+    "enterTheReply" : "请输入回复...",
+    "enterTheIdea": "请问您有什么想法..."
   }
 }

@@ -75,7 +75,8 @@
     "reply": "Reply",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "submitFeedback": "Submit Feedback"
   },
   "title": {
     "highlight": "High Light"
@@ -92,6 +93,14 @@
     "enterComment" : "Please enter a comment...",
     "enterTheAnswer" : "Please enter the answer...",
     "answerContent": "Answer Content",
-    "content": "Content"
+    "content": "Content",
+
+    "lookingForwardToYourVoice": "Looking Forward To Your Voice",
+    "title": "Title",
+    "question": "Question",
+    "idea": "Idea",
+    "enterTheQuestion": "Please enter the question...",
+    "enterTheReply" : "Please enter the reply...",
+    "enterTheIdea": "What your thoughts are..."
   }
 }
