@@ -248,17 +248,20 @@ export default {
 .front-sidebar {
   position: fixed;
   left: -0.5vw;
-  min-width: 200px;        /* 调整为200px，避免白边问题 */
+  min-width: 200px;
   max-width: 300px;
   width: auto;
   height: calc(100vh - 2.4vw);
   top: 2.4vw;
   overflow-y: auto;
+  overflow-x: hidden; /* ✅ 禁止横向滚动 */
+  touch-action: pan-y; /* ✅ 允许浏览器处理横向手势，如“滑动返回” */
   background-color: #011223;
   z-index: 1000;
-  box-shadow: inset -1px 0 0 #1c1c1c; /* 视觉分割，避免误判为白边 */
-  padding-right: 0; /* 确保右侧没有额外的空白 */
+  box-shadow: inset -1px 0 0 #1c1c1c;
+  padding-right: 0;
 }
+
 
 .el-menu {
   border-right: none !important; /* 去掉el-menu自带的边框 */
