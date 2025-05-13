@@ -415,7 +415,7 @@ body {
   display: block;
   width: 0.6vw;
   height: 0.6vw;
-  border: solid #000b17; /* 左箭头颜色，改为红色 */
+  border: solid #2a60c9; /* 左箭头颜色，改为红色 */
   border-width: 0.12vw 0.12vw 0 0;
   transform: rotate(-135deg); /* 右箭头旋转方向 */
   transform-origin: center; /* 设置旋转原点为中心 */
@@ -428,7 +428,7 @@ body {
   display: block;
   width: 0.6vw;
   height: 0.6vw;
-  border: solid #000b17; /* 右箭头颜色，改为蓝色 */
+  border: solid #2a60c9; /* 右箭头颜色，改为蓝色 */
   border-width: 0.12vw 0.12vw 0 0;
   transform: rotate(45deg); /* 左箭头旋转方向 */
 
