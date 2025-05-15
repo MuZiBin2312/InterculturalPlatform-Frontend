@@ -14,10 +14,12 @@
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
+        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="topCategoryName" label="一级菜单"></el-table-column>
+        <el-table-column prop="category" label="二级菜单"></el-table-column>
         <el-table-column prop="content" label="内容"></el-table-column>
         <el-table-column prop="userName" label="评论人"></el-table-column>
         <el-table-column prop="time" label="评论时间"></el-table-column>
-        <el-table-column prop="module" label="模块"></el-table-column>
         <el-table-column label="操作" align="center" width="100">
           <template v-slot="scope">
             <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
@@ -124,7 +126,7 @@ export default {
     },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
-      this.$request.get('/comment/selectPage', {
+      this.$request.get('/comment/selectPageWithNews', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
