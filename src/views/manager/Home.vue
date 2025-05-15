@@ -5,7 +5,7 @@
     <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
       <div class="card item">
         <div style="flex: 1; text-align: center">
-          <img src="@/assets/imgs/新闻.png" alt="" style="width: 60px; height: 60px" />
+          <img src="@/assets/imgs/新闻.png" alt="" style="width: 60px; height: 60px"/>
         </div>
         <div style="flex: 1; font-size: 20px">
           <div style="margin-bottom: 5px">资讯总数</div>
@@ -15,7 +15,7 @@
 
       <div class="card item">
         <div style="flex: 1; text-align: center">
-          <img src="@/assets/imgs/问答.png" alt="" style="width: 60px; height: 60px" />
+          <img src="@/assets/imgs/问答.png" alt="" style="width: 60px; height: 60px"/>
         </div>
         <div style="flex: 1; font-size: 20px">
           <div style="margin-bottom: 5px">问题总数</div>
@@ -24,7 +24,7 @@
       </div>
       <div class="card item">
         <div style="flex: 1; text-align: center">
-          <img src="@/assets/imgs/反馈.png" alt="" style="width: 60px; height: 60px" />
+          <img src="@/assets/imgs/反馈.png" alt="" style="width: 60px; height: 60px"/>
         </div>
         <div style="flex: 1; font-size: 20px">
           <div style="margin-bottom: 5px">反馈总数</div>
@@ -33,7 +33,7 @@
       </div>
       <div class="card item">
         <div style="flex: 1; text-align: center">
-          <img src="@/assets/imgs/用户.png" alt="" style="width: 60px; height: 60px" />
+          <img src="@/assets/imgs/用户.png" alt="" style="width: 60px; height: 60px"/>
         </div>
         <div style="flex: 1; font-size: 20px">
           <div style="margin-bottom: 5px">用户总数</div>
@@ -226,184 +226,162 @@ export default {
     }
   },
   mounted() {
+    // ================= 散点图 =================
     this.$request.get('/selectClickTrendDataByHour').then(res => {
-      const data = res.data || {};  // 确保data是一个对象而不是数组
-      console.log(res.data);
+      const data = res.data || {};
+      const times = data.hours || [];
+      const clickCounts = (data.newsClickData || []).map(item => item.value);
 
-      // 解析返回的数据，假设newsClickData是点击量，hours是时间
-      const times = data.hours || [];  // 获取时间数据
-      const clickCounts = data.newsClickData.map(item => item.value);  // 获取新闻点击量
-
-      // 格式化时间为 "几日几时" 形式
+      // 格式化时间：几日几时
       const formattedTimes = times.map(time => {
-        const [date, hour] = time.split(' '); // 分离日期和小时
-        const day = date.split('-')[2]; // 获取日期中的日
-        return `${day}日 ${hour}时`; // 返回格式化后的字符串
+        const [date, hour] = time.split(' ');
+        const day = date.split('-')[2];
+        return `${day}日 ${hour}时`;
       });
 
-      // 更新散点图的数据
-      pointOption.xAxis.data = formattedTimes;  // 横轴是时间
-      pointOption.series[0].data = clickCounts.map((count, index) => [formattedTimes[index], count]);  // 散点图的数据，时间和点击量配对
-
-      // 初始化并渲染散点图
+      pointOption.xAxis.data = formattedTimes;
+      pointOption.series[0].data = clickCounts.map((count, index) => [formattedTimes[index], count]);
       const pointDom = document.getElementById('point');
+      if (!pointDom) {
+        console.error('point 容器不存在，不能初始化图表');
+        return;
+      }
       const pointChart = echarts.init(pointDom);
       pointChart.setOption(pointOption);
+
     });
 
-    let bar1Dom = document.getElementById('bar1');
-    let barOne = echarts.init(bar1Dom);
+    // ================= 排行图（柱状图） =================
+    const bar1Dom = document.getElementById('bar1');
+    const barChart = echarts.init(bar1Dom);
+
     this.$request.get('/selectTopReads').then(res => {
       const data = res.data || {};
+      const newsBarData = (data.news || []).slice(0, 10);
+      const videoBarData = (data.video || []).slice(0, 10);
 
-      // 确保是数组
-      this.newsBarData = Array.isArray(data.news) ? data.news : [];
-      this.videoBarData = Array.isArray(data.video) ? data.video : [];
-
-      // 截取前10条数据
-      this.newsBarData = this.newsBarData.slice(0, 10);
-      this.videoBarData = this.videoBarData.slice(0, 10);
-
-
-      // 合并数据
       const combinedData = [
-        ...this.newsBarData.map(item => ({
+        ...newsBarData.map(item => ({
           name: item.name,
           clickCount: item.value,
           type: '新闻',
         })),
-        ...this.videoBarData.map(item => ({
+        ...videoBarData.map(item => ({
           name: item.name,
           clickCount: item.value,
           type: '视频',
         })),
       ];
 
-      // 确保合并后的数据正常
-      if (combinedData.some(item => item.name === undefined || item.clickCount === undefined)) {
-        console.error('合并数据中存在未定义的值');
-        return;
-      }
-
-      // 按点击量排序
       const sortedData = combinedData.sort((a, b) => a.clickCount - b.clickCount);
-      // 提取排序后的名称和点击量
-      const names = sortedData.map(item => item.name);
+      const names = sortedData.map(item =>
+          item.name.length > 10 ? item.name.slice(0, 10) + '…' : item.name
+      );
       const clickCounts = sortedData.map(item => item.clickCount);
       const types = sortedData.map(item => item.type);
-      // 设置图表的 option
+
       const option = {
         title: {
-          text:'内容点击量排行',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'axis'
+          text: '内容点击量排行',
+          left: 'center',
         },
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['视频', '文章'], // ✅改为“文章”
-
+          data: ['视频', '文章'],
         },
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
-          type: 'value'
-
+          type: 'value',
         },
         yAxis: {
           type: 'category',
-          data: sortedData.map(item => item.name.length > 10 ? item.name.slice(0, 10) + '…' : item.name),
-          axisLabel: {
-            show: true,
-            formatter: val => val
-          }
+          data: names,
         },
         tooltip: {
           trigger: 'item',
-          formatter: function (params) {
-            return `${sortedData[params.dataIndex].name}<br/>点击量: ${params.value}`;
-          }
+          formatter: params =>
+              `${sortedData[params.dataIndex].name}<br/>点击量: ${params.value}`,
         },
         dataZoom: [
           {
             type: 'slider',
-            yAxisIndex: 0, // 针对 y 轴
+            yAxisIndex: 0,
             start: 100,
-            end: 50, // 初始显示前 50%（可按实际条数调整）
-            handleSize: 10
-          }
+            end: 50,
+            handleSize: 10,
+          },
         ],
         series: [
           {
             name: '视频',
             type: 'bar',
             stack: 'total',
-            itemStyle: {
-              color: '#5470C6' // 视频颜色
-            },
-            data: clickCounts.map((count, index) => types[index] === '视频' ? count : 0) // 仅显示视频的点击量
+            itemStyle: { color: '#5470C6' },
+            data: clickCounts.map((count, i) => (types[i] === '视频' ? count : 0)),
           },
           {
             name: '文章',
             type: 'bar',
             stack: 'total',
-            itemStyle: {
-              color: '#91CC75' // 新闻颜色
-            },
-            data: clickCounts.map((count, index) => types[index] === '新闻' ? count : 0) // 仅显示新闻的点击量
-          }
-        ]
+            itemStyle: { color: '#91CC75' },
+            data: clickCounts.map((count, i) => (types[i] === '新闻' ? count : 0)),
+          },
+        ],
       };
 
-
-      // 设置图表选项
       this.$nextTick(() => {
-        barOne.setOption(option);
+        barChart.setOption(option);
       });
-    });    // 折线图
-    let linetDom = document.getElementById('line');
-    let lineChart = echarts.init(linetDom);
+    });
 
-    // 饼图
-    let pieDom = document.getElementById('pie');
-    let pieChart = echarts.init(pieDom);
+    // ================= 折线图 =================
+    const lineDom = document.getElementById('line');
+    const lineChart = echarts.init(lineDom);
+    this.$request.get('/selectLine').then(res => {
+      const data = res.data || [];
+      lineOption.xAxis.data = data.map(v => v.name);
+      lineOption.series[0].data = data.map(v => v.value);
+      lineChart.setOption(lineOption);
+    });
 
-    // 趋势图
+    // ================= 饼图 =================
+    const pieDom = document.getElementById('pie');
+    const pieChart = echarts.init(pieDom);
+    this.$request.get('/selectPie').then(res => {
+      pieOption.series[0].data = res.data || [];
+      pieChart.setOption(pieOption);
+    });
+
+    // ================= 趋势图（折线） =================
     const trendDom = document.getElementById('trendChart');
     const trendChart = echarts.init(trendDom);
-
-    this.$request.get('/selectLine').then(res => {
-      lineOption.xAxis.data = res.data?.map(v => v.name) || []
-      lineOption.series[0].data = res.data?.map(v => v.value) || []
-      lineChart.setOption(lineOption)
-    })
-
-    this.$request.get('/selectPie').then(res => {
-      console.log(res.data)
-      pieOption.series[0].data = res.data || []
-      pieChart.setOption(pieOption)
-    })
-
     this.$request.get('/selectTrendData').then(res => {
-      const data = res.data
-      const newsData = data.news || []
-      const videoData = data.video || []
-      const dates = data.dates || []
+      const data = res.data || {};
+      const newsData = data.news || [];
+      const videoData = data.video || [];
+      const dates = data.dates || [];
 
-      trendOption.xAxis.data = dates
-      trendOption.series[0].data = newsData.map(item => item.value)
-      trendOption.series[1].data = videoData.map(item => item.value)
+      trendOption.xAxis.data = dates;
+      trendOption.series[0].data = newsData.map(item => item.value);
+      trendOption.series[1].data = videoData.map(item => item.value);
 
-      trendChart.setOption(trendOption)
-    })
-    // window.addEventListener('resize', chart.resize)
+      trendChart.setOption(trendOption);
+    });
 
+    // ================= 响应式图表缩放（可选） =================
+    window.addEventListener('resize', () => {
+      pointChart.resize();
+      barChart.resize();
+      lineChart.resize();
+      pieChart.resize();
+      trendChart.resize();
+    });
   },
   created() {
     this.$request.get('/count').then(res => {
