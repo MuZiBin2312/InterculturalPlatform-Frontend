@@ -27,7 +27,11 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column label="角色">
+          <template v-slot="scope">
+            <span>{{ scope.row.role === 'USER' ? '学生' : scope.row.role === 'TEACHER' ? '教师' : scope.row.role }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
             <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
@@ -79,7 +83,7 @@
         <!-- 新增的角色选择 -->
         <el-form-item label="角色" prop="role">
           <el-select v-model="form.role" placeholder="请选择角色">
-            <el-option label="用户" value="USER"></el-option>
+            <el-option label="学生" value="USER"></el-option>
             <el-option label="教师" value="TEACHER"></el-option>
           </el-select>
         </el-form-item>

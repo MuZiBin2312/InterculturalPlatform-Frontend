@@ -1,8 +1,6 @@
 <template>
-  <div style="background-color: #f8f8f8">
-    <div>
-      <iframe scrolling="no" src="https://widget.tianqiapi.com/?style=tg&skin=pitaya" frameborder="0" width="470" height="40" allowtransparency="true"></iframe>
-    </div>
+  <div style="background-color: #fff">
+
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
@@ -10,24 +8,59 @@
         <div class="title">{{ $t('project.projectName') }}</div>
       </div>
       <div class="front-header-center">
-        <div style="display: flex">
-          <div class="menu" :class="{ 'menu-active' : $route.path.includes(item.path) }"
-               v-for="item in menus" :key="item.path" @click="$router.push(item.path)">{{ $t(item.text) }}</div>
+        <div class="weather-wrapper">
+          <iframe
+              scrolling="no"
+              src="https://widget.tianqiapi.com/?style=tg&skin=pitaya"
+              frameborder="0"
+              width="470"
+              height="40"
+              allowtransparency="true"
+          ></iframe>
         </div>
       </div>
 
-      <div style="width: 300px">
-        <el-input v-model="title" prefix-icon="el-icon-search" size="medium" :placeholder="$t('text.searchBar')" style="width: 220px; margin-right: 5px"></el-input>
-        <el-button size="medium" @click="search">{{ $t('button.search') }}</el-button>
+      <div style="display: flex; align-items: center">
+        <div style="width: 300px;">
+          <el-input
+              v-model="title"
+              prefix-icon="el-icon-search"
+              size="medium"
+              :placeholder="$t('text.searchBar')"
+              style="width: 220px; margin-right: 5px"
+          ></el-input>
+          <el-button size="medium" @click="search">{{ $t('button.search') }}</el-button>
+        </div>
+
+        <!-- 地球图标 + 语言选择器 -->
+        <div style="display: flex; align-items: center; margin-left: 10px;
+">
+<!--          <img src="@/assets/imgs/语言.png" alt="语言图标" style="width: 20px; height: 20px; margin-right: 5px;" />-->
+
+          <el-select
+              v-model="currentLocale"
+              size="medium"
+              @change="changeLanguage"
+              style="width: 120px"
+          >
+            <template #prefix>
+              <img
+                  src="@/assets/imgs/语言.png"
+                  alt="语言"
+                  style="width: 20px; height: 20px; margin-left: 0px;vertical-align: middle;"
+              />
+            </template>
+
+            <el-option
+                v-for="item in languageOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+            />
+          </el-select>
+        </div>
       </div>
-      <el-select v-model="currentLocale" size="medium" @change="changeLanguage" style="width: 120px; margin-left: 10px">
-        <el-option
-            v-for="item in languageOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-        />
-      </el-select>
+
 
       <div class="front-header-right">
         <div v-if="!user.username">
@@ -43,17 +76,18 @@
               </div>
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-if="user.role === 'TEACHER'">
-                <div @click="$router.push('/front/userNews')">{{ $t('user.myPublish') }}</div>
-              </el-dropdown-item>
-              <el-dropdown-item>
+              <el-dropdown-item v-if="user.role != 'TEACHER'">
                 <div @click="$router.push('/front/userQuestion')">{{ $t('user.myQuestion') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
                 <div @click="$router.push('/front/userAnswer')">{{ $t('user.myAnswer') }}</div>
               </el-dropdown-item>
+
               <el-dropdown-item>
                 <div @click="$router.push('/front/userFeedback')">{{ $t('user.myFeedback') }}</div>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <div @click="goToSelfEvaluation" v-if="this.user.role === 'USER'">{{ $t('user.self-assessment') }}</div>
               </el-dropdown-item>
               <el-dropdown-item>
                 <div @click="$router.push('/front/person')">{{ $t('user.profile') }}</div>
@@ -76,11 +110,8 @@
       <router-view ref="child" @update:user="updateUser" />
     </div>
   </div>
-
     <Footer />
-
   </div>
-
 </template>
 
 <script>
@@ -97,15 +128,6 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
-      menus: [
-        { text: 'menu.home', path: '/front/home' },
-        { text: 'menu.Q&A', path: '/front/question' },
-        { text: 'menu.hotspots', path: '/front/localNews' },
-        { text: 'menu.resources', path: '/front/resources' },
-        { text: 'menu.videos', path: '/front/video' },
-        { text: 'menu.feedback', path: '/front/feedback' },
-        { text: 'menu.notice', path: '/front/notice' },
-      ],
       languageOptions: [
         { label: '中文', value: 'zh' },
         { label: 'English', value: 'en' }
@@ -118,6 +140,24 @@ export default {
 
   },
   methods: {
+    goToSelfEvaluation() {
+      this.$request.get('/notice/selectPage').then(res => {
+        const list = res.data.list || []
+        // 过滤出 category 为 3 的问卷并按时间排序（假设有 time 字段）
+        const selfEvalList = list.filter(item => item.category === 3)
+        if (selfEvalList.length > 0) {
+          // 取最新一条（假设列表已经按时间倒序排好，或者你手动排一下）
+          const latest = selfEvalList[0]
+          if (latest.content) {
+            window.open(latest.content, '_blank')
+          } else {
+            this.$message.warning("自我评估问卷缺少链接")
+          }
+        } else {
+          this.$message.warning("暂无自我评估问卷")
+        }
+      })
+    },
     changeLanguage(value) {
       this.$i18n.locale = value
       localStorage.setItem('locale', value)
@@ -160,5 +200,22 @@ export default {
   .menu-active {
     color: #fff;
     background-color: #2a60c9;
+  }
+
+  .front-header-center {
+    display: flex;
+    align-items: center; /* ✅ 垂直居中 */
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .weather-wrapper {
+    display: flex;
+    align-items: center; /* ✅ 让 iframe 在容器内部居中 */
+    height: 100%;
+  }
+
+  .main-body {
+  margin-left: 260px;
   }
 </style>

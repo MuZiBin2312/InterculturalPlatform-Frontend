@@ -77,6 +77,11 @@ export default {
 
 <style scoped>
 .container {
+  background-image: url('/public/register.svg'); /* 你的背景图路径 */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
   height: 100vh;
   overflow: hidden;
   background-color: #EBEBEB;

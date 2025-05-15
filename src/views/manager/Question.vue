@@ -16,6 +16,7 @@
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
         <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
         <el-table-column prop="descr" label="描述" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="category" label="分类" show-overflow-tooltip :formatter="formatCategory"></el-table-column>
         <el-table-column prop="img" label="配图">
           <template v-slot="scope">
             <el-image v-if="scope.row.img" style="width: 50px" :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
@@ -58,7 +59,7 @@
       </div>
     </div>
 
-    <el-dialog title="问题信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="话题讨论" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" placeholder="标题"></el-input>
@@ -113,6 +114,14 @@ export default {
     this.load(1)
   },
   methods: {
+    formatCategory(row) {
+      const map = {
+        '1': '经典案例',
+        '2': '文化讨论',
+        '3': '互动体验'
+      }
+      return map[row.category] || '未知分类'
+    },
     changeStatus(row, status) {
       this.form = JSON.parse(JSON.stringify(row))
       this.form.status = status
@@ -193,6 +202,7 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.role === 'TEACHER'? this.user.id : -1,
           title: this.title,
         }
       }).then(res => {

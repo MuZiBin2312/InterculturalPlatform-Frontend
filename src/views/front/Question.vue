@@ -32,19 +32,50 @@
       <div style="width: 300px">
         <div style="display: flex; margin-bottom: 10px">
           <img src="@/assets/imgs/问.png" alt="" style="width: 20px; height: 20px; margin-top: 5px; margin-right: 5px">
-          <span style="font-size: 20px">等你回答</span>
+          <span style="font-size: 20px">{{ $t('text.waitingYourAnswer') }}</span>
+          <el-button v-if="!(category === '1' && user.role === 'USER') && !(category === '2' && user.role === 'USER')"
+                     @click="handleAdd" type="primary"
+                     plain size="mini" icon="el-icon-edit"
+                     style="margin-left : 84px">{{ $t('button.initiateQuestion') }}</el-button>
         </div>
-        <div>
-          <div class="card" v-for="item in noAnswerList" :key="item.id" style="margin-bottom: 10px">
+        <div v-for="item in noAnswerList" :key="item.id">
+          <div class="card" v-if="category === String(item.category)"  style="margin-bottom: 10px">
             <div style="margin-bottom: 10px; font-size: 16px">{{ item.title }}</div>
             <div style="color: #888; display: flex">
               <div style="flex: 1">{{ item.date }}</div>
-              <el-button @click="$router.push('/front/questionDetail?id=' + item.id)" type="primary" size="mini" icon="el-icon-edit">写回答</el-button>
+              <el-button @click="$router.push('/front/questionDetail?id=' + item.id)" type="primary" size="mini" icon="el-icon-edit">{{ $t('button.answerIt') }}</el-button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <el-dialog title="话题讨论" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+      <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="form.title" placeholder="标题"></el-input>
+        </el-form-item>
+        <el-form-item label="问题类型" prop="category">
+          <el-input v-model="form.categoryLabel" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="描述" prop="descr">
+          <el-input type="textarea" v-model="form.descr" placeholder="描述"></el-input>
+        </el-form-item>
+        <el-form-item label="配图" prop="img">
+          <el-upload
+              :action="$baseUrl + '/files/upload'"
+              :headers="{ token: user.token }"
+              list-type="picture"
+              :on-success="handleImgSuccess"
+          >
+            <el-button type="primary">上传</el-button>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fromVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -57,17 +88,34 @@ export default {
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
-      noAnswerList: []
+      noAnswerList: [],
+      category: null,
+      form:{},
+      fromVisible: false,
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
     }
   },
   created() {
     this.load(1)
     this.loadNoAnswer()
   },
+  watch: {
+    '$route.query.category': {
+      immediate: true,
+      handler(newCategory) {
+        console.log('切换 ID:', newCategory)
+        this.category = newCategory  // 根据新的 id 加载数据
+        this.load(1)
+      }
+    }
+  },
   methods: {
     loadNoAnswer() {
-      this.$request.get('/question/selectNoAnswer').then(res => {
+      this.$request.get('/question/selectNoAnswer', {
+        params: { category: this.category }
+      }).then(res => {
         this.noAnswerList = res.data || []
+        console.log("noAnswerList", res.data)
       })
     },
     load(pageNum) {  // 分页查询
@@ -76,6 +124,7 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          category: this.category  // ✅ 添加分类参数
         }
       }).then(res => {
         if (res.code === '200') {
@@ -88,6 +137,43 @@ export default {
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)
+    },
+    handleAdd() {   // 新增数据
+      this.form = {
+        category: parseInt(this.category),
+        categoryLabel: this.getCategoryLabel(parseInt(this.category))
+      }  // 新增数据的时候清空数据
+      this.fromVisible = true   // 打开弹窗
+    },
+    getCategoryLabel(category) {
+      switch (category) {
+        case 1: return '案例讨论'
+        case 2: return '文化讨论'
+        case 3: return '互动体验'
+        default: return ''
+      }
+    },
+    save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
+      this.$refs.formRef.validate((valid) => {
+        if (valid) {
+          this.$request({
+            url: this.form.id ? '/question/update' : '/question/add',
+            method: this.form.id ? 'PUT' : 'POST',
+            data: this.form
+          }).then(res => {
+            if (res.code === '200') {  // 表示成功保存
+              this.$message.success('保存成功')
+              this.load(1)
+              this.fromVisible = false
+            } else {
+              this.$message.error(res.msg)  // 弹出错误的信息
+            }
+          })
+        }
+      })
+    },
+    handleImgSuccess(response, file, fileList) {
+      this.form.img = response.data
     },
   }
 }

@@ -3,8 +3,8 @@
     <div class="card" style="margin-bottom: 10px">
       <div style="font-size: 24px; font-weight: bold; text-align: center; margin-bottom: 10px">{{ news.title }} </div>
       <div style="text-align: center; color: #888; margin-bottom: 20px">
-        <span>发布时间：{{ news.time }}</span>
-        <span style="margin-left: 20px">浏览量：{{ news.readCount }}</span>
+        <span>{{ $t('text.releaseDate') }}：{{ news.time }}</span>
+        <span style="margin-left: 20px">{{ $t('text.clickVolume') }}：{{ news.readCount }}</span>
       </div>
       <div class="w-e-text">
         <div v-html="news.content"></div>
@@ -44,6 +44,13 @@ export default {
 }
 </script>
 
-<style scoped>
+
+<style >
+.w-e-text img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
 
 </style>

@@ -2,15 +2,15 @@
   <div class="container">
     <div class="main-content">
       <div style="margin-bottom: 20px">
-        <el-input size="medium" placeholder="请输入标题关键字查询" style="width: 300px" v-model="title" />
+        <el-input size="medium" :placeholder="$t('text.titleSearchBar')" style="width: 300px" v-model="title" />
 
         <el-select v-model="type" placeholder="请选择类型" style="margin-left: 10px; width: 150px">
-          <el-option label="资讯文章" value="article" />
-          <el-option label="视频" value="video" />
+          <el-option :label="$t('button.article')" value="article" />
+          <el-option :label="$t('button.video')" value="video" />
         </el-select>
 
-        <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
-        <el-button size="medium" type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+        <el-button size="medium" type="info" plain style="margin-left: 10px" @click="load(1)">{{ $t('button.query') }}</el-button>
+        <el-button size="medium" type="warning" plain style="margin-left: 10px" @click="reset">{{ $t('button.reset') }}</el-button>
       </div>
 
       <div v-if="tableData.length > 0">
@@ -24,7 +24,7 @@
               class="item"
               @click.native="$router.push('/front/newsDetail?id=' + item.id)"
           >
-            <img :src="item.img" alt="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;" />
+            <img :src="item.img" alt="" style="width: 100%; height: 15vw; object-fit: cover; border-radius: 5px;" />
             <div class="line1" style="margin: 10px 0; font-size: 18px;">{{ item.title }}</div>
             <div style="color: #666;">
               <span style="margin-right: 20px;"><i class="el-icon-eye"></i> {{ item.readCount }}</span>
@@ -44,8 +44,8 @@
             <video :src="item.file" controls @click="play(item)" style="width: 100%; height: 200px; border-radius: 5px;" />
             <div style="margin: 10px 0; font-size: 16px;">{{ item.name }}</div>
             <div style="color: #666;">
-              <span style="margin-right: 20px;">发布时间：{{ item.time }}</span>
-              <span>播放量：{{ item.readCount }}</span>
+              <span style="margin-right: 20px;">{{ $t('text.releaseDate') }}：{{ item.time }}</span>
+              <span>{{ $t('text.clickVolume') }}：{{ item.readCount }}</span>
             </div>
           </el-col>
         </el-row>
@@ -72,12 +72,6 @@
 <script>
 export default {
   name: "ResourcePage",
-  props: {
-    category: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       title: null,
@@ -85,19 +79,26 @@ export default {
       tableData: [],
       total: 0,
       pageNum: 1,
-      pageSize: 9,
-      rawData: [] // 接口返回的原始数据，用于前端过滤
+      pageSize: 6,
+      rawData: [],
+      categoryId: null, // ✅ 新增：用于存储 query 中的 category id
     };
   },
   watch: {
-    category() {
-      this.load(1); // 目录分类变动时重新加载
+    // 监听路由参数变化
+    '$route.query.id'(newId) {
+      if (newId) {
+        this.categoryId = newId;
+        this.load(1); // 路由参数变化时，重新加载数据
+      }
     },
     type() {
       this.load(1); // 资源类型变动时重新加载
     }
   },
   created() {
+    // ✅ 改动点：读取 query 参数 name，作为分类 ID 使用
+    this.categoryId = this.$route.query.id;
     this.load(1);
   },
   methods: {
@@ -105,10 +106,11 @@ export default {
       this.pageNum = pageNum;
 
       const params = {
-        title: this.title
+        title: this.title,
+        categoryId: this.categoryId,
       };
 
-      let api = this.type === 'video' ? '/video/selectPage' : '/news/selectLocalPage';
+      let api = this.type === 'video' ? '/video/selectPage' : '/news/selectAllPage';
 
       if (this.type === 'video') {
         params.name = this.title;
@@ -117,14 +119,19 @@ export default {
 
       this.$request.get(api, { params }).then(res => {
         if (res.code === '200') {
-          this.rawData = res.data.list; // 拿到全部数据
+          let allData = res.data.list;
 
-          this.total = this.rawData.length; // 设置总条数
+          // ✅ 改动点：按分类过滤数据（假设每项都有 category 字段）
+          if (this.categoryId) {
+            allData = allData.filter(item => item.category === this.categoryId);
+          }
 
-          // 执行前端分页
+          this.rawData = allData;
+          this.total = allData.length;
+
           const start = (this.pageNum - 1) * this.pageSize;
           const end = start + this.pageSize;
-          this.tableData = this.rawData.slice(start, end);
+          this.tableData = allData.slice(start, end);
         } else {
           this.$message.error(res.msg);
         }

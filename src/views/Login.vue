@@ -81,6 +81,10 @@ export default {
 
 <style scoped>
 .container {
+  background-image: url('/public/login.svg'); /* 你的背景图路径 */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   height: 100vh;
   overflow: hidden;
   background-color: #EBEBEB;
@@ -89,6 +93,9 @@ export default {
   justify-content: center;
   color: #666;
 }
+
+
+
 a {
   color: #2a60c9;
 }

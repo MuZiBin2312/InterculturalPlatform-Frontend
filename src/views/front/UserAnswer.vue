@@ -9,14 +9,14 @@
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="questionTitle" label="问题名称"></el-table-column>
+        <el-table-column prop="questionTitle" label="话题名称"></el-table-column>
         <el-table-column label="查看内容">
           <template v-slot="scope">
             <el-button @click="preview(scope.row.content)">查看内容</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="userName" label="回答人"></el-table-column>
-        <el-table-column prop="time" label="回答时间"></el-table-column>
+        <el-table-column prop="userName" label="回复人"></el-table-column>
+        <el-table-column prop="time" label="回复时间"></el-table-column>
         <el-table-column prop="status" label="审核状态">
           <template v-slot="scope">
             <el-tag type="info" v-if="scope.row.status === '待审核'">待审核</el-tag>
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <el-dialog title="回答信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="话题回复" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="内容" prop="content">
           <div id="editor"></div>

@@ -5,15 +5,15 @@
       <div style="margin-bottom: 20px; color: #444; font-size: 16px">{{ question.descr }}</div>
       <div style="display: flex">
         <div style="flex: 1; color: #888">
-          <span style="margin-right: 20px">发布日期：{{ question.date }}</span>
-          <span>阅读量：{{ question.readCount }}</span>
+          <span style="margin-right: 20px">{{ $t('text.releaseDate') }}：{{ question.date }}</span>
+          <span>{{ $t('text.clickVolume') }}：{{ question.readCount }}</span>
         </div>
-        <el-button type="primary" icon="el-icon-edit" @click="handleAdd">回答问题</el-button>
+        <el-button type="primary" icon="el-icon-edit" @click="handleAdd">{{ $t('button.answerIt') }}</el-button>
       </div>
     </div>
 
     <div class="card">
-      <div style="font-size: 24px; margin-bottom: 20px">回答列表 {{ total }}</div>
+      <div style="font-size: 24px; margin-bottom: 20px">{{ $t('text.discussionList') }} {{ total }}</div>
       <div>
         <div v-for="item in answerList" :key="item.id" style="display: flex; grid-gap: 10px; padding-bottom: 20px; border-bottom: 1px solid #ddd; margin-bottom: 20px">
           <div style="color: #666; padding-top: 20px; width: 60px; cursor: pointer">
@@ -23,7 +23,10 @@
            <div style="display: flex; grid-gap: 10px; margin-bottom: 10px">
              <img :src="item.userAvatar" alt="" style="width: 50px; height: 50px; border-radius: 50%">
              <div style="color: #888;">
-               <div style="margin-bottom: 10px">{{ item.userName }}</div>
+               <div style="margin-bottom: 10px">{{ item.userName }}
+                 <span  v-if="item.userRole === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">{{ $t('text.teacher') }}</span>
+               </div>
+
                <div>{{ item.time }}</div>
              </div>
            </div>
@@ -33,7 +36,7 @@
             </div>
 
             <div style="margin-top: 10px" v-if="item.userId === user.id">
-              <span @click="del(item.id)" style="color: #666; cursor: pointer"><i class="el-icon-delete"></i>删除</span>
+              <span @click="del(item.id)" style="color: #666; cursor: pointer"><i class="el-icon-delete"></i>{{ $t('button.delete') }}</span>
             </div>
           </div>
         </div>
@@ -51,15 +54,15 @@
         </el-pagination>
       </div>
 
-      <el-dialog title="回答内容" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+      <el-dialog :title="$t('text.answerContent')" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
         <el-form :model="form" label-width="100px" style="padding-right: 50px" ref="formRef">
-          <el-form-item label="内容" prop="content">
+          <el-form-item :label="$t('text.content')" prop="content">
             <div id="editor"></div>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="fromVisible = false">取 消</el-button>
-          <el-button type="primary" @click="save">确 定</el-button>
+          <el-button @click="fromVisible = false">{{ $t('button.cancel') }}</el-button>
+          <el-button type="primary" @click="save">{{ $t('button.confirm') }}</el-button>
         </div>
       </el-dialog>
 
@@ -134,6 +137,7 @@ export default {
       }).then(res => {
         this.answerList = res.data?.list || []
         this.total = res.data?.total || 0
+        console.log(this.answerList)
       })
     },
     load() {

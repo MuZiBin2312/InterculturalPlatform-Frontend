@@ -1,9 +1,16 @@
 <template>
   <div class="main-content">
-    <div style="margin: 10px 0">
-      <el-button type="primary" plain @click="handleAdd">提问</el-button>
+    <div class="search">
+    <el-input placeholder="请输入标题关键字查询" style="width: 200px" v-model="title"></el-input>
+    <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
+    <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+  </div>
+
+    <div class="operation" style="margin-top: 10px;margin-bottom: 10px;">
+      <el-button type="primary" plain @click="handleAdd">新增</el-button>
       <el-button type="danger" plain @click="delBatch">批量删除</el-button>
     </div>
+
 
     <div class="table">
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
@@ -48,10 +55,29 @@
       </div>
     </div>
 
-    <el-dialog title="问题信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="话题讨论" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="标题" prop="title">
           <el-input v-model="form.title" placeholder="标题"></el-input>
+        </el-form-item>
+        <el-form-item label="问题类型" prop="category">
+          <el-select v-model="form.category" placeholder="请选择问题类型">
+            <el-option
+                label="互动体验"
+                :value="3">
+            </el-option>
+            <el-option
+                label="文化讨论"
+                :value="2"
+                v-if="user.role === 'TEACHER'"
+            >
+            </el-option>
+            <el-option
+                label="案例讨论"
+                :value="1"
+                v-if="user.role === 'TEACHER'">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="描述" prop="descr">
           <el-input type="textarea" v-model="form.descr" placeholder="描述"></el-input>
@@ -113,7 +139,9 @@ export default {
       }).catch(e => {})
     },
     handleAdd() {   // 新增数据
-      this.form = {}  // 新增数据的时候清空数据
+      this.form = {
+
+      }  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
     },
     handleEdit(row) {   // 编辑数据

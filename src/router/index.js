@@ -27,8 +27,8 @@ const routes = [
       { path: 'category', name: 'Category', meta: { name: '新闻分类' }, component: () => import('../views/manager/Category') },
       { path: 'news', name: 'News', meta: { name: '新闻文章' }, component: () => import('../views/manager/News') },
       { path: 'video', name: 'Video', meta: { name: '新闻视频' }, component: () => import('../views/manager/Video') },
-      { path: 'question', name: 'Question', meta: { name: '问题信息' }, component: () => import('../views/manager/Question') },
-      { path: 'answer', name: 'Answer', meta: { name: '答题信息' }, component: () => import('../views/manager/Answer') },
+      { path: 'question', name: 'Question', meta: { name: '话题讨论' }, component: () => import('../views/manager/Question') },
+      { path: 'answer', name: 'Answer', meta: { name: '话题回复' }, component: () => import('../views/manager/Answer') },
       { path: 'feedback', name: 'Feedback', meta: { name: '用户反馈' }, component: () => import('../views/manager/Feedback') },
       { path: 'comment', name: 'Comment', meta: { name: '评论信息' }, component: () => import('../views/manager/Comment') },
     ]
@@ -57,6 +57,7 @@ const routes = [
       { path: 'resourceDetail', name: 'ResourceDetail', component: () => import('../views/front/ResourceDetail.vue') },
       { path: 'uploadNews', name: 'UploadNews', component: () => import('../views/manager/News') },
       { path: 'uploadVideo', name: 'UploadVideo', component: () => import('../views/manager/Video') },
+      { path: 'uploadNotice', name: 'UploadNotice', component: () => import('../views/manager/Notice') },
       { path: 'ai', name: 'Ai', component: () => import('../views/front/Ai') },
     ]
   },
