@@ -101,5 +101,11 @@
     "enterTheQuestion": "请输入问题...",
     "enterTheReply" : "请输入回复...",
     "enterTheIdea": "请问您有什么想法..."
+  },
+  "my": {
+
+  },
+  "teacher": {
+
   }
 }
