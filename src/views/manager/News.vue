@@ -452,7 +452,6 @@ export default {
           } else {
             this.total = res.data.total // 其他角色使用接口返回的 total
           }
-
           this.tableData = list
         } else {
           this.$message.error(res.msg)
