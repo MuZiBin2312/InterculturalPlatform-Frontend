@@ -202,13 +202,13 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.role === 'TEACHER'? this.user.id : -1,
           title: this.title,
         }
       }).then(res => {
         if (res.code === '200') {
           this.tableData = res.data?.list
           this.total = res.data?.total
-
         } else {
           this.$message.error(res.msg)
         }
