@@ -194,14 +194,14 @@ export default {
       }).then(res => {
         let list = res.data?.list || []
         // 权限过滤逻辑：TEACHER 只看自己的数据
-        if (this.user.role === 'TEACHER') {
-          list = list.filter(item => item.user === this.user.username)
-          this.tableData = list
-          this.total = list.length
-        } else {
+        // if (this.user.role === 'TEACHER') {
+        //   list = list.filter(item => item.user === this.user.username)
+        //   this.tableData = list
+        //   this.total = list.length
+        // } else {
           this.tableData = res.data?.list
           this.total = res.data?.total
-        }
+        // }
         console.log(this.user)
         console.log(res.data);
         // this.tableData = res.data?.list
