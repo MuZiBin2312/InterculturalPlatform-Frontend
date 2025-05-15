@@ -5,7 +5,7 @@
   "user": {
     "myPublish": "我的发布",
     "myQuestion": "我的问题",
-    "myAnswer": "我的回答",
+    "myAnswer": "话题回复",
     "myFeedback": "我的反馈",
     "self-assessment": "自我评估",
     "profile": "个人信息",
@@ -50,7 +50,7 @@
     "upload": "上传",
     "uploadNews": "发布资讯",
     "uploadVideos": "发布视频",
-    "myQuestion": "我的提问",
+    "myQuestion": "话题讨论",
 
     "uploadNotice": "问卷与公告",
 
