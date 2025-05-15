@@ -1,7 +1,7 @@
 <template>
   <div class="main-content" style="width: 100%">
 
-    <div id="chat-container" style="top: 0px; left: 0px;width: 100%; height: 600px">
+    <div id="chat-container" style="top: 0px; left: 0px;width: 100%; height: 45vw">
       <!-- 如果需要按钮控制聊天框的显示与隐藏 -->
     </div>
   </div>
