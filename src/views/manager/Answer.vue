@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <el-dialog title="回答信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="话题回复" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="问题id" prop="questionId">
           <el-input v-model="form.questionId" placeholder="问题id"></el-input>

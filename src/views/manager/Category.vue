@@ -131,8 +131,19 @@
     <el-dialog title="菜单" :visible.sync="formVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="图标" prop="icon">
-          <el-input v-model="form.icon" placeholder="请输入图标类名，如 el-icon-s-home 或 fa fa-user"></el-input>
+          <el-input v-model="form.icon" placeholder="请输入图标类名，详情请参照在线文档。"></el-input>
+
         </el-form-item>
+        <div style="margin-top: -15px; margin-left:5vw;text-align: center;margin-bottom: 15px;">
+          <el-link
+              href="https://element.eleme.cn/#/zh-CN/component/icon"
+              type="primary"
+              target="_blank"
+              underline
+          >
+            查看图标类名参考文档
+          </el-link>
+        </div>
 
         <el-form-item v-if="currentTab === 'other'" label="一级菜单" prop="father">
 

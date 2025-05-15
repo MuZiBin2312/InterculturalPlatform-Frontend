@@ -57,8 +57,8 @@
             <el-menu-item index="/category">资源分类</el-menu-item>
             <el-menu-item index="/news">资讯文章</el-menu-item>
             <el-menu-item index="/video">文化视频</el-menu-item>
-            <el-menu-item index="/question">问题信息</el-menu-item>
-            <el-menu-item index="/answer">答题信息</el-menu-item>
+            <el-menu-item index="/question">话题讨论</el-menu-item>
+            <el-menu-item index="/answer">话题回复</el-menu-item>
             <el-menu-item index="/feedback">用户反馈</el-menu-item>
             <el-menu-item index="/notice">公告信息</el-menu-item>
             <el-menu-item index="/comment">评论信息</el-menu-item>
