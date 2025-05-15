@@ -73,19 +73,19 @@
         <el-menu-item index="/front/uploadNews">
           <i class="el-icon-document-copy"></i>
           <span slot="title" class="scroll-title">
-            <span>{{ $t('menu.uploadNews') }}</span>
-          </span>
+    <span>{{ $t('menu.uploadNews') }}</span>
+  </span>
         </el-menu-item>
         <el-menu-item index="/front/uploadVideo">
-          <i class="el-icon-chat-line-round"></i>
+          <i class="el-icon-video-camera"></i> <!-- 视频图标 -->
           {{ $t('menu.uploadVideos') }}
         </el-menu-item>
         <el-menu-item index="/front/userQuestion">
-          <i class="el-icon-chat-line-round"></i>
+          <i class="el-icon-message"></i> <!-- 话题讨论图标 -->
           {{ $t('menu.myQuestion') }}
         </el-menu-item>
         <el-menu-item index="/front/uploadNotice">
-          <i class="el-icon-chat-line-round"></i>
+          <i class="el-icon-bell"></i> <!-- 平台公告图标 -->
           {{ $t('menu.uploadNotice') }}
         </el-menu-item>
       </el-submenu>
