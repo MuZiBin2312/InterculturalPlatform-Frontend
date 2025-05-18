@@ -1,22 +1,22 @@
 <template>
   <div class="main-content">
     <div style="margin: 10px 0">
-      <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+      <el-button type="danger" plain @click="delBatch">{{ $t('feedback.batchDelete') }}</el-button>
     </div>
 
     <div style="margin: 10px 0">
-      <el-table :data="tableData" strip @selection-change="handleSelectionChange">
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column prop="problem" label="问题"></el-table-column>
-        <el-table-column prop="idea" label="想法"></el-table-column>
-        <el-table-column prop="time" label="提交时间"></el-table-column>
-        <el-table-column prop="reply" label="回复"></el-table-column>
-        <el-table-column prop="replyTime" label="回复时间"></el-table-column>
-        <el-table-column label="操作" align="center" width="100">
+        <el-table-column prop="id" :label="$t('feedback.id')" width="70" align="center" sortable></el-table-column>
+        <el-table-column prop="title" :label="$t('feedback.title')"></el-table-column>
+        <el-table-column prop="problem" :label="$t('feedback.problem')"></el-table-column>
+        <el-table-column prop="idea" :label="$t('feedback.idea')"></el-table-column>
+        <el-table-column prop="time" :label="$t('feedback.submitTime')"></el-table-column>
+        <el-table-column prop="reply" :label="$t('feedback.reply')"></el-table-column>
+        <el-table-column prop="replyTime" :label="$t('feedback.replyTime')"></el-table-column>
+        <el-table-column :label="$t('feedback.actions')" align="center" width="100">
           <template v-slot="scope">
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">{{ $t('feedback.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -34,21 +34,20 @@
       </div>
     </div>
 
-    <el-dialog title="意见反馈" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('feedback.dialogTitle')" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="回复" prop="reply">
-          <el-input type="textarea" v-model="form.reply" placeholder="回复"></el-input>
+        <el-form-item :label="$t('feedback.reply')" prop="reply">
+          <el-input type="textarea" v-model="form.reply" :placeholder="$t('feedback.replyPlaceholder')"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button @click="fromVisible = false">{{ $t('feedback.cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('feedback.confirm') }}</el-button>
       </div>
     </el-dialog>
-
-
   </div>
 </template>
+
 <script>
 export default {
   title: "Feedback",
@@ -88,7 +87,7 @@ export default {
             data: this.form
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
-              this.$message.success('保存成功')
+              this.$message.success(this.$t('common.saveSuccess'))
               this.load(1)
               this.fromVisible = false
             } else {
@@ -99,10 +98,11 @@ export default {
       })
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.deleteTitle'), { type: 'warning',confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel') }).then(response => {
         this.$request.delete('/feedback/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -116,13 +116,21 @@ export default {
     },
     delBatch() {   // 批量删除
       if (!this.ids.length) {
-        this.$message.warning('请选择数据')
+        this.$message.warning(this.$t('common.pleaseChooseData'))
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(
+          this.$t('common.batchDeleteMessage'),
+          this.$t('common.batchDeleteTitle'),
+          {
+            type: "warning",
+            confirmButtonText: this.$t('common.confirm'),
+            cancelButtonText: this.$t('common.cancel'),
+          }
+      ).then(response => {
         this.$request.delete('/feedback/delete/batch', {data: this.ids}).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息

@@ -2,32 +2,32 @@
   <div class="main-content">
 
     <div style="margin: 10px 0">
-      <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+      <el-button type="danger" plain @click="delBatch">{{ $t('reply.batchDelete') }}</el-button>
     </div>
 
     <div class="table">
-      <el-table :data="tableData" strip @selection-change="handleSelectionChange">
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="questionTitle" label="话题名称"></el-table-column>
-        <el-table-column label="查看内容">
+        <el-table-column prop="id" :label="$t('reply.id')" width="70" align="center" sortable></el-table-column>
+        <el-table-column prop="questionTitle" :label="$t('reply.topicTitle')"></el-table-column>
+        <el-table-column :label="$t('reply.viewContent')">
           <template v-slot="scope">
-            <el-button @click="preview(scope.row.content)">查看内容</el-button>
+            <el-button @click="preview(scope.row.content)">{{ $t('reply.viewContent') }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="userName" label="回复人"></el-table-column>
-        <el-table-column prop="time" label="回复时间"></el-table-column>
-        <el-table-column prop="status" label="审核状态">
+        <el-table-column prop="userName" :label="$t('reply.replier')"></el-table-column>
+        <el-table-column prop="time" :label="$t('reply.replyTime')"></el-table-column>
+        <el-table-column prop="status" :label="$t('reply.status')">
           <template v-slot="scope">
-            <el-tag type="info" v-if="scope.row.status === '待审核'">待审核</el-tag>
-            <el-tag type="success" v-if="scope.row.status === '通过'">通过</el-tag>
-            <el-tag type="danger" v-if="scope.row.status === '拒绝'">拒绝</el-tag>
+            <el-tag type="info" v-if="scope.row.status === '待审核'">{{ $t('reply.pending') }}</el-tag>
+            <el-tag type="success" v-if="scope.row.status === '通过'">{{ $t('reply.approved') }}</el-tag>
+            <el-tag type="danger" v-if="scope.row.status === '拒绝'">{{ $t('reply.rejected') }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="220">
+        <el-table-column :label="$t('reply.actions')" align="center" width="220">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">{{ $t('reply.edit') }}</el-button>
+            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">{{ $t('reply.delete') }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -45,31 +45,30 @@
       </div>
     </div>
 
-    <el-dialog title="话题回复" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('reply.dialogTitleEdit')" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="内容" prop="content">
+        <el-form-item :label="$t('reply.content')" prop="content">
           <div id="editor"></div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button @click="fromVisible = false">{{ $t('reply.cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('reply.confirm') }}</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="回答内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('reply.dialogTitleView')" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
       <div class="w-e-text">
         <div v-html="previewContent"></div>
       </div>
-
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible1 = false">关 闭</el-button>
+        <el-button @click="fromVisible1 = false">{{ $t('reply.close') }}</el-button>
       </div>
     </el-dialog>
 
-
   </div>
 </template>
+
 <script>
 import E from 'wangeditor'
 export default {
@@ -144,10 +143,11 @@ export default {
       })
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.deleteTitle'), { type: 'warning',confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel') }).then(response => {
         this.$request.delete('/answer/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -161,13 +161,21 @@ export default {
     },
     delBatch() {   // 批量删除
       if (!this.ids.length) {
-        this.$message.warning('请选择数据')
+        this.$message.warning(this.$t('common.pleaseChooseData'))
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(
+          this.$t('common.batchDeleteMessage'),
+          this.$t('common.batchDeleteTitle'),
+          {
+            type: "warning",
+            confirmButtonText: this.$t('common.confirm'),
+            cancelButtonText: this.$t('common.cancel'),
+          }
+      ).then(response => {
         this.$request.delete('/answer/delete/batch', {data: this.ids}).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息

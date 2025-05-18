@@ -1,117 +1,58 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <div class="search">
-      <el-input placeholder="请输入标题关键字查询" style="width: 200px" v-model="name"></el-input>
-      <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
-      <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+      <el-input :placeholder="$t('video.placeholder')" style="width: 200px" v-model="name"></el-input>
+      <el-button type="info" plain style="margin-left: 10px" @click="load(1)">{{ $t('video.search') }}</el-button>
+      <el-button type="warning" plain style="margin-left: 10px" @click="reset">{{ $t('video.reset') }}</el-button>
     </div>
 
     <div class="operation" style="margin-top: 10px;margin-bottom: 10px">
-      <el-button type="primary" plain @click="handleAdd">新增</el-button>
-      <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+      <el-button type="primary" plain @click="handleAdd">{{ $t('video.add') }}</el-button>
+      <el-button type="danger" plain @click="delBatch">{{ $t('video.deleteBatch') }}</el-button>
     </div>
 
     <div class="table">
-
-        <el-table
-            :data="tableData"
-            stripe
-            @selection-change="handleSelectionChange"
-            style="width: 100%"
-        >
-          <el-table-column
-              type="selection"
-              align="center"
-              min-width="50"
-          ></el-table-column>
-
-          <el-table-column
-              prop="id"
-              label="序号"
-              align="center"
-              sortable
-              min-width="70"
-          ></el-table-column>
-
-          <el-table-column
-              prop="name"
-              label="名称"
-              min-width="120"
-          ></el-table-column>
-
-          <el-table-column
-              label="一级菜单"
-              min-width="120"
-          >
-            <template v-slot="scope">
-              {{ getFatherName(scope.row.category) }}
-            </template>
-          </el-table-column>
-
-          <el-table-column
-              prop="category"
-              label="二级菜单"
-              min-width="120"
-          >
-            <template v-slot="scope">
-              {{ getSecName(scope.row.category) }}
-            </template>
-          </el-table-column>
-
-          <el-table-column
-              prop="file"
-              label="视频"
-              width="220"
-          >
-            <template v-slot="scope">
-              <video
-                  :src="scope.row.file"
-                  controls
-                  width="200"
-                  height="112"
-                  style="border-radius: 4px; object-fit: cover"
-              ></video>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-              prop="time"
-              label="发布时间"
-              min-width="160"
-          ></el-table-column>
-
-          <el-table-column
-              prop="readCount"
-              label="播放次数"
-              min-width="100"
-          ></el-table-column>
-
-          <el-table-column
-              label="操作"
-              align="center"
-              min-width="180"
-          >
-            <template v-slot="scope">
-              <el-button
-                  size="mini"
-                  type="primary"
-                  plain
-                  @click="handleEdit(scope.row)"
-              >
-                编辑
-              </el-button>
-              <el-button
-                  size="mini"
-                  type="danger"
-                  plain
-                  @click="del(scope.row.id)"
-              >
-                删除
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange" style="width: 100%">
+        <el-table-column type="selection" align="center" min-width="50"></el-table-column>
+        <el-table-column prop="id" :label="$t('video.id')" align="center" sortable min-width="70"></el-table-column>
+        <el-table-column prop="name" :label="$t('video.name')" min-width="120"></el-table-column>
+        <el-table-column :label="$t('video.firstCategory')" min-width="120">
+          <template v-slot="scope">
+            {{ getFatherName(scope.row.category) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="category" :label="$t('video.secondCategory')" min-width="120">
+          <template v-slot="scope">
+            {{ getSecName(scope.row.category) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="file" :label="$t('video.video')" width="220">
+          <template v-slot="scope">
+            <video
+                :src="scope.row.file"
+                controls
+                width="200"
+                height="112"
+                style="border-radius: 4px; object-fit: cover"
+            ></video>
+          </template>
+        </el-table-column>
+        <el-table-column prop="time" :label="$t('video.publishTime')" min-width="160"></el-table-column>
+        <el-table-column prop="readCount" :label="$t('video.views')" min-width="100"></el-table-column>
+        <el-table-column :label="$t('video.actions')" align="center" min-width="180">
+          <template v-slot="scope">
+            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">
+              {{ $t('video.edit') }}
+            </el-button>
+            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">
+              {{ $t('video.delete') }}
+            </el-button>
+          </template>
+        </el-table-column>
+        <template v-slot:empty>
+          <span>{{ $t('table.noData') }}</span>
+        </template>
+      </el-table>
 
       <div class="pagination">
         <el-pagination
@@ -126,53 +67,51 @@
       </div>
     </div>
 
-    <el-dialog title="视频信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('video.dialogTitle')" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="名称"></el-input>
+        <el-form-item :label="$t('video.name')" prop="name">
+          <el-input v-model="form.name" :placeholder="$t('video.name')"></el-input>
         </el-form-item>
-        <el-form-item label="一级分类" prop="category">
-          <el-select v-model="form.first" @change="" style="width: 100%">
+        <el-form-item :label="$t('video.firstCategory')" prop="category">
+          <el-select v-model="form.first" :placeholder="$t('common.selectPlaceholder')" style="width: 100%">
             <el-option
                 v-for="item in first"
                 :key="item.id"
-                :label="item.name"
+                :label="transMenu(item.name)"
                 :value="item.id"
-            />          </el-select>
+            />
+          </el-select>
         </el-form-item>
-
-        <el-form-item label="二级分类">
+        <el-form-item :label="$t('video.secondCategory')">
           <el-select
               v-model="form.category"
               :disabled="!form.first"
-              placeholder="请选择二级分类"
+              :placeholder="$t('video.selectSecond')"
               style="width: 100%"
           >
             <el-option
                 v-for="item in category"
                 :key="item.id"
-                :label="item.name"
+                :label="transMenu(item.name)"
                 :value="item.id"
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="视频" prop="file">
+        <el-form-item :label="$t('video.video')" prop="file">
           <el-upload
               :action="$baseUrl + '/files/upload'"
               :headers="{ token: user.token }"
               :on-success="handleFileSuccess"
           >
-            <el-button type="primary">上传</el-button>
+            <el-button type="primary">{{ $t('video.upload') }}</el-button>
           </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button @click="fromVisible = false">{{ $t('video.cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('video.confirm') }}</el-button>
       </div>
     </el-dialog>
-
-
   </div>
 </template>
 <script>
@@ -219,14 +158,17 @@ export default {
       const fir = this.first.find(item => String(item.id) === String(sec.father));
 
       // 4. 返回一级菜单的 name
-      return fir.name;
+      if (!fir) return '';
+      const key = `menu.${fir.name}`;
+      return this.$t(key) ? this.$t(key) : fir.name;
     },
     getSecName(category) {
 
       const sec = this.second.find(item => String(item.id) === String(category));
       console.log(sec)
       if (!sec) return category;  // 保险处理：找不到一级就返回原始
-      return sec.name;
+      const key = `menu.${sec.name}`;
+      return this.$te(key) ? this.$t(key) : sec.name;
     },
     async loadDynamicMenus() {
       try {
@@ -316,7 +258,6 @@ export default {
     save() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          this.$message.success(this.user.id)
           this.form.userId = this.user.id
 
           // 把 first（name）转成 id
@@ -340,7 +281,7 @@ export default {
             data: submitForm
           }).then(res => {
             if (res.code === '200') {
-              this.$message.success('保存成功');
+              this.$message.success(this.$t('common.saveSuccess'))
               this.load(1);
               this.fromVisible = false;
             } else {
@@ -351,10 +292,11 @@ export default {
       });
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.deleteTitle'), { type: 'warning',confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel') }).then(response => {
         this.$request.delete('/video/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -368,13 +310,21 @@ export default {
     },
     delBatch() {   // 批量删除
       if (!this.ids.length) {
-        this.$message.warning('请选择数据')
+        this.$message.warning(this.$t('common.pleaseChooseData'))
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(
+          this.$t('common.batchDeleteMessage'),
+          this.$t('common.batchDeleteTitle'),
+          {
+            type: "warning",
+            confirmButtonText: this.$t('common.confirm'),
+            cancelButtonText: this.$t('common.cancel'),
+          }
+      ).then(response => {
         this.$request.delete('/video/delete/batch', {data: this.ids}).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -382,6 +332,10 @@ export default {
         })
       }).catch(() => {
       })
+    },
+    transMenu(name) {
+      const key = `menu.${name}`;
+      return this.$te(key) ? this.$t(key) : name;
     },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum

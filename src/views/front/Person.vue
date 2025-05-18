@@ -1,9 +1,11 @@
 <template>
   <div class="main-content">
     <el-card style="width: 50%; margin: 30px auto">
-      <span v-if="user.role === 'TEACHER'" style="margin-left: 8px; margin-right: 10px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>
+      <span v-if="user.role === 'TEACHER'" style="margin-left: 8px; margin-right: 10px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">
+        {{ $t('profile.teacher') }}
+      </span>
       <div style="text-align: right; margin-bottom: 20px">
-        <el-button type="primary" @click="updatePassword">修改密码</el-button>
+        <el-button type="primary" @click="updatePassword">{{ $t('profile.changePassword') }}</el-button>
       </div>
       <el-form :model="user" label-width="80px" style="padding-right: 20px">
         <div style="margin: 15px; text-align: center">
@@ -18,46 +20,44 @@
           </el-upload>
         </div>
 
-<!--        <div style="margin-bottom: 10px; color: #666">-->
-<!--          <span v-if="user.role === 'TEACHER'" style="margin-left: 8px; color: #fff; background-color: cadetblue; border-radius: 4px; padding: 2px 6px; font-size: 12px">教师</span>-->
-<!--        </div>-->
-
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username" placeholder="用户名" disabled></el-input>
+        <el-form-item :label="$t('profile.username')" prop="username">
+          <el-input v-model="user.username" :placeholder="$t('profile.username')" disabled></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="user.name" placeholder="姓名"></el-input>
+        <el-form-item :label="$t('profile.name')" prop="name">
+          <el-input v-model="user.name" :placeholder="$t('profile.name')"></el-input>
         </el-form-item>
-        <el-form-item label="电话" prop="phone">
-          <el-input v-model="user.phone" placeholder="电话"></el-input>
+        <el-form-item :label="$t('profile.phone')" prop="phone">
+          <el-input v-model="user.phone" :placeholder="$t('profile.phone')"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="user.email" placeholder="邮箱"></el-input>
+        <el-form-item :label="$t('profile.email')" prop="email">
+          <el-input v-model="user.email" :placeholder="$t('profile.email')"></el-input>
         </el-form-item>
         <div style="text-align: center; margin-bottom: 20px">
-          <el-button type="primary" @click="update">保 存</el-button>
+          <el-button type="primary" @click="update">{{ $t('profile.save') }}</el-button>
         </div>
       </el-form>
     </el-card>
-    <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
+
+    <el-dialog :title="$t('profile.changePasswordTitle')" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="user" label-width="80px" style="padding-right: 20px" :rules="rules" ref="formRef">
-        <el-form-item label="原始密码" prop="password">
-          <el-input show-password v-model="user.password" placeholder="原始密码"></el-input>
+        <el-form-item :label="$t('profile.oldPassword')" prop="password">
+          <el-input show-password v-model="user.password" :placeholder="$t('profile.oldPassword')"></el-input>
         </el-form-item>
-        <el-form-item label="新密码" prop="newPassword">
-          <el-input show-password v-model="user.newPassword" placeholder="新密码"></el-input>
+        <el-form-item :label="$t('profile.newPassword')" prop="newPassword">
+          <el-input show-password v-model="user.newPassword" :placeholder="$t('profile.newPassword')"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPassword">
-          <el-input show-password v-model="user.confirmPassword" placeholder="确认密码"></el-input>
+        <el-form-item :label="$t('profile.confirmPassword')" prop="confirmPassword">
+          <el-input show-password v-model="user.confirmPassword" :placeholder="$t('profile.confirmPassword')"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button @click="fromVisible = false">{{ $t('profile.cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('profile.confirm') }}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
+
 
 <script>
 export default {

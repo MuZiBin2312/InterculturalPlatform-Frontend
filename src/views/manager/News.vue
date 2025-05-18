@@ -1,39 +1,38 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <div class="search">
-      <el-input placeholder="请输入标题关键字查询" style="width: 200px" v-model="title"></el-input>
-      <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
-      <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
+      <el-input :placeholder="$t('news.queryTitle')" style="width: 200px" v-model="title"></el-input>
+      <el-button type="info" plain style="margin-left: 10px" @click="load(1)">{{ $t('news.query') }}</el-button>
+      <el-button type="warning" plain style="margin-left: 10px" @click="reset">{{ $t('news.reset') }}</el-button>
     </div>
 
     <div class="operation" style="margin-top: 10px;margin-bottom: 10px;">
-      <el-button type="primary" plain @click="handleAdd">新增</el-button>
-      <el-button type="danger" plain @click="delBatch">批量删除</el-button>
+      <el-button type="primary" plain @click="handleAdd">{{ $t('news.add') }}</el-button>
+      <el-button type="danger" plain @click="delBatch">{{ $t('news.batchDelete') }}</el-button>
     </div>
 
     <div class="table">
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
-        <el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="descr" label="简介" show-overflow-tooltip></el-table-column>
-<!--        <el-table-column prop="category" label="分类"></el-table-column>-->
-        <el-table-column label="一级菜单">
+        <el-table-column prop="id" :label="$t('news.serialNumber')" width="70" align="center" sortable></el-table-column>
+        <el-table-column prop="title" :label="$t('news.title')" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="descr" :label="$t('news.brief')" show-overflow-tooltip></el-table-column>
+        <el-table-column :label="$t('news.primaryMenu')">
           <template v-slot="scope">
-                        {{ getFatherName(scope.row.category) }}
+            {{ getFatherName(scope.row.category) }}
           </template>
         </el-table-column>
-        <el-table-column prop="category" label="二级菜单">
+        <el-table-column prop="category" :label="$t('news.secondaryMenu')">
           <template v-slot="scope">
             {{ getSecName(scope.row.category) }}
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="内容" width="100">
+        <el-table-column prop="content" :label="$t('news.content')" width="100">
           <template v-slot="scope">
-            <el-button @click="preview(scope.row.content)">查看内容</el-button>
+            <el-button @click="preview(scope.row.content)">{{ $t('news.viewContent') }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="img" label="配图">
+        <el-table-column prop="img" :label="$t('news.image')">
           <template v-slot="scope">
             <div style="display: flex; align-items: center">
               <el-image style="width: 50px;" v-if="scope.row.img"
@@ -41,36 +40,32 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="time" label="发布时间"></el-table-column>
-        <el-table-column prop="readCount" label="阅读量"></el-table-column>
-        <el-table-column
-            prop="type"
-            label="展示位置"
-            :formatter="typeFormatter">
-        </el-table-column>
-        <el-table-column
-            prop="userId"
-            label="发布人"
-            :formatter="formatUser">
-        </el-table-column>        <el-table-column prop="status" label="发布状态">
+        <el-table-column prop="time" :label="$t('news.publishTime')"></el-table-column>
+        <el-table-column prop="readCount" :label="$t('news.readCount')"></el-table-column>
+        <el-table-column prop="type" :label="$t('news.displayPosition')" :formatter="typeFormatter"></el-table-column>
+        <el-table-column prop="userId" :label="$t('news.publisher')" :formatter="formatUser"></el-table-column>
+        <el-table-column prop="status" :label="$t('news.publishStatus')">
           <template v-slot="scope">
-            <el-tag type="info" v-if="scope.row.status === '待审核'">待审核</el-tag>
-            <el-tag type="success" v-if="scope.row.status === '通过'">通过</el-tag>
-            <el-tag type="danger" v-if="scope.row.status === '拒绝'">拒绝</el-tag>
+            <el-tag type="info" v-if="scope.row.status === '待审核'">{{ $t('news.pending') }}</el-tag>
+            <el-tag type="success" v-if="scope.row.status === '通过'">{{ $t('news.approve') }}</el-tag>
+            <el-tag type="danger" v-if="scope.row.status === '拒绝'">{{ $t('news.reject') }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="审核" align="center" width="180" v-if="user.role === 'ADMIN'">
+        <el-table-column :label="$t('news.audit')" align="center" width="180" v-if="user.role === 'ADMIN'">
           <template v-slot="scope">
-            <el-button v-if="scope.row.type === 'local'" size="mini" type="success" plain @click="changeStatus(scope.row, '通过')">通过</el-button>
-            <el-button v-if="scope.row.type === 'local'" size="mini" type="danger" plain @click="changeStatus(scope.row, '拒绝')">拒绝</el-button>
+            <el-button v-if="scope.row.type === 'local'" size="mini" type="success" plain @click="changeStatus(scope.row, '通过')">{{ $t('news.approve') }}</el-button>
+            <el-button v-if="scope.row.type === 'local'" size="mini" type="danger" plain @click="changeStatus(scope.row, '拒绝')">{{ $t('news.reject') }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="180">
+        <el-table-column :label="$t('news.actions')" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
+            <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">{{ $t('news.edit') }}</el-button>
+            <el-button size="mini" type="danger" plain @click="del(scope.row.id)">{{ $t('news.delete') }}</el-button>
           </template>
         </el-table-column>
+        <template v-slot:empty>
+          <span>{{ $t('table.noData') }}</span>
+        </template>
       </el-table>
 
       <div class="pagination">
@@ -86,69 +81,71 @@
       </div>
     </div>
 
-    <el-dialog title="文章信息" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('news.articleInfo')" :visible.sync="fromVisible" width="50%" :close-on-click-modal="false" destroy-on-close>
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="标题"></el-input>
+        <el-form-item :label="$t('news.title')" prop="title">
+          <el-input v-model="form.title" :placeholder="$t('news.title')"></el-input>
         </el-form-item>
-        <el-form-item label="简介" prop="descr">
-          <el-input v-model="form.descr" placeholder="资讯简介"></el-input>
+        <el-form-item :label="$t('news.brief')" prop="descr">
+          <el-input v-model="form.descr" :placeholder="$t('news.brief')"></el-input>
         </el-form-item>
-        <el-form-item label="一级分类" prop="category">
-          <el-select v-model="form.first" @change="" style="width: 100%">
+        <el-form-item :label="$t('news.primaryMenu')" prop="category">
+          <el-select v-model="form.first" :placeholder="$t('common.selectPlaceholder')" @change="" style="width: 100%">
             <el-option
                 v-for="item in first"
                 :key="item.id"
-                :label="item.name"
+                :label="transMenu(item.name)"
                 :value="item.id"
             />          </el-select>
         </el-form-item>
 
-        <el-form-item label="二级分类">
+        <el-form-item :label="$t('news.secondaryMenu')">
           <el-select
               v-model="form.category"
               :disabled="!form.first"
-              placeholder="请选择二级分类"
+              :placeholder="$t('news.selectSecondary')"
               style="width: 100%"
           >
             <el-option
                 v-for="item in category"
                 :key="item.id"
-                :label="item.name"
+                :label="transMenu(item.name)"
                 :value="item.id"
             />
           </el-select>
         </el-form-item>
 
-        <el-form-item label="配图" prop="img">
+        <el-form-item :label="$t('news.image')" prop="img">
           <el-upload
               :action="$baseUrl + '/files/upload'"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleImgSuccess"
           >
-            <el-button type="primary">上传</el-button>
+            <el-button type="primary">{{ $t('news.upload') }}</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="资讯内容" prop="content">
+
+        <el-form-item :label="$t('news.content')" prop="content">
           <input type="file" accept=".docx" @change="handleWordUpload" />
 
           <div id="editor"></div>
         </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button @click="fromVisible = false">{{ $t('news.cancel') }}</el-button>
+        <el-button type="primary" @click="save">{{ $t('news.confirm') }}</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="资讯内容" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog :title="$t('news.content')" :visible.sync="fromVisible1" width="50%" :close-on-click-modal="false" destroy-on-close>
       <div class="w-e-text">
         <div v-html="content"></div>
       </div>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible1 = false">关 闭</el-button>
+        <el-button @click="fromVisible1 = false">{{ $t('news.close') }}</el-button>
       </div>
     </el-dialog>
 
@@ -254,8 +251,8 @@ export default {
     typeFormatter(row) {
       // 假设 type 为 1 就显示 '一'，其他照样返回
       const map = {
-        'common': '首页',
-        'local': '栏目',// 可继续添加
+        'common': this.$t('news.home'),
+        'local': this.$t('news.column'),
       }
       return map[row.type] || row.type;
     },
@@ -265,14 +262,21 @@ export default {
       const fir = this.first.find(item => String(item.id) === String(sec.father));
 
       // 4. 返回一级菜单的 name
-      return fir.name;
+      if (!fir) return '';
+      const key = `menu.${fir.name}`;
+      return this.$t(key) ? this.$t(key) : fir.name;
     },
     getSecName(category) {
 
       const sec = this.second.find(item => String(item.id) === String(category));
       console.log(sec)
       if (!sec) return category;  // 保险处理：找不到一级就返回原始
-      return sec.name;
+      const key = `menu.${sec.name}`;
+      return this.$te(key) ? this.$t(key) : sec.name;
+    },
+    transMenu(name) {
+      const key = `menu.${name}`;
+      return this.$te(key) ? this.$t(key) : name;
     },
     // 一级分类改变时的处理函数
     handleFirstChange() {
@@ -386,7 +390,7 @@ export default {
             data: this.form
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
-              this.$message.success('保存成功')
+              this.$message.success(this.$t('common.saveSuccess'))
               this.load(1)
               this.fromVisible = false
             } else {
@@ -397,10 +401,11 @@ export default {
       })
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(this.$t('common.deleteConfirm'), this.$t('common.deleteTitle'), { type: 'warning',confirmButtonText: this.$t('common.confirm'),
+        cancelButtonText: this.$t('common.cancel') }).then(response => {
         this.$request.delete('/news/delete/' + id).then(res => {
-          if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+          if (res.code === '200') {
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -414,13 +419,21 @@ export default {
     },
     delBatch() {   // 批量删除
       if (!this.ids.length) {
-        this.$message.warning('请选择数据')
+        this.$message.warning(this.$t('common.pleaseChooseData'))
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm(
+          this.$t('common.batchDeleteMessage'),
+          this.$t('common.batchDeleteTitle'),
+          {
+            type: "warning",
+            confirmButtonText: this.$t('common.confirm'),
+            cancelButtonText: this.$t('common.cancel'),
+          }
+      ).then(response => {
         this.$request.delete('/news/delete/batch', {data: this.ids}).then(res => {
           if (res.code === '200') {   // 表示操作成功
-            this.$message.success('操作成功')
+            this.$message.success(this.$t('common.operationSuccess'))
             this.load(1)
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
@@ -492,7 +505,7 @@ export default {
     handleWordUpload(event) {
       const file = event.target.files[0];
       if (!file || file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        this.$message.error('请上传有效的 Word (.docx) 文件');
+        this.$message.error(this.$t('news.invalidFileType') || '请上传有效的 Word (.docx) 文件');
         return;
       }
       const reader = new FileReader();
@@ -501,9 +514,9 @@ export default {
         try {
           const result = await mammoth.convertToHtml({ arrayBuffer });
           this.editor.txt.html(result.value);
-          this.$message.success('Word 内容已导入');
+          this.$message.success(this.$t('news.importSuccess') || 'Word 内容已导入');
         } catch (error) {
-          this.$message.error('Word 解析失败');
+          this.$message.error(this.$t('news.importFail') || 'Word 解析失败');
         }
       };
       reader.readAsArrayBuffer(file);

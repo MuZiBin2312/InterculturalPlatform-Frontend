@@ -171,6 +171,7 @@ export default {
     // 退出登录
     logout() {
       localStorage.removeItem("xm-user");
+      localStorage.removeItem('locale')
       this.$router.push("/login");
     },
     // // 语言切换方法
