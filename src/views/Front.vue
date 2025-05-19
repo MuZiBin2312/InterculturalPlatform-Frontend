@@ -8,15 +8,19 @@
         <div class="title">{{ $t('project.projectName') }}</div>
       </div>
       <div class="front-header-center">
+<!--        <div id="tp-weather-widget" style="width: 100px;height: 200px;z-index: 9999999999999999"></div>-->
+
         <div class="weather-wrapper">
-          <iframe
-              scrolling="no"
-              src="https://widget.tianqiapi.com/?style=tg&skin=pitaya"
-              frameborder="0"
-              width="470"
-              height="40"
-              allowtransparency="true"
-          ></iframe>
+
+
+<!--          <iframe-->
+<!--              scrolling="no"-->
+<!--              src="https://widget.tianqiapi.com/?style=tg&skin=pitaya"-->
+<!--              frameborder="0"-->
+<!--              width="470"-->
+<!--              height="40"-->
+<!--              allowtransparency="true"-->
+<!--          ></iframe>-->
         </div>
       </div>
 
@@ -117,6 +121,9 @@
 <script>
 import Footer from "@/components/Footer";
 import FrontSidebar from "@/components/FrontSidebar.vue";
+import CryptoJS from 'crypto-js'
+import $ from 'jquery'
+
 export default {
   name: "FrontLayout",
   components: {
@@ -125,6 +132,7 @@ export default {
   },
   data () {
     return {
+      weatherText: '',
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
@@ -136,9 +144,61 @@ export default {
       title: this.$route.query.title
     }
   },
+//   mounted() {
+//     const UID = "PM2jN6vAQ5QhLr34Q";
+//     const KEY = "Sy50v8JyTdrFKTNPP";
+//     var API = "http://api.seniverse.com/v3/weather/now.json"; // 获取天气实况
+//     const LOCATION = "beijing";
+//     // 获取当前时间戳
+//     var ts = Math.floor((new Date()).getTime() / 1000);
+//     // 构造验证参数字符串
+//     var str = "ts=" + ts + "&uid=" + UID;
+//
+//     // 使用 HMAC-SHA1 方式，以 API 密钥（key）对上一步生成的参数字符串（raw）进行加密
+//     // 并将加密结果用 base64 编码，并做一个 urlencode，得到签名 sig
+//     var sig = CryptoJS.HmacSHA1(str, KEY).toString(CryptoJS.enc.Base64);
+//     sig = encodeURIComponent(sig);
+//     str = str + "&sig=" + sig;
+// // language 参数
+//     const LANGUAGE = 'en'
+//
+// // 最终请求 URL
+//     // 构造最终请求的 url
+//     var url = API + "?location=ip" +"&"+"start=1"+ "&"+"language="+LANGUAGE+"&" + str + "&callback=foo";
+//
+//     console.log(url)
+//
+//     // 直接发送请求进行调用，手动处理回调函数
+//     $.getJSON(url, function(data) {
+//       console.log("天气数据！")
+//       console.log(data)
+//       var obj = document.getElementById('content');
+//       var weather = data.results[0];
+//
+//       var text = [];
+//       text.push("Location: " + weather.location.path);
+//       text.push("Weather: " + weather.now.text);
+//       text.push("Temperature: " + weather.now.temperature);
+//
+//       obj.innerText = text.join("\n")
+//
+//     });
+//   },
   mounted() {
-
+    (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+    window.SeniverseWeatherWidget('show', {
+      flavor: "slim",
+      location: "WX4FBXXFKE4F",
+      geolocation: true,
+      language: "zh-Hans",
+      unit: "c",
+      theme: "light",
+      token: "9495c7ed-5bbb-4b58-ab55-53853e9181ac",
+      hover: "enabled",
+      container: "tp-weather-widget"
+    })
   },
+
   methods: {
     goToSelfEvaluation() {
       this.$request.get('/notice/selectPage').then(res => {
