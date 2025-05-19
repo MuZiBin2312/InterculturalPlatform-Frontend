@@ -73,7 +73,6 @@ const router = new VueRouter({
   routes
 })
 
-// 不需要前台可以注释掉该路由守卫
 // 路由守卫
 // router.beforeEach((to ,from, next) => {
 //   let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
